@@ -17,7 +17,7 @@ export function ServicesSection() {
     },
     {
       id: "jinn",
-      title: "জিন আসর",
+      title: "জ্বিন আছর",
       description: "জিনের উপদ্রব, ভয় পাওয়া, বা অস্বাভাবিক আচরণের জন্য বিশেষ রুকইয়াহ।",
       icon: Users,
     },
@@ -58,17 +58,25 @@ export function ServicesSection() {
           {services.map((service) => (
             <div 
               key={service.id}
-              className="bg-white dark:bg-slate-950 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 group"
+              className="relative overflow-hidden bg-white dark:bg-slate-950 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 group"
             >
-              <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 group-hover:scale-110 transition-transform">
-                <service.icon className="h-6 w-6" />
+              {/* Minimal Background Design */}
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
+              <div className="absolute -bottom-8 -right-8 text-slate-50 dark:text-slate-900/50 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+                <service.icon className="w-40 h-40 opacity-70 dark:opacity-40" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
-                {service.title}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                {service.description}
-              </p>
+              
+              <div className="relative z-10">
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                  <service.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

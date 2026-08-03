@@ -1,86 +1,124 @@
-import type { Metadata } from "next";
+import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
+import { Clock, User, ChevronRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "ব্লগ ও আর্টিকেল",
-  description: "রুকইয়াহ, সুন্নাহ এবং সুস্থতা নিয়ে ইসলামিক আর্টিকেলসমূহ।",
+export const metadata = {
+  title: "ব্লগ ও আর্টিকেল | শিফা আল কুরআন",
+  description: "রুকইয়াহ শারইয়াহ, সুন্নাহ এবং সুস্থতা নিয়ে আমাদের সর্বশেষ লেখাগুলো পড়ুন।",
 };
 
-export default function BlogPage() {
-  const posts = [
-    {
-      id: 1,
-      title: "সকাল-সন্ধ্যার মাসনুন দোয়াসমূহ ও এর ফজিলত",
-      excerpt: "রাসূল (সা.) শিখিয়েছেন কীভাবে আমরা সকাল ও সন্ধ্যায় আল্লাহর কাছে পানাহ চাইতে পারি। এই দোয়াগুলো আমাদের সারাদিনের সুরক্ষা দেয়...",
-      date: "১৫ আগস্ট, ২০২৬",
-      category: "সুন্নাহ",
-    },
-    {
-      id: 2,
-      title: "বদনজর (আইন) থেকে বাঁচার উপায়",
-      excerpt: "বদনজর একটি সত্য বিষয়। এর প্রভাবে মানুষ অসুস্থ হতে পারে। কোরআন ও সুন্নাহর আলোকে বদনজর থেকে বাঁচার উপায়গুলো জেনে নিন...",
-      date: "১০ আগস্ট, ২০২৬",
-      category: "রুকইয়াহ",
-    },
-    {
-      id: 3,
-      title: "ডিপ্রেশন বা মানসিক অবসাদে ইসলামের সমাধান",
-      excerpt: "হতাশা ও ডিপ্রেশন আজকাল একটি সাধারণ সমস্যা। আল্লাহ তায়ালা কোরআনে কীভাবে এর সমাধান দিয়েছেন তা নিয়ে আলোচনা...",
-      date: "৫ আগস্ট, ২০২৬",
-      category: "মানসিক স্বাস্থ্য",
-    }
-  ];
+const blogPosts = [
+  {
+    id: 1,
+    title: "সুন্নাহর আলোকে বদনজরের চিকিৎসা ও প্রতিকার",
+    excerpt: "বদনজর বা 'আইন' একটি সত্য বিষয়। কীভাবে আমরা নিজেদের এবং পরিবারকে বদনজর থেকে সুরক্ষিত রাখতে পারি, এবং আক্রান্ত হলে সুন্নাহ সম্মত চিকিৎসা কী হতে পারে তা নিয়ে বিস্তারিত আলোচনা।",
+    image: "/api/images/blog_quran_ruqyah", // Note: Need to copy generated images to public folder or use local file protocol. For Next.js image to work with absolute local paths outside public, we need a workaround or simply copy them.
+    // Wait, the generated images are in the brain folder. I should copy them to public folder in the build process or just read them from a public URL if available.
+    // I will write a small node script or just run bash commands to copy the images. Let's use placeholder strings here for a moment and replace them after copying.
+    imageRef: "blog_quran_ruqyah",
+    category: "সুন্নাহ",
+    date: "১৫ আগস্ট, ২০২৬",
+    author: "শিফা আল কুরআন"
+  },
+  {
+    id: 2,
+    title: "নামাজ ও যিকিরের মাধ্যমে মানসিক প্রশান্তি",
+    excerpt: "বর্তমান সময়ের হতাশা, দুশ্চিন্তা ও মানসিক অস্থিরতা থেকে মুক্তি পেতে পাঁচ ওয়াক্ত নামাজ এবং সকাল-সন্ধ্যার যিকির কতটা গুরুত্বপূর্ণ তা কুরআন ও হাদিসের আলোকে তুলে ধরা হলো।",
+    imageRef: "blog_prayer_peace",
+    category: "মানসিক স্বাস্থ্য",
+    date: "১০ আগস্ট, ২০২৬",
+    author: "শিফা আল কুরআন"
+  },
+  {
+    id: 3,
+    title: "প্রাকৃতিক উপায়ে সুস্থতা এবং রুকইয়াহ",
+    excerpt: "মধু, কালোজিরা, জমজমের পানি এবং জলপাই তেলের মত সুন্নাহ নির্দেশিত প্রাকৃতিক উপাদানগুলো কীভাবে আমাদের শারীরিক সুস্থতার পাশাপাশি রুকইয়াহ এর চিকিৎসায় সাহায্য করে।",
+    imageRef: "blog_nature_healing",
+    category: "রুকইয়াহ",
+    date: "৫ আগস্ট, ২০২৬",
+    author: "শিফা আল কুরআন"
+  }
+];
 
+export default function BlogPage() {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 py-20 min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className="text-center mb-16">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header Section */}
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl mb-6">
             ব্লগ ও আর্টিকেল
           </h1>
-          <div className="h-1 w-24 bg-emerald-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-slate-600 dark:text-slate-300">
+          <div className="h-1 w-20 bg-emerald-600 mx-auto rounded-full mb-6"></div>
+          <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
             রুকইয়াহ শারইয়াহ, সুন্নাহ এবং সুস্থতা নিয়ে আমাদের সর্বশেষ লেখাগুলো পড়ুন।
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <div key={post.id} className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col group">
-              <div className="h-48 bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center relative overflow-hidden">
-                {/* Decorative background instead of image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent group-hover:scale-110 transition-transform duration-500"></div>
-                <span className="font-bold text-xl text-emerald-800/50 dark:text-emerald-400/50">শিফা আল কুরআন</span>
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {blogPosts.map((post) => (
+            <article 
+              key={post.id} 
+              className="flex flex-col bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 transition-all hover:shadow-xl hover:shadow-emerald-500/5 hover:-translate-y-1 group"
+            >
+              {/* Image Section */}
+              <div className="relative h-64 w-full overflow-hidden bg-emerald-900/20">
+                <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
+                  <span className="text-2xl font-bold opacity-20">শিফা আল কুরআন</span>
+                </div>
+                {/* Image tag will go here once images are copied */}
+                <Image
+                  src={`/${post.imageRef}.png`}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
               </div>
-              
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+
+              {/* Content Section */}
+              <div className="flex flex-col flex-grow p-8">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                     {post.category}
                   </span>
-                  <div className="flex items-center text-xs text-slate-500 dark:text-slate-400">
-                    <Clock className="w-3 h-3 mr-1" />
-                    {post.date}
+                  <div className="flex items-center text-slate-500 dark:text-slate-400 text-sm font-medium gap-1.5">
+                    <Clock className="w-4 h-4" />
+                    <time>{post.date}</time>
                   </div>
                 </div>
-                
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-emerald-600 transition-colors">
-                  {post.title}
-                </h2>
-                
-                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-grow">
+
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-4 leading-snug group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  <Link href={`/blog/${post.id}`}>
+                    <span className="absolute inset-0" />
+                    {post.title}
+                  </Link>
+                </h3>
+
+                <p className="text-slate-600 dark:text-slate-400 mb-6 line-clamp-3 text-[15px] leading-relaxed flex-grow">
                   {post.excerpt}
                 </p>
-                
-                <Link href="#" className="inline-flex items-center text-sm font-semibold text-emerald-600 dark:text-emerald-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                  বিস্তারিত পড়ুন
-                  <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                </Link>
+
+                <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm font-medium">
+                    <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
+                      <User className="w-3.5 h-3.5" />
+                    </div>
+                    {post.author}
+                  </div>
+                  
+                  <span className="inline-flex items-center text-emerald-600 dark:text-emerald-400 text-sm font-bold group-hover:translate-x-1 transition-transform">
+                    বিস্তারিত <ChevronRight className="w-4 h-4 ml-0.5" />
+                  </span>
+                </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
+
       </div>
     </div>
   );
