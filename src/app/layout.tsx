@@ -1,3 +1,5 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
@@ -82,7 +84,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {/* Global Islamic geometric pattern background */}
-          <div 
+          <div
             className="fixed inset-0 z-[-1] opacity-[0.02] dark:opacity-[0.03] dark:invert pointer-events-none"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M30 0L60 30L30 60L0 30z'/%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M0 0h60v60H0z' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E")`
@@ -93,6 +95,8 @@ export default function RootLayout({
           <Footer />
           <FloatingWhatsapp />
         </ThemeProvider>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
