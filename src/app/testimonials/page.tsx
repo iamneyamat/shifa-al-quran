@@ -45,7 +45,7 @@ export default function TestimonialsPage() {
                 ))}
               </div>
               <p className="text-slate-600 dark:text-slate-300 flex-grow italic mb-6">
-                "{t.review}"
+                &quot;{t.review}&quot;
               </p>
               <div>
                 <p className="font-bold text-slate-900 dark:text-white">{t.name}</p>

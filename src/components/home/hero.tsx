@@ -8,9 +8,9 @@ import {
   Video,
   MessageCircle
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUpVariants = {
+const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
   visible: (custom: number) => ({
     opacity: 1,

@@ -30,7 +30,7 @@ export default function EvidencePage() {
                   وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ
                 </p>
                 <p className="text-slate-700 dark:text-slate-300 font-medium">
-                  অর্থ: "আমি কোরআনে এমন বিষয় নাযিল করি যা মুমিনদের জন্য আরোগ্য ও রহমত।"
+                  অর্থ: &quot;আমি কোরআনে এমন বিষয় নাযিল করি যা মুমিনদের জন্য আরোগ্য ও রহমত।&quot;
                 </p>
                 <p className="text-sm text-slate-500 mt-2">— (সূরা বনী ইসরাঈল: ৮২)</p>
               </div>
@@ -40,7 +40,7 @@ export default function EvidencePage() {
                   قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ
                 </p>
                 <p className="text-slate-700 dark:text-slate-300 font-medium">
-                  অর্থ: "বলুন, এটি (কোরআন) মুমিনদের জন্য হেদায়েত ও আরোগ্য।"
+                  অর্থ: &quot;বলুন, এটি (কোরআন) মুমিনদের জন্য হেদায়েত ও আরোগ্য।&quot;
                 </p>
                 <p className="text-sm text-slate-500 mt-2">— (সূরা হা-মীম সিজদাহ: ৪৪)</p>
               </div>

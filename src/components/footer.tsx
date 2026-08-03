@@ -4,9 +4,9 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -16,7 +16,7 @@ const staggerContainer = {
   }
 };
 
-const fadeUpItem = {
+const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 

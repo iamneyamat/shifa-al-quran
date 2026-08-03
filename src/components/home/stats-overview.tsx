@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { Users, Headphones, BookOpen, MessageCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 
 // A custom component for animated numbers
 function AnimatedCounter({ value, duration = 2 }: { value: number, duration?: number }) {

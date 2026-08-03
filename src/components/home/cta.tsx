@@ -3,9 +3,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { CalendarHeart, PhoneCall } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUpVariants = {
+const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (custom: number) => ({
     opacity: 1,

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
   return (
     <div className="flex items-center justify-center min-h-[70vh] bg-slate-50 dark:bg-slate-950">
@@ -7,9 +9,9 @@ export default function NotFound() {
         <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
           আপনি যে পৃষ্ঠাটি খুঁজছেন তা মুছে ফেলা হয়েছে অথবা লিংকটি ভুল। দয়া করে সঠিক লিংক ব্যবহার করুন অথবা হোম পেজে ফিরে যান।
         </p>
-        <a href="/" className="inline-flex h-12 items-center justify-center rounded-md bg-emerald-600 px-8 text-base font-medium text-white shadow transition-colors hover:bg-emerald-700">
+        <Link href="/" className="inline-flex h-12 items-center justify-center rounded-md bg-emerald-600 px-8 text-base font-medium text-white shadow transition-colors hover:bg-emerald-700">
           হোম পেজে ফিরে যান
-        </a>
+        </Link>
       </div>
     </div>
   );

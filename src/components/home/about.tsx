@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView, useSpring, useTransform } from "framer-motion";
+import { motion, useInView, useSpring, useTransform, Variants } from "framer-motion";
 import { 
   BookOpen, 
   Award, 
@@ -68,7 +68,7 @@ const features = [
   }
 ];
 
-const staggerVariants = {
+const staggerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -76,7 +76,7 @@ const staggerVariants = {
   }
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1, 

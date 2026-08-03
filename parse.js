@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs');
 const html = fs.readFileSync('C:/Users/Administrator/.gemini/antigravity-ide/brain/04db8381-4ce2-4223-ad85-d223c395d916/.system_generated/steps/103/content.md', 'utf8');
 
