@@ -52,7 +52,7 @@ export function Hero() {
     <section className="relative w-full flex flex-col items-center">
       
       {/* Hero Top Section with Background */}
-      <div className="relative w-full overflow-hidden bg-light-bg-main dark:bg-[#020817] pt-24 pb-32 lg:pt-32 lg:pb-40 flex flex-col items-center justify-center">
+      <div className="relative w-full overflow-hidden bg-light-bg-main dark:bg-[#020817] pt-20 pb-36 lg:pt-36 lg:pb-48 flex flex-col items-center justify-center">
         
         {/* 1. Subtle Animated Blue-Gold Gradient Background */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -93,8 +93,7 @@ export function Hero() {
               <h1 
                 dir="rtl" 
                 lang="ar" 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold leading-tight tracking-normal text-light-heading dark:text-slate-100 drop-shadow-sm"
-                style={{ fontFamily: "'Amiri', 'Lateef', 'Scheherazade New', 'Noto Naskh Arabic', serif" }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-tight tracking-normal text-light-heading dark:text-slate-100 drop-shadow-md font-arabic"
               >
                 وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ
               </h1>
@@ -128,19 +127,19 @@ export function Hero() {
       </div>
 
       {/* 3. Floating Information Card */}
-      <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 -mt-20 lg:-mt-24 mb-12">
+      <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 -mt-24 lg:-mt-32 mb-16">
         <motion.div
           custom={2}
           initial="hidden"
           animate="visible"
           variants={fadeUpVariants}
-          className="bg-light-bg-alt2/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-light-border/50 dark:border-slate-700/50 rounded-2xl shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto"
+          className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl border border-light-border/60 dark:border-slate-700/60 rounded-[32px] shadow-premium-soft dark:shadow-none p-6 sm:p-8 lg:p-10 max-w-6xl mx-auto"
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8 divide-x-0 md:divide-x divide-y md:divide-y-0 divide-light-border dark:divide-slate-800">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-8 divide-x-0 md:divide-x divide-y md:divide-y-0 divide-light-border/50 dark:divide-slate-800">
             {infoData.map((info, idx) => (
               <div 
                 key={idx} 
-                className={`flex flex-col items-center text-center group pt-6 md:pt-0 ${idx > 1 ? 'md:border-t-0' : ''} ${idx > 0 && idx < 2 ? 'border-t-0' : ''}`}
+                className={`flex flex-col items-center text-center group pt-6 md:pt-0 ${idx > 0 ? 'md:pl-6 lg:pl-8' : ''}`}
               >
                 <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-amber-500 group-hover:scale-110 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-all duration-300">
                   <info.icon className="h-5 w-5" />

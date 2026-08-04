@@ -58,7 +58,7 @@ export function Navbar() {
           {/* Logo Area */}
           <div className="relative flex items-center gap-2 z-10">
             {/* Soft blue and gold glow */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 via-emerald-400/10 to-amber-400/20 blur-xl rounded-full opacity-70 dark:opacity-40 animate-pulse pointer-events-none" />
+            <div className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 via-emerald-400/10 to-amber-400/20 blur-xl rounded-full opacity-40 group-hover:opacity-70 dark:opacity-20 dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none" />
             
             <Link href="/" className="relative flex items-center gap-3 group">
               <div className="relative overflow-hidden rounded-xl border border-white/20 shadow-sm transition-transform duration-300 group-hover:scale-105">

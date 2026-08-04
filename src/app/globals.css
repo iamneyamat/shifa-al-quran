@@ -21,13 +21,13 @@
   --color-gold: #d4af37;
   --color-gold-hover: #fcd34d;
 
-  --color-light-bg-main: #E2E8F0;
-  --color-light-bg-alt1: #EAEFF5;
-  --color-light-bg-alt2: #EAEFF5;
-  --color-light-bg-alt3: #CBD5E1;
-  --color-light-border: #94A3B8;
-  --color-light-heading: #0F172A;
-  --color-light-text: #334155;
+  --color-light-bg-main: #f8fafc; /* slate-50 */
+  --color-light-bg-alt1: #f1f5f9; /* slate-100 */
+  --color-light-bg-alt2: #ffffff; /* Use white for inner cards only, but keep background F8FAFC */
+  --color-light-bg-alt3: #e2e8f0; /* slate-200 */
+  --color-light-border: #cbd5e1; /* slate-300 */
+  --color-light-heading: #0f172a; /* slate-900 */
+  --color-light-text: #475569; /* slate-600 */
   
   /* Premium Soft Shadow */
   --shadow-premium-soft: 0 8px 30px rgba(15, 23, 42, 0.04);
@@ -38,11 +38,11 @@
 }
 
 :root {
-  --background: #e2e8f0;
+  --background: #f8fafc;
   --foreground: #334155;
   
   --primary: #059669;
-  --primary-foreground: #f8fafc;
+  --primary-foreground: #ffffff;
   
   --border: #e2e8f0;
   

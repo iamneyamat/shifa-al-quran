@@ -1,7 +1,7 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
-import { Inter, Hind_Siliguri } from "next/font/google";
+import { Inter, Hind_Siliguri, Noto_Naskh_Arabic } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
@@ -17,6 +17,12 @@ const hindSiliguri = Hind_Siliguri({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["bengali", "latin"],
   variable: "--font-hind",
+});
+
+const notoArabic = Noto_Naskh_Arabic({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["arabic"],
+  variable: "--font-arabic",
 });
 
 export const metadata: Metadata = {
@@ -52,7 +58,7 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${inter.variable} ${hindSiliguri.variable} scroll-smooth`}
+      className={`${inter.variable} ${hindSiliguri.variable} ${notoArabic.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-background text-foreground font-sans antialiased flex flex-col">
         <script

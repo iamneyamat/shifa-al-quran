@@ -59,36 +59,39 @@ const statsData = [
 
 export function StatsOverview() {
   return (
-    <section className="relative overflow-hidden bg-light-bg-alt1 dark:bg-[#020817] py-20 lg:py-28">
-      {/* Background Decor */}
-      <div className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-blue-300/10 dark:bg-blue-800/10 blur-[120px]" />
-      </div>
+    <section className="relative overflow-hidden py-16 md:py-28">
+      {/* Immersive Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Decorative Blur */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-blue-400/20 blur-[100px] pointer-events-none" />
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold tracking-widest uppercase text-amber-600 dark:text-amber-500 mb-3">
+            <h2 className="text-sm font-bold tracking-widest uppercase text-amber-300 mb-3">
               আমাদের সংক্ষিপ্ত পরিচিতি
             </h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-light-heading dark:text-white mb-6">
+            <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight drop-shadow-md">
               আস্থা, অভিজ্ঞতা ও সেবার পরিসংখ্যান
             </h3>
-            <p className="text-lg text-light-text dark:text-slate-400">
+            <p className="text-base md:text-lg text-emerald-50 max-w-2xl mx-auto leading-relaxed opacity-90">
               আল্লাহর রহমতে গত এক বছরে হাজারো মানুষের পাশে থাকার সুযোগ হয়েছে।
             </p>
           </motion.div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {statsData.map((stat, index) => (
             <motion.div
               key={stat.id}
@@ -97,34 +100,34 @@ export function StatsOverview() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.15, duration: 0.7, ease: "easeOut" }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="flex flex-col h-full bg-light-bg-alt2/70 dark:bg-slate-900/50 backdrop-blur-xl border border-light-border/50 dark:border-slate-800/50 rounded-[18px] p-8 shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-shadow duration-300 relative overflow-hidden group"
+              className="flex flex-col h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-[32px] p-8 shadow-2xl hover:shadow-[0_20px_40px_rgb(0,0,0,0.3)] hover:bg-white/15 transition-all duration-300 relative overflow-hidden group"
             >
               {/* Subtle hover glow inside card */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 dark:bg-amber-400/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-300/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-amber-50 dark:from-blue-900/20 dark:to-amber-900/20 border border-blue-100 dark:border-blue-800/30 text-blue-700 dark:text-amber-400 shadow-sm relative z-10">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 border border-white/30 text-white shadow-sm relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
                 <stat.icon className="h-7 w-7" />
               </div>
               
               <div className="flex flex-col flex-grow relative z-10">
                 {stat.counter ? (
-                  <h4 className="text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-2 flex items-center">
+                  <h4 className="text-4xl md:text-5xl font-extrabold text-white mb-2 flex items-center drop-shadow-sm">
                     <AnimatedCounter value={stat.counter} />
-                    <span className="text-amber-500 dark:text-amber-400 ml-1">{stat.suffix}</span>
+                    <span className="text-amber-300 ml-1">{stat.suffix}</span>
                   </h4>
                 ) : (
-                  <h4 className="text-xl font-bold text-light-heading dark:text-slate-100 mb-2">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-sm">
                     {stat.title}
                   </h4>
                 )}
                 
                 {stat.counter && (
-                  <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-4">
+                  <p className="text-[15px] font-semibold text-amber-300 mb-4 uppercase tracking-wide">
                     {stat.title}
                   </p>
                 )}
                 
-                <p className="text-[15px] leading-relaxed text-light-text dark:text-slate-400 mt-auto">
+                <p className="text-[14px] md:text-[15px] leading-relaxed text-emerald-50 mt-auto opacity-80 group-hover:opacity-100 transition-opacity">
                   {stat.description}
                 </p>
               </div>
