@@ -53,7 +53,7 @@ export function Navbar() {
       />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 md:h-20 items-center justify-between">
           
           {/* Logo Area */}
           <div className="relative flex items-center gap-2 z-10">
@@ -169,60 +169,87 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Navigation Drawer Overlay & Panel */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "100vh" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-            className="absolute top-20 left-0 w-full bg-light-bg-alt2/95 dark:bg-slate-950/95 backdrop-blur-2xl md:hidden border-t border-light-border dark:border-slate-800 overflow-hidden shadow-2xl"
-          >
-            <div className="flex flex-col px-4 py-8 h-full">
-              <div className="flex flex-col gap-2">
-                {routes.map((route, i) => {
-                  const isActive = pathname === route.href;
-                  return (
-                    <motion.div
-                      key={route.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ delay: i * 0.05, duration: 0.3 }}
-                    >
-                      <Link
-                        href={route.href}
-                        className={cn(
-                          "block rounded-xl px-4 py-4 text-lg font-semibold transition-all",
-                          isActive
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/30"
-                            : "text-light-text hover:bg-light-bg-alt1 hover:text-emerald-600 border border-transparent dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-emerald-400"
-                        )}
-                      >
-                        {route.label}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-slate-900/20 dark:bg-slate-900/60 backdrop-blur-sm z-[90] md:hidden"
+            />
+            
+            {/* Side Drawer */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-[100dvh] w-[280px] sm:w-[320px] bg-light-bg-main dark:bg-[#020817] z-[100] shadow-[-10px_0_30px_rgba(0,0,0,0.05)] dark:shadow-[-10px_0_30px_rgba(0,0,0,0.5)] md:hidden flex flex-col border-l border-light-border dark:border-slate-800"
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-light-border/50 dark:border-slate-800/50">
+                <span className="text-lg font-bold text-light-heading dark:text-white">মেনু</span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 -mr-2 rounded-full bg-light-bg-alt1 dark:bg-slate-900 text-light-text dark:text-slate-400 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: routes.length * 0.05 + 0.1, duration: 0.3 }}
-                className="mt-auto pb-24"
-              >
+              {/* Drawer Links */}
+              <div className="flex-1 overflow-y-auto px-4 py-4">
+                <div className="flex flex-col gap-1">
+                  {routes.map((route, i) => {
+                    const isActive = pathname === route.href;
+                    return (
+                      <motion.div
+                        key={route.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 + 0.1, duration: 0.3 }}
+                      >
+                        <Link
+                          href={route.href}
+                          className={cn(
+                            "block rounded-xl px-4 py-2.5 text-[15px] font-semibold transition-all relative overflow-hidden group",
+                            isActive
+                              ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400"
+                              : "text-light-text dark:text-slate-300 hover:bg-light-bg-alt2 dark:hover:bg-slate-900/50"
+                          )}
+                        >
+                          {isActive && (
+                            <motion.div 
+                              layoutId="mobile-active-indicator"
+                              className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500 rounded-r-full"
+                            />
+                          )}
+                          <span className={cn("relative z-10", isActive ? "ml-1" : "group-hover:translate-x-1 transition-transform inline-block")}>
+                            {route.label}
+                          </span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Drawer Footer CTA */}
+              <div className="p-4 border-t border-light-border/50 dark:border-slate-800/50 bg-light-bg-alt1 dark:bg-slate-950/50">
                 <Link
                   href="/appointment"
-                  className="flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-4 text-lg font-bold text-white shadow-lg transition-all hover:bg-emerald-700 active:scale-[0.98]"
+                  className="flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-3 text-[15px] font-bold text-white shadow-lg shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
                 >
                   অ্যাপয়েন্টমেন্ট নিন
                 </Link>
-              </motion.div>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

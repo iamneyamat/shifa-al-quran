@@ -160,8 +160,11 @@ export function AboutSection() {
             {/* Animated Gradient Border */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-amber-400 to-blue-400 opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-700" />
             
-            <div className="relative bg-light-bg-alt2 dark:bg-slate-950 rounded-[23px] px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left overflow-hidden">
+            <div className="relative bg-[#E2E8F0] dark:bg-slate-950 rounded-[23px] px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left overflow-hidden">
               
+              {/* Minimal Grid Pattern for a premium touch */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808015_1px,transparent_1px),linear-gradient(to_bottom,#80808015_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
               {/* Soft background pulse */}
               <motion.div 
                 animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} 
