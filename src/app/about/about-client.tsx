@@ -162,7 +162,7 @@ export function AboutClient() {
       </section>
 
       {/* 2. Mission & Vision */}
-      <section className="py-16 md:py-24 bg-light-bg-alt1 dark:bg-[#020817] relative border-t border-light-border/40 dark:border-slate-800/50">
+      <section className="py-16 md:py-24 bg-light-bg-alt1 dark:bg-[#020817] relative border-t border-light-border/40 dark:border-slate-800/50 overflow-hidden">
         {/* Immersive Decor for Mission/Vision */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
         
@@ -236,7 +236,7 @@ export function AboutClient() {
       </section>
 
       {/* 4. Core Values */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
             <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">আমাদের মূলনীতি</h2>
@@ -268,7 +268,7 @@ export function AboutClient() {
       </section>
 
       {/* 5. Our Commitment Section */}
-      <section className="py-16 md:py-28 bg-light-bg-alt2 dark:bg-slate-950 border-y border-light-border/50 dark:border-slate-800">
+      <section className="py-16 md:py-28 bg-light-bg-alt2 dark:bg-slate-950 border-y border-light-border/50 dark:border-slate-800 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             {/* Visual Side */}
@@ -319,7 +319,7 @@ export function AboutClient() {
       </section>
 
       {/* 6. Treatment Philosophy */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -340,7 +340,7 @@ export function AboutClient() {
       </section>
 
       {/* 7. Treatment Timeline */}
-      <section className="py-16 md:py-28 bg-light-bg-alt1 dark:bg-[#020817]">
+      <section className="py-16 md:py-28 bg-light-bg-alt1 dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">আমাদের চিকিৎসা পদ্ধতি</h2>
@@ -384,7 +384,7 @@ export function AboutClient() {
       </section>
 
       {/* 8. FAQ Preview */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">সাধারণ জিজ্ঞাসা (FAQ)</h2>
