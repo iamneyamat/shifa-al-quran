@@ -52,7 +52,7 @@ export function Hero() {
     <section className="relative w-full flex flex-col items-center">
       
       {/* Hero Top Section with Background */}
-      <div className="relative w-full overflow-hidden bg-slate-50 dark:bg-[#020817] pt-24 pb-32 lg:pt-32 lg:pb-40 flex flex-col items-center justify-center">
+      <div className="relative w-full overflow-hidden bg-light-bg-main dark:bg-[#020817] pt-24 pb-32 lg:pt-32 lg:pb-40 flex flex-col items-center justify-center">
         
         {/* 1. Subtle Animated Blue-Gold Gradient Background */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -93,20 +93,20 @@ export function Hero() {
               <h1 
                 dir="rtl" 
                 lang="ar" 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold leading-tight tracking-normal text-slate-900 dark:text-slate-100 drop-shadow-sm"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold leading-tight tracking-normal text-light-heading dark:text-slate-100 drop-shadow-sm"
                 style={{ fontFamily: "'Amiri', 'Lateef', 'Scheherazade New', 'Noto Naskh Arabic', serif" }}
               >
                 وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ
               </h1>
               
               <div className="flex flex-col items-center gap-3 mt-2">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed drop-shadow-sm text-center">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-light-text dark:text-slate-300 max-w-3xl leading-relaxed drop-shadow-sm text-center">
                   আমি <span className="text-blue-700 dark:text-blue-400 font-extrabold">কুরআনে</span> এমন বিষয় নাযিল করি যা মুমিনদের জন্য <span className="text-amber-600 dark:text-amber-400 font-extrabold">আরোগ্য (শিফা)</span> ও <span className="text-amber-600 dark:text-amber-400 font-extrabold">রহমত</span>
                 </h2>
                 
                 {/* Compact Pill Badge for Surah */}
-                <div className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 shadow-sm backdrop-blur-sm mt-2">
-                  <p className="text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400">
+                <div className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-light-bg-alt2/80 dark:bg-slate-800/80 border border-light-border/50 dark:border-slate-700/50 shadow-sm backdrop-blur-sm mt-2">
+                  <p className="text-xs md:text-sm font-semibold text-light-text dark:text-slate-400">
                     — সূরা আল-ইসরা : ৮২
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export function Hero() {
               initial="hidden"
               animate="visible"
               variants={fadeUpVariants}
-              className="mx-auto max-w-2xl text-[15px] md:text-base text-slate-600 dark:text-slate-400 leading-relaxed"
+              className="mx-auto max-w-2xl text-[15px] md:text-base text-light-text dark:text-slate-400 leading-relaxed"
             >
               শিফা আল কুরআন - এ আমরা সুন্নাহ সম্মত উপায়ে রুকইয়াহ শারইয়াহ এর মাধ্যমে জাদুটোনা, বদনজর, জিনগত সমস্যা এবং বিভিন্ন শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান করে থাকি।
             </motion.p>
@@ -134,9 +134,9 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUpVariants}
-          className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/50 dark:border-slate-700/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto"
+          className="bg-light-bg-alt2/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-light-border/50 dark:border-slate-700/50 rounded-2xl shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto"
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8 divide-x-0 md:divide-x divide-y md:divide-y-0 divide-slate-100 dark:divide-slate-800">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8 divide-x-0 md:divide-x divide-y md:divide-y-0 divide-light-border dark:divide-slate-800">
             {infoData.map((info, idx) => (
               <div 
                 key={idx} 
@@ -145,10 +145,10 @@ export function Hero() {
                 <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-amber-500 group-hover:scale-110 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-all duration-300">
                   <info.icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-[13px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+                <h3 className="text-[13px] font-bold text-light-text dark:text-slate-400 uppercase tracking-wider mb-1">
                   {info.title}
                 </h3>
-                <p className="text-[15px] font-semibold text-slate-900 dark:text-slate-100">
+                <p className="text-[15px] font-semibold text-light-heading dark:text-slate-100">
                   {info.details}
                 </p>
               </div>

@@ -21,14 +21,25 @@
   --color-gold: #d4af37;
   --color-gold-hover: #fcd34d;
 
+  --color-light-bg-main: #F5F7FA;
+  --color-light-bg-alt1: #F8FAFC;
+  --color-light-bg-alt2: #FFFFFF;
+  --color-light-bg-alt3: #F3F7FC;
+  --color-light-border: #E2E8F0;
+  --color-light-heading: #0F172A;
+  --color-light-text: #475569;
+  
+  /* Premium Soft Shadow */
+  --shadow-premium-soft: 0 8px 30px rgba(15, 23, 42, 0.04);
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f5f7fa;
+  --foreground: #475569;
   
   --primary: #059669;
   --primary-foreground: #ffffff;

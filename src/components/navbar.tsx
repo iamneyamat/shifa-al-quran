@@ -43,7 +43,7 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/50 dark:border-slate-800/50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-950/60 shadow-sm transition-all duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-light-border/50 dark:border-slate-800/50 bg-light-bg-alt2/70 dark:bg-slate-950/70 backdrop-blur-xl supports-[backdrop-filter]:bg-light-bg-alt2/60 dark:supports-[backdrop-filter]:bg-slate-950/60 shadow-sm transition-all duration-300">
       {/* Subtle Islamic Geometric Pattern Overlay */}
       <div 
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
@@ -70,7 +70,7 @@ export function Navbar() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white transition-colors">
+              <span className="text-xl font-extrabold tracking-tight text-light-heading dark:text-white transition-colors">
                 শিফা আল কুরআন
               </span>
             </Link>
@@ -86,7 +86,7 @@ export function Navbar() {
                   href={route.href}
                   className={cn(
                     "relative px-4 py-2 text-[15px] font-medium transition-colors duration-300",
-                    isActive ? "text-emerald-700 dark:text-emerald-400" : "text-slate-600 hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
+                    isActive ? "text-emerald-700 dark:text-emerald-400" : "text-light-text hover:text-emerald-600 dark:text-slate-300 dark:hover:text-emerald-400"
                   )}
                   onMouseEnter={() => setHoveredRoute(route.href)}
                 >
@@ -115,7 +115,7 @@ export function Navbar() {
               );
             })}
             
-            <div className="flex items-center gap-4 border-l border-slate-200 dark:border-slate-800 ml-2 pl-4">
+            <div className="flex items-center gap-4 border-l border-light-border dark:border-slate-800 ml-2 pl-4">
               <ThemeToggle />
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -138,7 +138,7 @@ export function Navbar() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(!isOpen)}
-              className="relative inline-flex items-center justify-center rounded-lg p-2 text-slate-700 bg-white/50 border border-slate-200 dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-200 backdrop-blur-sm transition-colors hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30"
+              className="relative inline-flex items-center justify-center rounded-lg p-2 text-light-text bg-light-bg-alt2/50 border border-light-border dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-200 backdrop-blur-sm transition-colors hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30"
               aria-label="Toggle Menu"
             >
               <AnimatePresence mode="wait">
@@ -177,7 +177,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-            className="absolute top-20 left-0 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl md:hidden border-t border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl"
+            className="absolute top-20 left-0 w-full bg-light-bg-alt2/95 dark:bg-slate-950/95 backdrop-blur-2xl md:hidden border-t border-light-border dark:border-slate-800 overflow-hidden shadow-2xl"
           >
             <div className="flex flex-col px-4 py-8 h-full">
               <div className="flex flex-col gap-2">
@@ -197,7 +197,7 @@ export function Navbar() {
                           "block rounded-xl px-4 py-4 text-lg font-semibold transition-all",
                           isActive
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/30"
-                            : "text-slate-700 hover:bg-slate-50 hover:text-emerald-600 border border-transparent dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-emerald-400"
+                            : "text-light-text hover:bg-light-bg-alt1 hover:text-emerald-600 border border-transparent dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-emerald-400"
                         )}
                       >
                         {route.label}

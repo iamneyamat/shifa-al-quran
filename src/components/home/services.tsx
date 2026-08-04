@@ -42,13 +42,13 @@ export function ServicesSection() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-900/50">
+    <section className="py-24 bg-light-bg-alt3 dark:bg-slate-900/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+          <h2 className="text-3xl font-bold text-light-heading dark:text-white mb-4">
             যেসব সমস্যার চিকিৎসা করা হয়
           </h2>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-light-text dark:text-slate-300">
             আমরা সম্পূর্ণ শরীয়াহ সম্মত উপায়ে বিভিন্ন আধ্যাত্মিক ও শারীরিক সমস্যার চিকিৎসা প্রদান করে থাকি। 
             নিচে আমাদের প্রধান সেবাসমূহ দেওয়া হলো।
           </p>
@@ -58,7 +58,7 @@ export function ServicesSection() {
           {services.map((service) => (
             <div 
               key={service.id}
-              className="relative overflow-hidden bg-white dark:bg-slate-950 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 group"
+              className="relative overflow-hidden bg-light-bg-alt2 dark:bg-slate-950 p-8 rounded-2xl shadow-premium-soft border border-light-border dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800 group"
             >
               {/* Minimal Background Design */}
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
@@ -70,10 +70,10 @@ export function ServicesSection() {
                 <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300">
                   <service.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                <h3 className="text-xl font-bold text-light-heading dark:text-white mb-3">
                   {service.title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="text-light-text dark:text-slate-400 leading-relaxed">
                   {service.description}
                 </p>
               </div>

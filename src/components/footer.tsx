@@ -29,7 +29,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-50 dark:bg-slate-950 border-t border-slate-200/50 dark:border-slate-800/50 overflow-hidden">
+    <footer className="relative bg-light-bg-alt1 dark:bg-slate-950 border-t border-light-border/50 dark:border-slate-800/50 overflow-hidden">
       
       {/* Background Decor (Matching Hero/Header aesthetic) */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -55,14 +55,14 @@ export function Footer() {
                   alt="Shifa Al Quran Logo" 
                   width={52} 
                   height={52} 
-                  className="relative rounded-xl object-contain bg-white dark:bg-slate-900 p-1 shadow-sm border border-slate-200 dark:border-slate-800" 
+                  className="relative rounded-xl object-contain bg-light-bg-alt2 dark:bg-slate-900 p-1 shadow-sm border border-light-border dark:border-slate-800" 
                 />
               </div>
-              <h3 className="text-xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h3 className="text-xl font-extrabold text-light-heading dark:text-slate-100">
                 শিফা আল কুরআন
               </h3>
             </div>
-            <p className="text-slate-600 dark:text-slate-400 text-[15px] leading-relaxed mb-8 flex-grow">
+            <p className="text-light-text dark:text-slate-400 text-[15px] leading-relaxed mb-8 flex-grow">
               কুরআনের আয়াতে আছে আরোগ্য ও প্রশান্তি। আমরা সুন্নাহ সম্মত উপায়ে রুকইয়াহ শারইয়াহ এর মাধ্যমে শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান করে থাকি।
             </p>
             <div className="flex gap-4">
@@ -70,7 +70,7 @@ export function Footer() {
                 href="https://facebook.com/shifaquran"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-10 w-10 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 transition-all hover:bg-blue-50 dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-blue-50 dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm"
                 aria-label="Facebook"
               >
                 <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -81,7 +81,7 @@ export function Footer() {
                 href="https://www.youtube.com/@ShifaAlQuran786"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-10 w-10 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 transition-all hover:bg-red-50 dark:hover:bg-slate-800 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-500 shadow-sm"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-red-50 dark:hover:bg-slate-800 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-500 shadow-sm"
                 aria-label="YouTube"
               >
                 <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -93,8 +93,8 @@ export function Footer() {
 
           {/* Quick Links */}
           <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-slate-900 dark:text-slate-100 text-lg">গুরুত্বপূর্ণ লিংক</h4>
-            <ul className="space-y-3 text-[15px] text-slate-600 dark:text-slate-400">
+            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">গুরুত্বপূর্ণ লিংক</h4>
+            <ul className="space-y-3 text-[15px] text-light-text dark:text-slate-400">
               {[
                 { name: "আমাদের সম্পর্কে", href: "/about" },
                 { name: "সেবাসমূহ", href: "/services" },
@@ -114,8 +114,8 @@ export function Footer() {
 
           {/* Legal Links */}
           <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-slate-900 dark:text-slate-100 text-lg">আইনি তথ্য</h4>
-            <ul className="space-y-3 text-[15px] text-slate-600 dark:text-slate-400">
+            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">আইনি তথ্য</h4>
+            <ul className="space-y-3 text-[15px] text-light-text dark:text-slate-400">
               {[
                 { name: "প্রাইভেসি পলিসি", href: "/privacy" },
                 { name: "শর্তাবলী", href: "/terms" },
@@ -134,8 +134,8 @@ export function Footer() {
 
           {/* Contact Info */}
           <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-slate-900 dark:text-slate-100 text-lg">যোগাযোগ</h4>
-            <ul className="space-y-5 text-[15px] text-slate-600 dark:text-slate-400">
+            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">যোগাযোগ</h4>
+            <ul className="space-y-5 text-[15px] text-light-text dark:text-slate-400">
               <li className="flex items-start gap-3 group">
                 <div className="h-8 w-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800/50 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
                   <MapPin className="h-4 w-4 text-blue-600 dark:text-amber-500" />
@@ -168,7 +168,7 @@ export function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400"
+          className="mt-16 pt-8 border-t border-light-border dark:border-slate-800 text-center text-sm text-light-text dark:text-slate-400"
         >
           <p>© {currentYear} Shifa Al Quran (শিফা আল কুরআন). All rights reserved.</p>
         </motion.div>

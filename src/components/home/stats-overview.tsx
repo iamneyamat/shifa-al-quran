@@ -59,7 +59,7 @@ const statsData = [
 
 export function StatsOverview() {
   return (
-    <section className="relative overflow-hidden bg-slate-50 dark:bg-[#020817] py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-light-bg-alt1 dark:bg-[#020817] py-20 lg:py-28">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-blue-300/10 dark:bg-blue-800/10 blur-[120px]" />
@@ -78,10 +78,10 @@ export function StatsOverview() {
             <h2 className="text-sm font-bold tracking-widest uppercase text-amber-600 dark:text-amber-500 mb-3">
               আমাদের সংক্ষিপ্ত পরিচিতি
             </h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-6">
+            <h3 className="text-3xl md:text-4xl font-extrabold text-light-heading dark:text-white mb-6">
               আস্থা, অভিজ্ঞতা ও সেবার পরিসংখ্যান
             </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400">
+            <p className="text-lg text-light-text dark:text-slate-400">
               আল্লাহর রহমতে গত এক বছরে হাজারো মানুষের পাশে থাকার সুযোগ হয়েছে।
             </p>
           </motion.div>
@@ -97,7 +97,7 @@ export function StatsOverview() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.15, duration: 0.7, ease: "easeOut" }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="flex flex-col h-full bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl border border-white/50 dark:border-slate-800/50 rounded-[18px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-shadow duration-300 relative overflow-hidden group"
+              className="flex flex-col h-full bg-light-bg-alt2/70 dark:bg-slate-900/50 backdrop-blur-xl border border-light-border/50 dark:border-slate-800/50 rounded-[18px] p-8 shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-shadow duration-300 relative overflow-hidden group"
             >
               {/* Subtle hover glow inside card */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 dark:bg-amber-400/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -108,12 +108,12 @@ export function StatsOverview() {
               
               <div className="flex flex-col flex-grow relative z-10">
                 {stat.counter ? (
-                  <h4 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2 flex items-center">
+                  <h4 className="text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-2 flex items-center">
                     <AnimatedCounter value={stat.counter} />
                     <span className="text-amber-500 dark:text-amber-400 ml-1">{stat.suffix}</span>
                   </h4>
                 ) : (
-                  <h4 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+                  <h4 className="text-xl font-bold text-light-heading dark:text-slate-100 mb-2">
                     {stat.title}
                   </h4>
                 )}
@@ -124,7 +124,7 @@ export function StatsOverview() {
                   </p>
                 )}
                 
-                <p className="text-[15px] leading-relaxed text-slate-600 dark:text-slate-400 mt-auto">
+                <p className="text-[15px] leading-relaxed text-light-text dark:text-slate-400 mt-auto">
                   {stat.description}
                 </p>
               </div>
