@@ -161,17 +161,17 @@ const audios = [
 
 export default function AudioPage() {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-16">
+    <div className="min-h-screen bg-light-bg-main dark:bg-slate-950 py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
             <Headphones className="h-8 w-8" />
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl mb-6">
+          <h1 className="text-4xl font-extrabold tracking-tight text-light-heading dark:text-white sm:text-5xl mb-6">
             রুকইয়াহ অডিও কালেকশন
           </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-lg text-light-text dark:text-slate-300 leading-relaxed">
             এখানে বিভিন্ন সমস্যার সমাধানের জন্য কুরআন ও সুন্নাহ ভিত্তিক রুকইয়াহ অডিও দেওয়া আছে। আপনি চাইলে সরাসরি শুনতে অথবা ডাউনলোড করে রাখতে পারেন।
           </p>
         </div>
@@ -181,9 +181,9 @@ export default function AudioPage() {
           {audios.map((audio, index) => (
             <div 
               key={index} 
-              className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800"
+              className="flex flex-col bg-light-bg-alt2 dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-light-border dark:border-slate-800 transition-all hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-800"
             >
-              <h3 className="flex items-center flex-wrap gap-2 text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 leading-snug">
+              <h3 className="flex items-center flex-wrap gap-2 text-lg font-bold text-light-heading dark:text-slate-100 mb-2 leading-snug">
                 {audio.title}
                 {audio.isNew && (
                   <span className="inline-flex items-center rounded bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 uppercase tracking-widest">
@@ -193,7 +193,7 @@ export default function AudioPage() {
               </h3>
               
               {audio.description && (
-                <p className="text-[15px] text-slate-600 dark:text-slate-300 mb-2">
+                <p className="text-[15px] text-light-text dark:text-slate-300 mb-2">
                   {audio.description}
                 </p>
               )}

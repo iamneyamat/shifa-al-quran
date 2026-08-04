@@ -6,9 +6,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 py-20 min-h-screen">
+    <div className="bg-light-bg-main dark:bg-slate-950 py-20 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">প্রাইভেসি পলিসি</h1>
+        <h1 className="text-3xl font-bold text-light-heading dark:text-white mb-8">প্রাইভেসি পলিসি</h1>
         <div className="prose dark:prose-invert max-w-none">
           <p>
             শিফা আল কুরআন - এ আপনাদের গোপনীয়তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ। আমরা কীভাবে আপনাদের তথ্য সংগ্রহ করি এবং ব্যবহার করি তা এই পলিসিতে উল্লেখ করা হলো।

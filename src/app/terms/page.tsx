@@ -6,9 +6,9 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 py-20 min-h-screen">
+    <div className="bg-light-bg-main dark:bg-slate-950 py-20 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">শর্তাবলী</h1>
+        <h1 className="text-3xl font-bold text-light-heading dark:text-white mb-8">শর্তাবলী</h1>
         <div className="prose dark:prose-invert max-w-none">
           <p>
             শিফা আল কুরআন - এর ওয়েবসাইট এবং সেবা ব্যবহারের আগে অনুগ্রহ করে নিচের শর্তাবলী পড়ে নিন।

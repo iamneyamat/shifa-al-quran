@@ -65,16 +65,16 @@ export function CTASection() {
             >
               <Link
                 href="/appointment"
-                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-8 text-[15px] font-bold text-slate-900 shadow-[0_8px_20px_rgb(217,119,6,0.3)] transition-all hover:shadow-[0_8px_25px_rgb(217,119,6,0.5)] hover:-translate-y-0.5 overflow-hidden"
+                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-8 text-[15px] font-bold text-light-heading shadow-[0_8px_20px_rgb(217,119,6,0.3)] transition-all hover:shadow-[0_8px_25px_rgb(217,119,6,0.5)] hover:-translate-y-0.5 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                <div className="absolute inset-0 bg-light-bg-alt2/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <CalendarHeart className="h-5 w-5 relative z-10" />
                 <span className="relative z-10">অ্যাপয়েন্টমেন্ট নিন</span>
               </Link>
               
               <a
                 href="tel:09639000999"
-                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/5 backdrop-blur-sm px-8 text-[15px] font-bold text-white transition-all hover:bg-white/10 hover:border-white/30 hover:-translate-y-0.5 shadow-sm"
+                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-xl border border-white/20 bg-light-bg-alt2/5 backdrop-blur-sm px-8 text-[15px] font-bold text-white transition-all hover:bg-light-bg-alt2/10 hover:border-white/30 hover:-translate-y-0.5 shadow-sm"
               >
                 <PhoneCall className="h-5 w-5 text-amber-400 group-hover:animate-bounce" />
                 <span>09639-000999</span>

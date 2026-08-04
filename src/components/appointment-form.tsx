@@ -52,8 +52,8 @@ export function AppointmentForm() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-800">
           <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
         </div>
-        <h3 className="mb-2 text-2xl font-bold text-slate-900 dark:text-white">অ্যাপয়েন্টমেন্ট সফল হয়েছে!</h3>
-        <p className="text-slate-600 dark:text-slate-300">
+        <h3 className="mb-2 text-2xl font-bold text-light-heading dark:text-white">অ্যাপয়েন্টমেন্ট সফল হয়েছে!</h3>
+        <p className="text-light-text dark:text-slate-300">
           আপনার অনুরোধটি গ্রহণ করা হয়েছে। আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করে সময় নিশ্চিত করবেন।
         </p>
         <button
@@ -70,7 +70,7 @@ export function AppointmentForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+          <label htmlFor="name" className="text-sm font-medium text-light-heading dark:text-slate-200">
             সম্পূর্ণ নাম <span className="text-red-500">*</span>
           </label>
           <input
@@ -80,7 +80,7 @@ export function AppointmentForm() {
             {...register("name")}
             className={cn(
               "flex h-12 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
-              errors.name ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+              errors.name ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
             )}
           />
           {errors.name && (
@@ -89,7 +89,7 @@ export function AppointmentForm() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+          <label htmlFor="phone" className="text-sm font-medium text-light-heading dark:text-slate-200">
             ফোন নাম্বার <span className="text-red-500">*</span>
           </label>
           <input
@@ -99,7 +99,7 @@ export function AppointmentForm() {
             {...register("phone")}
             className={cn(
               "flex h-12 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
-              errors.phone ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+              errors.phone ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
             )}
           />
           {errors.phone && (
@@ -108,7 +108,7 @@ export function AppointmentForm() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="age" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+          <label htmlFor="age" className="text-sm font-medium text-light-heading dark:text-slate-200">
             বয়স <span className="text-red-500">*</span>
           </label>
           <input
@@ -118,7 +118,7 @@ export function AppointmentForm() {
             {...register("age")}
             className={cn(
               "flex h-12 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
-              errors.age ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+              errors.age ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
             )}
           />
           {errors.age && (
@@ -127,7 +127,7 @@ export function AppointmentForm() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="gender" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+          <label htmlFor="gender" className="text-sm font-medium text-light-heading dark:text-slate-200">
             লিঙ্গ <span className="text-red-500">*</span>
           </label>
           <select
@@ -135,7 +135,7 @@ export function AppointmentForm() {
             {...register("gender")}
             className={cn(
               "flex h-12 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1",
-              errors.gender ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+              errors.gender ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
             )}
           >
             <option value="">নির্বাচন করুন</option>
@@ -149,7 +149,7 @@ export function AppointmentForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="date" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+        <label htmlFor="date" className="text-sm font-medium text-light-heading dark:text-slate-200">
           সম্ভাব্য তারিখ <span className="text-red-500">*</span>
         </label>
         <div className="relative">
@@ -159,7 +159,7 @@ export function AppointmentForm() {
             {...register("date")}
             className={cn(
               "flex h-12 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1",
-              errors.date ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+              errors.date ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
             )}
           />
         </div>
@@ -169,7 +169,7 @@ export function AppointmentForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="problem" className="text-sm font-medium text-slate-900 dark:text-slate-200">
+        <label htmlFor="problem" className="text-sm font-medium text-light-heading dark:text-slate-200">
           সমস্যার বিবরণ <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -179,7 +179,7 @@ export function AppointmentForm() {
           {...register("problem")}
           className={cn(
             "flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1",
-            errors.problem ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 dark:border-slate-800 focus-visible:ring-emerald-500"
+            errors.problem ? "border-red-500 focus-visible:ring-red-500" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500"
           )}
         />
         {errors.problem && (

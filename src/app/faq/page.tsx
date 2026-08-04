@@ -31,14 +31,14 @@ export default function FAQPage() {
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 py-20 min-h-screen">
+    <div className="bg-light-bg-main dark:bg-slate-950 py-20 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-light-heading dark:text-white mb-6">
             সাধারণ জিজ্ঞাসা (FAQ)
           </h1>
           <div className="h-1 w-24 bg-emerald-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-slate-600 dark:text-slate-300">
+          <p className="text-light-text dark:text-slate-300">
             রুকইয়াহ সম্পর্কে আপনাদের মনে থাকা সাধারণ প্রশ্নগুলোর উত্তর নিচে দেওয়া হলো।
           </p>
         </div>
@@ -47,13 +47,13 @@ export default function FAQPage() {
           {faqs.map((faq, index) => (
             <div 
               key={index} 
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden transition-all duration-200"
+              className="bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 rounded-xl overflow-hidden transition-all duration-200"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="flex items-center justify-between w-full p-5 text-left focus:outline-none"
               >
-                <span className="font-semibold text-slate-900 dark:text-white pr-4">
+                <span className="font-semibold text-light-heading dark:text-white pr-4">
                   {faq.question}
                 </span>
                 <ChevronDown 
@@ -70,7 +70,7 @@ export default function FAQPage() {
                   openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 )}
               >
-                <div className="p-5 pt-0 text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800/50 mt-2">
+                <div className="p-5 pt-0 text-light-text dark:text-slate-300 border-t border-light-border dark:border-slate-800/50 mt-2">
                   {faq.answer}
                 </div>
               </div>

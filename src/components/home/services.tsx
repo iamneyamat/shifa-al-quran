@@ -62,7 +62,7 @@ export function ServicesSection() {
             >
               {/* Minimal Background Design */}
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
-              <div className="absolute -bottom-8 -right-8 text-slate-50 dark:text-slate-900/50 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+              <div className="absolute -bottom-8 -right-8 text-slate-50 dark:text-light-heading/50 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
                 <service.icon className="w-40 h-40 opacity-70 dark:opacity-40" />
               </div>
               

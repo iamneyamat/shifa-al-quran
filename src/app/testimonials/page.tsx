@@ -25,10 +25,10 @@ export default function TestimonialsPage() {
   ];
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 py-20 min-h-screen">
+    <div className="bg-light-bg-main dark:bg-slate-950 py-20 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="text-center mb-16">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-light-heading dark:text-white mb-6">
             রোগীদের মতামত
           </h1>
           <div className="h-1 w-24 bg-emerald-500 mx-auto rounded-full"></div>
@@ -36,7 +36,7 @@ export default function TestimonialsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
-            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col h-full">
+            <div key={i} className="bg-light-bg-alt2 dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-light-border dark:border-slate-800 flex flex-col h-full">
               <div className="flex text-gold mb-4">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <svg key={star} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
@@ -44,11 +44,11 @@ export default function TestimonialsPage() {
                   </svg>
                 ))}
               </div>
-              <p className="text-slate-600 dark:text-slate-300 flex-grow italic mb-6">
+              <p className="text-light-text dark:text-slate-300 flex-grow italic mb-6">
                 &quot;{t.review}&quot;
               </p>
               <div>
-                <p className="font-bold text-slate-900 dark:text-white">{t.name}</p>
+                <p className="font-bold text-light-heading dark:text-white">{t.name}</p>
                 <p className="text-sm text-slate-500">{t.location}</p>
               </div>
             </div>
