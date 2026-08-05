@@ -55,7 +55,7 @@ export function TestimonialsClient() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {testimonials.map((t, i) => (
             <motion.div 
               key={i}
@@ -63,7 +63,7 @@ export function TestimonialsClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-8 md:p-10 rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 flex flex-col h-full group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+              className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-6 md:p-10 rounded-2xl md:rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 flex flex-col h-full group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
               
@@ -72,7 +72,7 @@ export function TestimonialsClient() {
                   <Star key={star} className="w-5 h-5 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-light-text dark:text-slate-300 text-lg leading-relaxed flex-grow italic mb-8 relative z-10">
+              <p className="text-light-text dark:text-slate-300 text-base md:text-lg leading-relaxed flex-grow italic mb-8 relative z-10">
                 &quot;{t.review}&quot;
               </p>
               <div className="relative z-10 border-t border-light-border dark:border-slate-800/50 pt-6 mt-auto">

@@ -135,11 +135,15 @@ export function Hero() {
           variants={fadeUpVariants}
           className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl border border-light-border/60 dark:border-slate-700/60 rounded-[32px] shadow-premium-soft dark:shadow-none p-6 sm:p-8 lg:p-10 max-w-6xl mx-auto"
         >
-          <div className="flex flex-wrap justify-center gap-6 lg:gap-8 divide-x-0 md:divide-x divide-y md:divide-y-0 divide-light-border/50 dark:divide-slate-800">
+          <div className="flex flex-col md:flex-row w-full divide-y md:divide-y-0 md:divide-x divide-light-border/50 dark:divide-slate-800">
             {infoData.map((info, idx) => (
               <div 
                 key={idx} 
-                className={`flex flex-col items-center text-center group pt-6 md:pt-0 ${idx > 0 ? 'md:pl-6 lg:pl-8' : ''}`}
+                className={`flex flex-col items-center justify-center text-center group flex-1 px-2 lg:px-4 py-6 md:py-0 ${
+                  idx === 0 ? 'pt-0 md:pt-0' : ''
+                } ${
+                  idx === infoData.length - 1 ? 'pb-0 md:pb-0' : ''
+                }`}
               >
                 <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-amber-500 group-hover:scale-110 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-all duration-300">
                   <info.icon className="h-5 w-5" />

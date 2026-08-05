@@ -52,16 +52,16 @@ export function ProcessClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-8 md:p-12 rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300"
+          className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-6 md:p-12 rounded-2xl md:rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300"
         >
           <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           
-          <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-8 relative z-10 flex items-center gap-3">
-            <span className="w-2 h-8 rounded-full bg-emerald-500 block" />
+          <h2 className="text-xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 relative z-10 flex items-center gap-3">
+            <span className="w-2 h-6 md:h-8 rounded-full bg-emerald-500 block" />
             চিকিৎসার পূর্বে কিছু গুরুত্বপূর্ণ নিয়মাবলি
           </h2>
           
-          <ul className="space-y-6 relative z-10">
+          <ul className="space-y-4 md:space-y-6 relative z-10">
             {[
               "পাঁচ ওয়াক্ত নামাজ সঠিকভাবে আদায় করতে হবে।",
               "সকাল ও সন্ধ্যার সুন্নাহসম্মত যিকিরগুলো নিয়মিত করতে হবে।",

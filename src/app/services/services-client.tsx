@@ -202,7 +202,7 @@ export function ServicesClient() {
           </div>
 
           {/* Service Cards Grid with AnimatePresence */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[400px]">
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 min-h-[400px]">
             <AnimatePresence mode="popLayout">
               {filteredServices.map((service) => (
                 <motion.div
@@ -212,22 +212,22 @@ export function ServicesClient() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   key={service.id}
-                  className="flex flex-col relative overflow-hidden bg-white dark:bg-slate-900/60 p-8 md:p-10 rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] hover:-translate-y-2 transition-all duration-300 group"
+                  className="flex flex-col relative overflow-hidden bg-white dark:bg-slate-900/60 p-5 md:p-10 rounded-2xl md:rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] hover:-translate-y-2 transition-all duration-300 group"
                 >
                   {/* Subtle Background Glow on Hover */}
                   <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
                   
                   {/* Icon */}
-                  <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-800/50 shadow-sm group-hover:scale-110 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/40 transition-all duration-500 z-10 relative">
-                    <service.icon className="h-8 w-8" strokeWidth={1.5} />
+                  <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-800/50 shadow-sm group-hover:scale-110 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/40 transition-all duration-500 z-10 relative">
+                    <service.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
                   </div>
                   
                   {/* Content */}
                   <div className="relative z-10 flex-grow flex flex-col">
-                    <h3 className="text-2xl font-bold text-light-heading dark:text-slate-100 mb-4 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-4 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-base text-light-text dark:text-slate-400 leading-relaxed flex-grow">
+                    <p className="text-[15px] md:text-base text-light-text dark:text-slate-400 leading-relaxed flex-grow">
                       {service.description}
                     </p>
                     

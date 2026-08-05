@@ -55,23 +55,23 @@ export function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {services.map((service) => (
             <div 
               key={service.id}
-              className="relative overflow-hidden bg-light-bg-alt2/50 dark:bg-slate-900/40 backdrop-blur-sm p-6 md:p-8 rounded-[32px] border border-light-border/60 dark:border-slate-800 shadow-sm hover:shadow-premium-soft hover:-translate-y-2 transition-all duration-300 group"
+              className="relative overflow-hidden bg-light-bg-alt2/50 dark:bg-slate-900/40 backdrop-blur-sm p-5 md:p-8 rounded-2xl md:rounded-[32px] border border-light-border/60 dark:border-slate-800 shadow-sm hover:shadow-premium-soft hover:-translate-y-2 transition-all duration-300 group"
             >
               {/* Minimal Background Design */}
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
               <div className="absolute -bottom-8 -right-8 text-slate-50 dark:text-light-heading/50 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
-                <service.icon className="w-40 h-40 opacity-70 dark:opacity-40" />
+                <service.icon className="w-24 h-24 md:w-40 md:h-40 opacity-70 dark:opacity-40" />
               </div>
               
               <div className="relative z-10">
-                <div className="mb-5 md:mb-6 inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-light-border/50 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-all duration-300">
-                  <service.icon className="h-6 w-6 md:h-7 md:w-7" strokeWidth={1.5} />
+                <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-light-border/50 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-all duration-300">
+                  <service.icon className="h-5 w-5 md:h-7 md:w-7" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[19px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3">
+                <h3 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3">
                   {service.title}
                 </h3>
                 <p className="text-[14px] md:text-[15px] text-light-text dark:text-slate-400 leading-relaxed">

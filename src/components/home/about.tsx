@@ -123,22 +123,22 @@ export function AboutSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto mb-20"
         >
           {features.map((feature, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="bg-light-bg-alt2/70 dark:bg-slate-900/40 backdrop-blur-xl border border-light-border/50 dark:border-slate-800/50 rounded-2xl p-8 shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-all duration-300 relative group overflow-hidden"
+              className="bg-light-bg-alt2/70 dark:bg-slate-900/40 backdrop-blur-xl border border-light-border/50 dark:border-slate-800/50 rounded-2xl p-5 md:p-8 shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-all duration-300 relative group overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 dark:bg-amber-400/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-blue-900/30 border border-light-border dark:border-slate-700/50 text-blue-700 dark:text-amber-400 relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
-                <feature.icon className="h-8 w-8" strokeWidth={1.5} />
+              <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-blue-900/30 border border-light-border dark:border-slate-700/50 text-blue-700 dark:text-amber-400 relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
+                <feature.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
               </div>
               
-              <h4 className="text-xl font-bold text-light-heading dark:text-slate-100 mb-3 relative z-10 group-hover:text-blue-700 dark:group-hover:text-amber-400 transition-colors">
+              <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3 relative z-10 group-hover:text-blue-700 dark:group-hover:text-amber-400 transition-colors">
                 {feature.title}
               </h4>
               <p className="text-[15px] leading-relaxed text-light-text dark:text-slate-400 relative z-10">

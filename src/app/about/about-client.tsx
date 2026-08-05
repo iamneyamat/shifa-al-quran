@@ -248,19 +248,19 @@ export function AboutClient() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
           >
             {coreValues.map((val, idx) => (
               <motion.div 
                 key={idx}
                 variants={fadeUp}
-                className="bg-white dark:bg-slate-900/60 p-8 rounded-[32px] border border-light-border/60 dark:border-slate-800 text-center hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-all duration-300 group"
+                className="bg-white dark:bg-slate-900/60 p-5 md:p-8 rounded-2xl md:rounded-[32px] border border-light-border/60 dark:border-slate-800 text-center hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-all duration-300 group"
               >
-                <div className="h-16 w-16 md:h-20 md:w-20 bg-light-bg-alt1 dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-light-border dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-transform duration-500">
-                  <val.icon className="h-8 w-8" strokeWidth={1.5} />
+                <div className="h-12 w-12 md:h-20 md:w-20 bg-light-bg-alt1 dark:bg-slate-800 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-sm border border-light-border dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-transform duration-500">
+                  <val.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
                 </div>
-                <h4 className="text-xl font-bold text-light-heading dark:text-slate-200 mb-3 tracking-tight">{val.title}</h4>
-                <p className="text-[15px] text-light-text dark:text-slate-400 leading-relaxed">{val.description}</p>
+                <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-2 md:mb-3 tracking-tight">{val.title}</h4>
+                <p className="text-[14px] md:text-[15px] text-light-text dark:text-slate-400 leading-relaxed">{val.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -395,19 +395,19 @@ export function AboutClient() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-6 md:gap-8"
+            className="grid md:grid-cols-3 gap-4 md:gap-8"
           >
             {faqs.map((faq, idx) => (
               <motion.div 
                 key={idx}
                 variants={fadeUp}
-                className="bg-light-bg-alt1 dark:bg-slate-900/40 p-8 md:p-10 rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:-translate-y-1 transition-transform"
+                className="bg-light-bg-alt1 dark:bg-slate-900/40 p-5 md:p-10 rounded-2xl md:rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:-translate-y-1 transition-transform"
               >
-                <div className="bg-blue-100 dark:bg-blue-900/40 w-12 h-12 rounded-2xl flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
-                  <HelpCircle className="h-6 w-6" />
+                <div className="bg-blue-100 dark:bg-blue-900/40 w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
+                  <HelpCircle className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
-                <h4 className="text-xl font-bold text-light-heading dark:text-slate-200 mb-4 tracking-tight">{faq.q}</h4>
-                <p className="text-base text-light-text dark:text-slate-400 leading-relaxed">{faq.a}</p>
+                <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-3 md:mb-4 tracking-tight">{faq.q}</h4>
+                <p className="text-sm md:text-base text-light-text dark:text-slate-400 leading-relaxed">{faq.a}</p>
               </motion.div>
             ))}
           </motion.div>

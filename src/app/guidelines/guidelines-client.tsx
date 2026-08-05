@@ -52,18 +52,18 @@ export function GuidelinesClient() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
           {/* Before Treatment */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-8 md:p-12 rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300"
+            className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-6 md:p-12 rounded-2xl md:rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             
-            <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-8 relative z-10 flex items-center gap-3">
-              <span className="w-2 h-8 rounded-full bg-emerald-500 block" />
+            <h2 className="text-xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 relative z-10 flex items-center gap-3">
+              <span className="w-2 h-6 md:h-8 rounded-full bg-emerald-500 block" />
               চিকিৎসার পূর্বে করণীয়
             </h2>
             
@@ -72,7 +72,7 @@ export function GuidelinesClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-6 relative z-10"
+              className="space-y-4 md:space-y-6 relative z-10"
             >
               {[
                 "পাঁচ ওয়াক্ত নামাজ পড়া বাধ্যতামূলক।",
@@ -98,12 +98,12 @@ export function GuidelinesClient() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-8 md:p-12 rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-blue-500/30 transition-all duration-300"
+            className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-6 md:p-12 rounded-2xl md:rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 relative overflow-hidden group hover:shadow-xl hover:border-blue-500/30 transition-all duration-300"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             
-            <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-8 relative z-10 flex items-center gap-3">
-              <span className="w-2 h-8 rounded-full bg-blue-500 block" />
+            <h2 className="text-xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 relative z-10 flex items-center gap-3">
+              <span className="w-2 h-6 md:h-8 rounded-full bg-blue-500 block" />
               চিকিৎসা চলাকালীন নিয়ম
             </h2>
             
@@ -112,7 +112,7 @@ export function GuidelinesClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-6 relative z-10"
+              className="space-y-4 md:space-y-6 relative z-10"
             >
               {[
                 "রাকির দেওয়া আমলগুলো ও রুটিন নিয়মমতো পালন করা।",
