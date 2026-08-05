@@ -54,10 +54,13 @@ export function AudioPlayerClient() {
 
   // Load saved state
   useEffect(() => {
-    const savedFavs = localStorage.getItem("ruqyah_favs");
-    const savedRecent = localStorage.getItem("ruqyah_recent");
-    if (savedFavs) setFavorites(JSON.parse(savedFavs));
-    if (savedRecent) setRecent(JSON.parse(savedRecent));
+    const timer = setTimeout(() => {
+      const savedFavs = localStorage.getItem("ruqyah_favs");
+      const savedRecent = localStorage.getItem("ruqyah_recent");
+      if (savedFavs) setFavorites(JSON.parse(savedFavs));
+      if (savedRecent) setRecent(JSON.parse(savedRecent));
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Save favs

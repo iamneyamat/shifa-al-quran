@@ -4,7 +4,6 @@ import * as React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { Clock, User, ChevronRight, Search, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { blogPosts } from "@/lib/blog-data";

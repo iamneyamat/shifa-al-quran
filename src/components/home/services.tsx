@@ -45,7 +45,7 @@ export function ServicesSection() {
     <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">
             যেসব সমস্যার চিকিৎসা করা হয়
           </h2>
           <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-6 md:mb-8" />
@@ -59,7 +59,7 @@ export function ServicesSection() {
           {services.map((service) => (
             <div 
               key={service.id}
-              className="relative overflow-hidden bg-light-bg-alt2/50 dark:bg-slate-900/40 backdrop-blur-sm p-5 md:p-8 rounded-2xl md:rounded-[32px] border border-light-border/60 dark:border-slate-800 shadow-sm hover:shadow-premium-soft hover:-translate-y-2 transition-all duration-300 group"
+              className="glass-card p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
             >
               {/* Minimal Background Design */}
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
@@ -68,8 +68,8 @@ export function ServicesSection() {
               </div>
               
               <div className="relative z-10">
-                <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl md:rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-light-border/50 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-all duration-300">
-                  <service.icon className="h-5 w-5 md:h-7 md:w-7" strokeWidth={1.5} />
+                <div className="icon-container-premium mb-4 md:mb-6 inline-flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-xl md:rounded-2xl text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-300">
+                  <service.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3">
                   {service.title}

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useState } from "react";
-import { motion, AnimatePresence, useInView, useSpring, useTransform, Variants } from "framer-motion";
+import { motion, AnimatePresence, useInView, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import { 
   EyeOff, 
@@ -10,8 +10,7 @@ import {
   Brain, 
   Frown, 
   Users, 
-  Activity, 
-  CheckCircle2, 
+  Activity,
   ArrowRight,
   ShieldAlert,
   CalendarHeart
@@ -41,23 +40,6 @@ function AnimatedCounter({ value, duration = 2, suffix = "" }: { value: number, 
   return <motion.span ref={ref}>{displayValue}</motion.span>;
 }
 
-// --- Animation Variants ---
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
 
 // --- Services Data ---
 const categories = ["সবগুলো", "জাদুটোনা", "বদনজর", "জ্বিন", "মানসিক সমস্যা", "পারিবারিক"];
@@ -180,7 +162,7 @@ export function ServicesClient() {
       </section>
 
       {/* 3. Category Filter & Service Cards */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Category Filter */}
@@ -212,22 +194,22 @@ export function ServicesClient() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   key={service.id}
-                  className="flex flex-col relative overflow-hidden bg-white dark:bg-slate-900/60 p-5 md:p-10 rounded-2xl md:rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] hover:-translate-y-2 transition-all duration-300 group"
+                  className="flex flex-col glass-card p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
                 >
                   {/* Subtle Background Glow on Hover */}
                   <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
                   
                   {/* Icon */}
-                  <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-800/50 shadow-sm group-hover:scale-110 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/40 transition-all duration-500 z-10 relative">
+                  <div className="icon-container-premium mb-4 md:mb-6 inline-flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-2xl text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500 z-10 relative">
                     <service.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
                   </div>
                   
                   {/* Content */}
                   <div className="relative z-10 flex-grow flex flex-col">
-                    <h3 className="text-xl md:text-2xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-4 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-[15px] md:text-base text-light-text dark:text-slate-400 leading-relaxed flex-grow">
+                    <p className="text-[14px] md:text-base text-light-text dark:text-slate-400 leading-relaxed flex-grow">
                       {service.description}
                     </p>
                     
@@ -280,7 +262,7 @@ export function ServicesClient() {
       </section>
 
       {/* 5. Final CTA */}
-      <section className="py-16 md:py-28 relative overflow-hidden bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-light-bg-main dark:bg-[#020817]">
         <div className="container mx-auto px-4 max-w-5xl">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -292,16 +274,16 @@ export function ServicesClient() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
             
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 md:mb-8 leading-tight tracking-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">
                 আপনার সুস্থতার যাত্রা আজই শুরু করুন
               </h2>
-              <p className="text-emerald-50 text-lg md:text-2xl max-w-3xl mx-auto mb-10 md:mb-12 opacity-90 leading-relaxed">
+              <p className="text-emerald-50 text-base md:text-lg max-w-3xl mx-auto mb-8 md:mb-10 opacity-90 leading-relaxed text-center">
                 সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং পরিবারকে নিরাপদে রাখুন।
               </p>
               
               <Link 
                 href="/appointment"
-                className="inline-flex items-center gap-3 bg-white text-emerald-700 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-lg md:text-xl hover:bg-emerald-50 transition-colors duration-300 shadow-lg hover:shadow-xl active:scale-95"
+                className="btn-premium inline-flex items-center gap-2 md:gap-3 bg-white text-emerald-700 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-emerald-50"
               >
                 <CalendarHeart className="w-5 h-5 md:w-6 md:h-6" />
                 অ্যাপয়েন্টমেন্ট নিন

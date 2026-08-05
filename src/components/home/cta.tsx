@@ -16,16 +16,18 @@ const fadeUpVariants: Variants = {
 
 export function CTASection() {
   return (
-    <section className="relative py-24 bg-transparent overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-transparent overflow-hidden">
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="max-w-5xl mx-auto relative rounded-[40px] overflow-hidden bg-gradient-to-br from-emerald-600 to-blue-700 p-8 md:p-16 text-center shadow-2xl group"
+          className="max-w-5xl mx-auto relative rounded-[40px] overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800 p-10 md:p-20 text-center shadow-[0_20px_50px_rgba(4,120,87,0.3)] dark:shadow-[0_20px_50px_rgba(4,120,87,0.15)] group border border-emerald-500/30"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 shadow-[inset_0_1px_2px_rgba(255,255,255,0.3)] rounded-[40px] pointer-events-none" />
           
           <div className="relative z-10 flex flex-col items-center">
             
@@ -44,7 +46,7 @@ export function CTASection() {
             <motion.h2 
               custom={0}
               variants={fadeUpVariants}
-              className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight drop-shadow-sm relative z-10"
+              className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 md:mb-8 tracking-tight leading-tight drop-shadow-lg relative z-10 text-center"
             >
               সুস্থতার জন্য আজই <span className="text-amber-300">যোগাযোগ</span> করুন
             </motion.h2>
@@ -52,7 +54,7 @@ export function CTASection() {
             <motion.p 
               custom={1}
               variants={fadeUpVariants}
-              className="text-emerald-50 text-[15px] md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed relative z-10 opacity-90"
+              className="text-emerald-50/90 text-lg md:text-xl font-medium mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed relative z-10 text-center"
             >
               শারীরিক কিংবা মানসিক যেকোনো সমস্যায় কোরআন ও সুন্নাহ ভিত্তিক চিকিৎসার জন্য আমাদের সাথে পরামর্শ করুন। আমরা আপনার গোপনীয়তা রক্ষায় প্রতিশ্রুতিবদ্ধ।
             </motion.p>
@@ -64,7 +66,7 @@ export function CTASection() {
             >
               <Link
                 href="/appointment"
-                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-white px-8 text-[15px] md:text-lg font-bold text-emerald-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:bg-emerald-50 overflow-hidden transition-all duration-300"
+                className="btn-premium group relative flex px-8 py-4 md:px-10 md:py-5 w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-white text-lg font-bold text-emerald-700 hover:bg-emerald-50 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
               >
                 <CalendarHeart className="h-5 w-5 md:h-6 md:w-6" />
                 <span>অ্যাপয়েন্টমেন্ট নিন</span>
@@ -72,7 +74,7 @@ export function CTASection() {
               
               <a
                 href="tel:09639000999"
-                className="group relative flex h-14 w-full sm:w-auto items-center justify-center gap-3 rounded-full border border-white/30 bg-black/10 backdrop-blur-md px-8 text-[15px] md:text-lg font-bold text-white transition-all hover:bg-black/20 hover:border-white/50 hover:-translate-y-0.5 shadow-sm"
+                className="btn-premium group relative flex px-8 py-4 md:px-10 md:py-5 w-full sm:w-auto items-center justify-center gap-3 rounded-full border-2 border-white/40 bg-black/20 backdrop-blur-md text-lg font-bold text-white hover:bg-black/30 hover:border-white/60"
               >
                 <PhoneCall className="h-5 w-5 md:h-6 md:w-6 text-amber-300 group-hover:animate-bounce" />
                 <span>09639-000999</span>

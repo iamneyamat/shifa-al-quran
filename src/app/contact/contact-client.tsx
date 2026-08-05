@@ -7,7 +7,6 @@ import {
   MapPin, Phone, Mail, Clock, Send, 
   MessageCircle, PhoneCall, AlertCircle, ArrowRight
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export function ContactClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +46,7 @@ export function ContactClient() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16 md:mb-24"
         >
-          <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 shadow-sm">
+          <div className="icon-container-premium mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] text-emerald-600 dark:text-emerald-400">
             <Phone className="h-10 w-10" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6 md:mb-8">
@@ -69,7 +68,7 @@ export function ContactClient() {
           >
             {/* Quick Actions (Call & WhatsApp) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              <a href="tel:+8809639000999" className="group flex items-center p-6 bg-white dark:bg-slate-900/80 backdrop-blur-md border border-light-border dark:border-slate-800 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+              <a href="tel:+8809639000999" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-14 w-14 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mr-5 shadow-inner">
                   <PhoneCall className="h-6 w-6" />
@@ -80,7 +79,7 @@ export function ContactClient() {
                 </div>
               </a>
               
-              <a href="https://wa.me/8801840601484" target="_blank" rel="noopener noreferrer" className="group flex items-center p-6 bg-white dark:bg-slate-900/80 backdrop-blur-md border border-light-border dark:border-slate-800 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+              <a href="https://wa.me/8801840601484" target="_blank" rel="noopener noreferrer" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#25D366]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-14 w-14 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] mr-5 shadow-inner">
                   <MessageCircle className="h-6 w-6" />
@@ -93,7 +92,7 @@ export function ContactClient() {
             </div>
 
             {/* Emergency & Details Card */}
-            <div className="bg-white dark:bg-slate-900/80 backdrop-blur-md border border-light-border dark:border-slate-800 rounded-3xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="glass-card rounded-3xl p-8 md:p-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
                 <MapPin className="w-48 h-48" />
               </div>
@@ -161,7 +160,7 @@ export function ContactClient() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="lg:col-span-5"
           >
-            <div className="bg-white dark:bg-slate-900/80 backdrop-blur-3xl border border-light-border dark:border-slate-800 rounded-[40px] p-8 md:p-10 shadow-2xl h-full relative overflow-hidden">
+            <div className="glass-card rounded-[40px] p-8 md:p-10 h-full relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               
               <h2 className="text-2xl md:text-3xl font-bold text-light-heading dark:text-white mb-2 relative z-10">আমাদের মেসেজ দিন</h2>
@@ -217,7 +216,7 @@ export function ContactClient() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="group relative flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-600 px-8 text-lg font-bold text-white shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:pointer-events-none disabled:opacity-70 overflow-hidden mt-6"
+                    className="btn-premium group relative flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-600 px-8 text-lg font-bold text-white disabled:pointer-events-none disabled:opacity-70 overflow-hidden mt-6"
                   >
                     {isSubmitting ? (
                       "পাঠানো হচ্ছে..."

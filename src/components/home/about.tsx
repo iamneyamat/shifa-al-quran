@@ -87,7 +87,7 @@ const cardVariants: Variants = {
 
 export function AboutSection() {
   return (
-    <section className="relative overflow-hidden bg-light-bg-alt3 dark:bg-[#020817] py-24">
+    <section className="relative overflow-hidden bg-light-bg-alt3 dark:bg-[#020817] py-16 md:py-24">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-20">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-300/20 dark:bg-blue-800/20 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3" />
@@ -111,7 +111,7 @@ export function AboutSection() {
               কেন শিফা আল কুরআনকে বেছে নিবেন?
             </h3>
             <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-amber-500 mx-auto rounded-full mb-6" />
-            <p className="text-lg text-light-text dark:text-slate-400">
+            <p className="text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
               আমরা কোনো সাধারণ চিকিৎসা কেন্দ্র নই, বরং আমরা কোরআন ও সুন্নাহর আলোকে মানুষের শারীরিক ও আধ্যাত্মিক সুস্থতা নিশ্চিত করতে বদ্ধপরিকর।
             </p>
           </motion.div>
@@ -129,12 +129,11 @@ export function AboutSection() {
             <motion.div
               key={index}
               variants={cardVariants}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="bg-light-bg-alt2/70 dark:bg-slate-900/40 backdrop-blur-xl border border-light-border/50 dark:border-slate-800/50 rounded-2xl p-5 md:p-8 shadow-premium-soft dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgb(37,99,235,0.08)] dark:hover:shadow-[0_20px_40px_rgb(37,99,235,0.15)] transition-all duration-300 relative group overflow-hidden"
+              className="glass-card rounded-2xl md:rounded-[32px] p-5 sm:p-6 md:p-8 relative group overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 dark:bg-amber-400/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="mb-4 md:mb-6 inline-flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-blue-900/30 border border-light-border dark:border-slate-700/50 text-blue-700 dark:text-amber-400 relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
+              <div className="mb-4 md:mb-6 inline-flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10 shadow-[0_0_15px_rgba(59,130,246,0.1)] dark:shadow-[0_0_15px_rgba(59,130,246,0.05)] border border-blue-100/80 dark:border-blue-800/30 text-blue-700 dark:text-amber-400 relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
                 <feature.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
               </div>
               
@@ -160,7 +159,7 @@ export function AboutSection() {
             {/* Animated Gradient Border */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-amber-400 to-blue-400 opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-700" />
             
-            <div className="relative bg-light-bg-main dark:bg-slate-950 rounded-[23px] px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left overflow-hidden">
+            <div className="relative bg-light-bg-main dark:bg-slate-950 rounded-[23px] px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left overflow-hidden">
               
               {/* Minimal Grid Pattern for a premium touch */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808015_1px,transparent_1px),linear-gradient(to_bottom,#80808015_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />

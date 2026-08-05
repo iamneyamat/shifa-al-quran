@@ -44,10 +44,10 @@ export function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 lg:gap-12"
         >
           {/* Brand Info */}
-          <motion.div variants={fadeUpItem} className="flex flex-col">
+          <motion.div variants={fadeUpItem} className="col-span-2 md:col-span-1 flex flex-col">
             <div className="flex items-center gap-3 mb-6">
               <div className="relative">
                 <div className="absolute inset-0 bg-amber-400/20 blur-md rounded-full" />
@@ -71,7 +71,7 @@ export function Footer() {
                 href="https://facebook.com/shifaquran"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-10 w-10 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-blue-50 dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm"
+                className="group flex h-11 w-11 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-blue-50 dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm"
                 aria-label="Facebook"
               >
                 <FaFacebook className="h-5 w-5" />
@@ -80,7 +80,7 @@ export function Footer() {
                 href="https://www.youtube.com/@ShifaAlQuran786"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-10 w-10 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-red-50 dark:hover:bg-slate-800 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-500 shadow-sm"
+                className="group flex h-11 w-11 items-center justify-center rounded-full bg-light-bg-alt2 dark:bg-slate-900 border border-light-border dark:border-slate-800 text-light-text transition-all hover:bg-red-50 dark:hover:bg-slate-800 hover:border-red-200 dark:hover:border-red-900/50 hover:text-red-600 dark:hover:text-red-500 shadow-sm"
                 aria-label="YouTube"
               >
                 <FaYoutube className="h-5 w-5" />
@@ -89,9 +89,9 @@ export function Footer() {
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">গুরুত্বপূর্ণ লিংক</h4>
-            <ul className="space-y-3 text-[15px] text-light-text dark:text-slate-400">
+          <motion.div variants={fadeUpItem} className="col-span-1">
+            <h4 className="font-bold mb-4 md:mb-6 text-light-heading dark:text-slate-100 text-lg">গুরুত্বপূর্ণ লিংক</h4>
+            <ul className="space-y-1 md:space-y-2 text-[15px] text-light-text dark:text-slate-400">
               {[
                 { name: "আমাদের সম্পর্কে", href: "/about" },
                 { name: "সেবাসমূহ", href: "/services" },
@@ -100,8 +100,8 @@ export function Footer() {
                 { name: "ব্লগ", href: "/blog" }
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link href={link.href} className="group relative inline-flex items-center hover:text-blue-600 dark:hover:text-amber-400 transition-colors">
-                    <span className="w-0 h-0.5 bg-blue-600 dark:bg-amber-400 absolute left-0 -bottom-1 transition-all group-hover:w-full" />
+                  <Link href={link.href} className="group relative inline-flex items-center hover:text-blue-600 dark:hover:text-amber-400 hover:translate-x-1 transition-all duration-300 ease-out py-1 md:py-2">
+                    <span className="w-0 h-0.5 bg-blue-600 dark:bg-amber-400 absolute left-0 bottom-1 transition-all group-hover:w-full" />
                     {link.name}
                   </Link>
                 </li>
@@ -110,9 +110,9 @@ export function Footer() {
           </motion.div>
 
           {/* Legal Links */}
-          <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">আইনি তথ্য</h4>
-            <ul className="space-y-3 text-[15px] text-light-text dark:text-slate-400">
+          <motion.div variants={fadeUpItem} className="col-span-1">
+            <h4 className="font-bold mb-4 md:mb-6 text-light-heading dark:text-slate-100 text-lg">আইনি তথ্য</h4>
+            <ul className="space-y-1 md:space-y-2 text-[15px] text-light-text dark:text-slate-400">
               {[
                 { name: "প্রাইভেসি পলিসি", href: "/privacy" },
                 { name: "শর্তাবলী", href: "/terms" },
@@ -120,8 +120,8 @@ export function Footer() {
                 { name: "রোগীদের নির্দেশনা", href: "/guidelines" }
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link href={link.href} className="group relative inline-flex items-center hover:text-blue-600 dark:hover:text-amber-400 transition-colors">
-                    <span className="w-0 h-0.5 bg-blue-600 dark:bg-amber-400 absolute left-0 -bottom-1 transition-all group-hover:w-full" />
+                  <Link href={link.href} className="group relative inline-flex items-center hover:text-blue-600 dark:hover:text-amber-400 hover:translate-x-1 transition-all duration-300 ease-out py-1 md:py-2">
+                    <span className="w-0 h-0.5 bg-blue-600 dark:bg-amber-400 absolute left-0 bottom-1 transition-all group-hover:w-full" />
                     {link.name}
                   </Link>
                 </li>
@@ -130,29 +130,29 @@ export function Footer() {
           </motion.div>
 
           {/* Contact Info */}
-          <motion.div variants={fadeUpItem}>
-            <h4 className="font-bold mb-6 text-light-heading dark:text-slate-100 text-lg">যোগাযোগ</h4>
-            <ul className="space-y-5 text-[15px] text-light-text dark:text-slate-400">
-              <li className="flex items-start gap-3 group">
-                <div className="h-8 w-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800/50 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+          <motion.div variants={fadeUpItem} className="col-span-2 md:col-span-1">
+            <h4 className="font-bold mb-4 md:mb-6 text-light-heading dark:text-slate-100 text-lg">যোগাযোগ</h4>
+            <ul className="space-y-2 md:space-y-4 text-[15px] text-light-text dark:text-slate-400">
+              <li className="flex items-center gap-3 group">
+                <div className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-blue-50/50 dark:bg-blue-900/20 flex items-center justify-center shrink-0 border border-blue-100/50 dark:border-blue-800/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
                   <MapPin className="h-4 w-4 text-blue-600 dark:text-amber-500" />
                 </div>
-                <span className="mt-1">#535/C Khilgaon, Dhaka</span>
+                <span>#535/C Khilgaon, Dhaka</span>
               </li>
-              <li className="flex items-start gap-3 group">
-                <div className="h-8 w-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800/50 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+              <li className="flex items-center gap-3 group">
+                <div className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-blue-50/50 dark:bg-blue-900/20 flex items-center justify-center shrink-0 border border-blue-100/50 dark:border-blue-800/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
                   <Phone className="h-4 w-4 text-blue-600 dark:text-amber-500" />
                 </div>
-                <div className="flex flex-col mt-0.5 space-y-1">
-                  <span className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors cursor-pointer">09639-000999</span>
-                  <span className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors cursor-pointer">+88 01840601484</span>
+                <div className="flex flex-col space-y-0.5">
+                  <a href="tel:09639000999" className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors inline-block">09639-000999</a>
+                  <a href="tel:+8801840601484" className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors inline-block">+88 01840601484</a>
                 </div>
               </li>
               <li className="flex items-center gap-3 group">
-                <div className="h-8 w-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800/50 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                <div className="h-9 w-9 md:h-8 md:w-8 rounded-full bg-blue-50/50 dark:bg-blue-900/20 flex items-center justify-center shrink-0 border border-blue-100/50 dark:border-blue-800/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
                   <Mail className="h-4 w-4 text-blue-600 dark:text-amber-500" />
                 </div>
-                <a href="mailto:shifaalquran11@gmail.com" className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors">
+                <a href="mailto:shifaalquran11@gmail.com" className="hover:text-blue-600 dark:hover:text-amber-400 transition-colors inline-block break-all">
                   shifaalquran11@gmail.com
                 </a>
               </li>

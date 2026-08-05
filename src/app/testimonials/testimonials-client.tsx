@@ -37,20 +37,20 @@ export function TestimonialsClient() {
       {/* Soft Background Gradients */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 max-w-7xl">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 md:pt-32 md:pb-24 max-w-7xl">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-16 md:mb-24"
         >
-          <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 shadow-sm">
+          <div className="icon-container-premium mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] text-emerald-600 dark:text-emerald-400">
             <MessageSquareQuote className="h-10 w-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight leading-tight mb-6">
             রোগীদের <span className="text-emerald-600 dark:text-emerald-400">মতামত</span>
           </h1>
-          <p className="text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
             শিফা আল কুরআন থেকে সেবা নেওয়া মানুষদের কিছু বাস্তব অভিজ্ঞতা।
           </p>
         </motion.div>
@@ -63,7 +63,7 @@ export function TestimonialsClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md p-6 md:p-10 rounded-2xl md:rounded-[32px] shadow-sm border border-light-border dark:border-slate-800 flex flex-col h-full group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+              className="glass-card flex flex-col h-full p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
               
@@ -76,7 +76,7 @@ export function TestimonialsClient() {
                 &quot;{t.review}&quot;
               </p>
               <div className="relative z-10 border-t border-light-border dark:border-slate-800/50 pt-6 mt-auto">
-                <p className="font-extrabold text-light-heading dark:text-white text-lg">{t.name}</p>
+                <p className="font-extrabold text-light-heading dark:text-white text-[17px] md:text-xl">{t.name}</p>
                 <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">{t.location}</p>
               </div>
             </motion.div>

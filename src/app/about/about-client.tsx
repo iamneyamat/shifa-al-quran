@@ -173,11 +173,11 @@ export function AboutClient() {
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl p-8 md:p-12 rounded-[40px] border border-white dark:border-slate-800 shadow-premium-soft dark:shadow-none relative overflow-hidden group hover:-translate-y-2 transition-all duration-500"
+              className="glass-card p-8 md:p-12 rounded-[40px] relative group overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
               
-              <div className="h-16 w-16 md:h-20 md:w-20 bg-emerald-50 dark:bg-emerald-900/30 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 shadow-sm group-hover:scale-110 transition-transform duration-500">
+              <div className="icon-container-premium h-16 w-16 md:h-20 md:w-20 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
                 <Activity className="h-8 w-8 md:h-10 md:w-10" strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-4 tracking-tight">আমাদের লক্ষ্য (Mission)</h3>
@@ -191,11 +191,11 @@ export function AboutClient() {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl p-8 md:p-12 rounded-[40px] border border-white dark:border-slate-800 shadow-premium-soft dark:shadow-none relative overflow-hidden group hover:-translate-y-2 transition-all duration-500"
+              className="glass-card p-8 md:p-12 rounded-[40px] relative group overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
               
-              <div className="h-16 w-16 md:h-20 md:w-20 bg-blue-50 dark:bg-blue-900/30 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50 shadow-sm group-hover:scale-110 transition-transform duration-500">
+              <div className="h-16 w-16 md:h-20 md:w-20 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-800/30 shadow-[0_0_15px_rgba(59,130,246,0.1)] bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
                 <Star className="h-8 w-8 md:h-10 md:w-10" strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-4 tracking-tight">আমাদের উদ্দেশ্য (Vision)</h3>
@@ -208,7 +208,7 @@ export function AboutClient() {
       </section>
 
       {/* 3. Statistics Bar - Premium Immersive Gradient */}
-      <section className="py-16 md:py-28 relative overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
         
@@ -236,11 +236,11 @@ export function AboutClient() {
       </section>
 
       {/* 4. Core Values */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">আমাদের মূলনীতি</h2>
-            <p className="text-light-text dark:text-slate-400 text-lg md:text-xl">যে বিষয়গুলোতে আমরা কখনোই আপস করি না</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">আমাদের মূলনীতি</h2>
+            <p className="text-light-text dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">যে বিষয়গুলোতে আমরা কখনোই আপস করি না</p>
           </div>
 
           <motion.div 
@@ -254,9 +254,9 @@ export function AboutClient() {
               <motion.div 
                 key={idx}
                 variants={fadeUp}
-                className="bg-white dark:bg-slate-900/60 p-5 md:p-8 rounded-2xl md:rounded-[32px] border border-light-border/60 dark:border-slate-800 text-center hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-all duration-300 group"
+                className="glass-card p-5 md:p-8 rounded-2xl md:rounded-[32px] text-center group"
               >
-                <div className="h-12 w-12 md:h-20 md:w-20 bg-light-bg-alt1 dark:bg-slate-800 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-sm border border-light-border dark:border-slate-700 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-transform duration-500">
+                <div className="icon-container-premium h-14 w-14 md:h-20 md:w-20 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
                   <val.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
                 </div>
                 <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-2 md:mb-3 tracking-tight">{val.title}</h4>
@@ -268,7 +268,7 @@ export function AboutClient() {
       </section>
 
       {/* 5. Our Commitment Section */}
-      <section className="py-16 md:py-28 bg-light-bg-alt2 dark:bg-slate-950 border-y border-light-border/50 dark:border-slate-800 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-light-bg-alt2 dark:bg-slate-950 border-y border-light-border/50 dark:border-slate-800 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             {/* Visual Side */}
@@ -297,7 +297,7 @@ export function AboutClient() {
               variants={staggerContainer}
               className="lg:w-7/12 w-full"
             >
-              <motion.h2 variants={fadeUp} className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 tracking-tight">
+              <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">
                 আমাদের প্রতিশ্রুতি
               </motion.h2>
               
@@ -319,7 +319,7 @@ export function AboutClient() {
       </section>
 
       {/* 6. Treatment Philosophy */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -332,19 +332,19 @@ export function AboutClient() {
             </div>
             <h3 className="text-2xl md:text-4xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 mt-4 tracking-tight">আমাদের বিশ্বাস ও চিকিৎসা দর্শন</h3>
             <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed italic">
-              "আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা কেবল কুরআন ও সুন্নাহর আলোকে একটি <strong>উসিলা বা মাধ্যম</strong> হিসেবে কাজ করি। 
-              <span className="block mt-6 font-extrabold text-emerald-700 dark:text-emerald-400 text-2xl md:text-4xl not-italic tracking-tight">রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।</span>"
+              &quot;আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা কেবল কুরআন ও সুন্নাহর আলোকে একটি <strong>উসিলা বা মাধ্যম</strong> হিসেবে কাজ করি। 
+              <span className="block mt-6 font-extrabold text-emerald-700 dark:text-emerald-400 text-2xl md:text-4xl not-italic tracking-tight">রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।</span>&quot;
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* 7. Treatment Timeline */}
-      <section className="py-16 md:py-28 bg-light-bg-alt1 dark:bg-[#020817] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-light-bg-alt1 dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">আমাদের চিকিৎসা পদ্ধতি</h2>
-            <p className="text-light-text dark:text-slate-400 text-lg md:text-xl">ধাপে ধাপে একটি পরিপূর্ণ ও বিশুদ্ধ চিকিৎসা প্রক্রিয়া</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">আমাদের চিকিৎসা পদ্ধতি</h2>
+            <p className="text-light-text dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">ধাপে ধাপে একটি পরিপূর্ণ ও বিশুদ্ধ চিকিৎসা প্রক্রিয়া</p>
           </div>
 
           <div className="relative">
@@ -370,7 +370,7 @@ export function AboutClient() {
                   </div>
 
                   {/* Content Card */}
-                  <div className="ml-16 md:ml-0 md:w-[45%] bg-white dark:bg-slate-900/80 p-6 md:p-10 rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] dark:group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)] transition-all duration-300">
+                  <div className="ml-16 md:ml-0 md:w-[45%] glass-card p-6 md:p-10 rounded-[32px]">
                     <h4 className="text-xl md:text-2xl font-bold text-emerald-700 dark:text-emerald-400 mb-3 md:mb-4 tracking-tight">{step.title}</h4>
                     <p className="text-light-text dark:text-slate-300 text-base md:text-lg leading-relaxed">
                       {step.description}
@@ -384,10 +384,10 @@ export function AboutClient() {
       </section>
 
       {/* 8. FAQ Preview */}
-      <section className="py-16 md:py-28 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight">সাধারণ জিজ্ঞাসা (FAQ)</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">সাধারণ জিজ্ঞাসা (FAQ)</h2>
           </div>
 
           <motion.div 
@@ -401,9 +401,9 @@ export function AboutClient() {
               <motion.div 
                 key={idx}
                 variants={fadeUp}
-                className="bg-light-bg-alt1 dark:bg-slate-900/40 p-5 md:p-10 rounded-2xl md:rounded-[32px] border border-light-border dark:border-slate-800 shadow-sm hover:-translate-y-1 transition-transform"
+                className="glass-card p-5 md:p-10 rounded-2xl md:rounded-[32px]"
               >
-                <div className="bg-blue-100 dark:bg-blue-900/40 w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-800/30 shadow-[0_0_15px_rgba(59,130,246,0.1)] bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10">
                   <HelpCircle className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
                 <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-3 md:mb-4 tracking-tight">{faq.q}</h4>
@@ -415,7 +415,7 @@ export function AboutClient() {
       </section>
 
       {/* 9. Final CTA */}
-      <section className="py-16 md:py-28 relative overflow-hidden bg-light-bg-alt2 dark:bg-[#020817]">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-light-bg-alt2 dark:bg-[#020817]">
         <div className="container mx-auto px-4 max-w-5xl">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -427,16 +427,16 @@ export function AboutClient() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
             
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 md:mb-8 leading-tight tracking-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">
                 আপনার সুস্থতার যাত্রা আজই শুরু করুন
               </h2>
-              <p className="text-emerald-50 text-lg md:text-2xl max-w-3xl mx-auto mb-10 md:mb-12 opacity-90 leading-relaxed">
+              <p className="text-emerald-50 text-base md:text-lg max-w-3xl mx-auto mb-8 md:mb-10 opacity-90 leading-relaxed text-center">
                 সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং পরিবারকে নিরাপদে রাখুন।
               </p>
               
               <Link 
                 href="/appointment"
-                className="inline-flex items-center gap-3 bg-white text-emerald-700 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-lg md:text-xl hover:bg-emerald-50 transition-colors duration-300 shadow-lg hover:shadow-xl active:scale-95"
+                className="btn-premium inline-flex items-center gap-2 md:gap-3 bg-white text-emerald-700 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-emerald-50"
               >
                 অ্যাপয়েন্টমেন্ট নিন
                 <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />

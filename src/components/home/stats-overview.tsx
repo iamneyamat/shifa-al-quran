@@ -59,7 +59,7 @@ const statsData = [
 
 export function StatsOverview() {
   return (
-    <section className="relative overflow-hidden py-16 md:py-28">
+    <section className="relative overflow-hidden py-16 md:py-24">
       {/* Immersive Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
@@ -81,7 +81,7 @@ export function StatsOverview() {
             <h2 className="text-sm font-bold tracking-widest uppercase text-amber-300 mb-3">
               আমাদের সংক্ষিপ্ত পরিচিতি
             </h2>
-            <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight drop-shadow-md">
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-tight drop-shadow-md">
               আস্থা, অভিজ্ঞতা ও সেবার পরিসংখ্যান
             </h3>
             <p className="text-base md:text-lg text-emerald-50 max-w-2xl mx-auto leading-relaxed opacity-90">
@@ -92,31 +92,29 @@ export function StatsOverview() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {statsData.map((stat, index) => (
+          {statsData.map((stat) => (
             <motion.div
               key={stat.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.15, duration: 0.7, ease: "easeOut" }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="flex flex-col h-full bg-white/10 backdrop-blur-md border border-white/20 rounded-[32px] p-8 shadow-2xl hover:shadow-[0_20px_40px_rgb(0,0,0,0.3)] hover:bg-white/15 transition-all duration-300 relative overflow-hidden group"
+              className="flex flex-col h-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl md:rounded-[32px] p-6 sm:p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.3)] hover:-translate-y-2 hover:bg-white/15 transition-all duration-500 ease-out relative overflow-hidden group"
             >
               {/* Subtle hover glow inside card */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-300/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 border border-white/30 text-white shadow-sm relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
-                <stat.icon className="h-7 w-7" />
+              <div className="mb-6 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/20 to-white/5 border border-white/30 text-white shadow-[0_0_20px_rgba(255,255,255,0.15)] relative z-10 group-hover:scale-110 group-hover:brightness-110 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] transition-all duration-500 ease-out">
+                <stat.icon className="h-8 w-8 md:h-10 md:w-10" strokeWidth={1.5} />
               </div>
               
               <div className="flex flex-col flex-grow relative z-10">
                 {stat.counter ? (
-                  <h4 className="text-4xl md:text-5xl font-extrabold text-white mb-2 flex items-center drop-shadow-sm">
-                    <AnimatedCounter value={stat.counter} />
-                    <span className="text-amber-300 ml-1">{stat.suffix}</span>
+                  <h4 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-3 flex items-center drop-shadow-lg tracking-tight">
+                    <span className="group-hover:text-amber-200 transition-colors duration-300"><AnimatedCounter value={stat.counter} /></span>
+                    <span className="text-amber-300 ml-1 group-hover:scale-110 transition-transform duration-300 inline-block">{stat.suffix}</span>
                   </h4>
                 ) : (
-                  <h4 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-sm">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 drop-shadow-md">
                     {stat.title}
                   </h4>
                 )}
@@ -127,7 +125,7 @@ export function StatsOverview() {
                   </p>
                 )}
                 
-                <p className="text-[14px] md:text-[15px] leading-relaxed text-emerald-50 mt-auto opacity-80 group-hover:opacity-100 transition-opacity">
+                <p className="text-[15px] md:text-base leading-relaxed text-emerald-50 mt-auto font-medium opacity-90 group-hover:opacity-100 transition-opacity">
                   {stat.description}
                 </p>
               </div>

@@ -3,10 +3,9 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Clock, User, ArrowLeft, Share2, MessageCircle, Link2, ChevronRight } from "lucide-react";
+import { Clock, User, ArrowLeft, Link2, ChevronRight } from "lucide-react";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { BlogPost, blogPosts } from "@/lib/blog-data";
-import { cn } from "@/lib/utils";
 
 export function BlogPostClient({ post }: { post: BlogPost }) {
   const [copied, setCopied] = React.useState(false);

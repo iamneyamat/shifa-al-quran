@@ -6,9 +6,12 @@ import {
   MapPin, 
   Clock, 
   Video,
-  MessageCircle
+  MessageCircle,
+  CalendarHeart
 } from "lucide-react";
+import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
@@ -93,19 +96,19 @@ export function Hero() {
               <h1 
                 dir="rtl" 
                 lang="ar" 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-tight tracking-normal text-light-heading dark:text-slate-100 drop-shadow-md font-arabic"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-tight tracking-normal text-light-heading dark:text-slate-100 drop-shadow-md font-arabic px-2"
               >
                 وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِلْمُؤْمِنِينَ
               </h1>
               
               <div className="flex flex-col items-center gap-3 mt-2">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-light-text dark:text-slate-300 max-w-3xl leading-relaxed drop-shadow-sm text-center">
+                <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-light-text dark:text-slate-300 max-w-3xl leading-relaxed drop-shadow-sm text-center px-4">
                   আমি <span className="text-blue-700 dark:text-blue-400 font-extrabold">কুরআনে</span> এমন বিষয় নাযিল করি যা মুমিনদের জন্য <span className="text-amber-600 dark:text-amber-400 font-extrabold">আরোগ্য (শিফা)</span> ও <span className="text-amber-600 dark:text-amber-400 font-extrabold">রহমত</span>
                 </h2>
                 
                 {/* Compact Pill Badge for Surah */}
-                <div className="inline-flex items-center justify-center px-4 py-1 rounded-full bg-light-bg-alt2/80 dark:bg-slate-800/80 border border-light-border/50 dark:border-slate-700/50 shadow-sm backdrop-blur-sm mt-2">
-                  <p className="text-xs md:text-sm font-semibold text-light-text dark:text-slate-400">
+                <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-light-bg-alt2/80 dark:bg-slate-800/80 border border-light-border/50 dark:border-slate-700/50 shadow-sm backdrop-blur-sm mt-4">
+                  <p className="text-sm font-bold text-light-text dark:text-slate-400">
                     — সূরা আল-ইসরা : ৮২
                   </p>
                 </div>
@@ -117,41 +120,56 @@ export function Hero() {
               initial="hidden"
               animate="visible"
               variants={fadeUpVariants}
-              className="mx-auto max-w-2xl text-[15px] md:text-base text-light-text dark:text-slate-400 leading-relaxed"
+              className="mx-auto max-w-3xl text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed mt-6 mb-10 font-medium px-4"
             >
               শিফা আল কুরআন - এ আমরা সুন্নাহ সম্মত উপায়ে রুকইয়াহ শারইয়াহ এর মাধ্যমে জাদুটোনা, বদনজর, জিনগত সমস্যা এবং বিভিন্ন শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান করে থাকি।
             </motion.p>
+            
+            <motion.div 
+              custom={2}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUpVariants}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mx-auto sm:max-w-none px-4"
+            >
+              <Link href="/appointment" className="btn-premium flex h-14 w-full sm:w-auto items-center justify-center gap-2 rounded-full px-8 text-[15px] font-bold text-emerald-700 bg-white hover:bg-emerald-50 transition-colors">
+                <CalendarHeart className="h-5 w-5" />
+                <span>অ্যাপয়েন্টমেন্ট নিন</span>
+              </Link>
+              <Link href="/services" className="glass-card flex h-14 w-full sm:w-auto items-center justify-center gap-2 rounded-full px-8 text-[15px] font-bold text-light-heading dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <span>আমাদের সেবাসমূহ</span>
+              </Link>
+            </motion.div>
             
           </div>
         </div>
       </div>
 
       {/* 3. Floating Information Card */}
-      <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 -mt-24 lg:-mt-32 mb-16">
+      <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 -mt-24 lg:-mt-28 mb-16">
         <motion.div
-          custom={2}
+          custom={3}
           initial="hidden"
           animate="visible"
           variants={fadeUpVariants}
-          className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl border border-light-border/60 dark:border-slate-700/60 rounded-[32px] shadow-premium-soft dark:shadow-none p-6 sm:p-8 lg:p-10 max-w-6xl mx-auto"
+          className="glass-card rounded-3xl md:rounded-[32px] p-4 sm:p-8 lg:p-10 max-w-6xl mx-auto shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] border border-white/40 dark:border-slate-700/50"
         >
-          <div className="flex flex-col md:flex-row w-full divide-y md:divide-y-0 md:divide-x divide-light-border/50 dark:divide-slate-800">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-x-2 gap-y-8 md:gap-x-0 md:gap-y-0 divide-y-0 md:divide-x divide-light-border/50 dark:divide-slate-800/60">
             {infoData.map((info, idx) => (
               <div 
                 key={idx} 
-                className={`flex flex-col items-center justify-center text-center group flex-1 px-2 lg:px-4 py-6 md:py-0 ${
-                  idx === 0 ? 'pt-0 md:pt-0' : ''
-                } ${
-                  idx === infoData.length - 1 ? 'pb-0 md:pb-0' : ''
-                }`}
+                className={cn(
+                  "flex flex-col items-center justify-start text-center group px-2 lg:px-4",
+                  idx === 4 ? "col-span-2 md:col-span-1" : ""
+                )}
               >
-                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-amber-500 group-hover:scale-110 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-all duration-300">
-                  <info.icon className="h-5 w-5" />
+                <div className="icon-container-premium mb-5 inline-flex items-center justify-center rounded-2xl text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-300 w-14 h-14 shadow-sm">
+                  <info.icon className="h-6 w-6" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[13px] font-bold text-light-text dark:text-slate-400 uppercase tracking-wider mb-1">
+                <h3 className="text-[13px] font-bold text-light-text dark:text-slate-400 uppercase tracking-widest mb-2">
                   {info.title}
                 </h3>
-                <p className="text-[15px] font-semibold text-light-heading dark:text-slate-100">
+                <p className="text-[15px] font-extrabold text-light-heading dark:text-slate-100 leading-snug">
                   {info.details}
                 </p>
               </div>

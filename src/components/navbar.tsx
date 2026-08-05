@@ -43,7 +43,7 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-light-border/50 dark:border-slate-800/50 bg-light-bg-alt2/70 dark:bg-slate-950/70 backdrop-blur-xl supports-[backdrop-filter]:bg-light-bg-alt2/60 dark:supports-[backdrop-filter]:bg-slate-950/60 shadow-sm transition-all duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-light-border/50 dark:border-slate-800/50 bg-white/80 dark:bg-[#020817]/80 backdrop-blur-xl shadow-[0_4px_30px_rgb(0,0,0,0.03)] dark:shadow-[0_4px_30px_rgb(0,0,0,0.1)] transition-all duration-500 ease-out">
       {/* Subtle Islamic Geometric Pattern Overlay */}
       <div 
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
@@ -123,7 +123,7 @@ export function Navbar() {
               >
                 <Link
                   href="/appointment"
-                  className="relative inline-flex h-10 items-center justify-center overflow-hidden rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all hover:bg-emerald-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+                  className="btn-premium relative inline-flex h-10 items-center justify-center overflow-hidden rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white"
                 >
                   <span className="absolute inset-0 w-full h-full bg-gradient-to-tr from-transparent via-white/20 to-transparent -translate-x-full hover:animate-[shimmer_1.5s_infinite]" />
                   অ্যাপয়েন্টমেন্ট
@@ -138,7 +138,7 @@ export function Navbar() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(!isOpen)}
-              className="relative inline-flex items-center justify-center rounded-lg p-2 text-light-text bg-light-bg-alt2/50 border border-light-border dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-200 backdrop-blur-sm transition-colors hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30"
+              className="relative inline-flex items-center justify-center h-11 w-11 rounded-lg text-light-text bg-light-bg-alt2/50 border border-light-border dark:bg-slate-900/50 dark:border-slate-800 dark:text-slate-200 backdrop-blur-sm transition-colors hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30"
               aria-label="Toggle Menu"
             >
               <AnimatePresence mode="wait">
@@ -196,7 +196,7 @@ export function Navbar() {
                 <span className="text-lg font-bold text-light-heading dark:text-white">মেনু</span>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 -mr-2 rounded-full bg-light-bg-alt1 dark:bg-slate-900 text-light-text dark:text-slate-400 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-slate-800 transition-colors"
+                  className="h-11 w-11 -mr-2 rounded-full flex items-center justify-center bg-light-bg-alt1 dark:bg-slate-900 text-light-text dark:text-slate-400 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-slate-800 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -217,7 +217,7 @@ export function Navbar() {
                         <Link
                           href={route.href}
                           className={cn(
-                            "block rounded-xl px-4 py-2.5 text-[15px] font-semibold transition-all relative overflow-hidden group",
+                            "block rounded-xl px-4 py-3 text-[15px] font-semibold transition-all relative overflow-hidden group",
                             isActive
                               ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400"
                               : "text-light-text dark:text-slate-300 hover:bg-light-bg-alt2 dark:hover:bg-slate-900/50"
@@ -243,7 +243,7 @@ export function Navbar() {
               <div className="p-4 border-t border-light-border/50 dark:border-slate-800/50 bg-light-bg-alt1 dark:bg-slate-950/50">
                 <Link
                   href="/appointment"
-                  className="flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-3 text-[15px] font-bold text-white shadow-lg shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98]"
+                  className="btn-premium flex w-full min-h-[44px] items-center justify-center rounded-xl bg-emerald-600 px-4 py-3 text-[15px] font-bold text-white"
                 >
                   অ্যাপয়েন্টমেন্ট নিন
                 </Link>

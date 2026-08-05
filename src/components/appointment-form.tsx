@@ -59,6 +59,7 @@ export function AppointmentForm() {
   });
 
   // Calculate progress
+  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch();
   const fields = ["name", "phone", "age", "gender", "date", "problem"] as const;
   const completedFields = fields.filter(field => {
@@ -89,7 +90,7 @@ export function AppointmentForm() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="w-24 h-24 md:w-32 md:h-32 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto"
+            className="icon-container-premium w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto"
           >
             <CheckCircle2 className="w-12 h-12 md:w-16 md:h-16 text-emerald-600 dark:text-emerald-400" />
           </motion.div>
@@ -119,7 +120,7 @@ export function AppointmentForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           onClick={() => setIsSuccess(false)}
-          className="inline-flex items-center gap-2 h-14 rounded-full bg-emerald-600 px-8 font-bold text-white transition-all hover:bg-emerald-700 hover:shadow-lg active:scale-95"
+          className="btn-premium inline-flex items-center gap-2 h-14 rounded-full bg-emerald-600 px-8 font-bold text-white hover:bg-emerald-700"
         >
           <CalendarHeart className="w-5 h-5" />
           নতুন বুকিং করুন
@@ -349,7 +350,7 @@ export function AppointmentForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-8 text-lg font-bold text-white shadow-lg transition-all hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 overflow-hidden"
+            className="btn-premium group relative flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-8 text-lg font-bold text-white hover:from-emerald-700 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 overflow-hidden"
           >
             {isSubmitting ? (
               <>
