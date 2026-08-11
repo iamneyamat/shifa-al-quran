@@ -138,9 +138,9 @@ export function ServicesClient() {
         <div className="container relative mx-auto px-4 sm:px-6 max-w-6xl z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-white">
             {[
-              { label: "সমাধানকৃত কেস", value: 5000, suffix: "+" },
-              { label: "অভিজ্ঞ রাকি", value: 15, suffix: "+" },
-              { label: "পারিবারিক কাউন্সেলিং", value: 1200, suffix: "+" },
+              { label: "সমাধানকৃত কেস", value: 20000, suffix: "+" },
+              { label: "অভিজ্ঞ রাকি", value: 20, suffix: "+" },
+              { label: "পারিবারিক কাউন্সেলিং", value: 5000, suffix: "+" },
               { label: "সন্তুষ্ট রোগী", value: 98, suffix: "%" }
             ].map((stat, idx) => (
               <motion.div 
