@@ -9,23 +9,24 @@ import {
   User, 
   Phone, 
   CalendarDays, 
-  UserPlus, 
   AlignLeft,
   CheckCircle2,
   CalendarHeart,
   ArrowRight,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Clock,
+  MessageCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "নাম কমপক্ষে ২ অক্ষরের হতে হবে" }),
+  fullName: z.string().min(2, { message: "নাম কমপক্ষে ২ অক্ষরের হতে হবে" }),
   phone: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/, { message: "সঠিক বাংলাদেশী ফোন নাম্বার দিন" }),
-  age: z.string().min(1, { message: "বয়স উল্লেখ করুন" }),
-  gender: z.enum(["male", "female"], { message: "লিঙ্গ নির্বাচন করুন" }),
-  problem: z.string().min(10, { message: "সমস্যার বিস্তারিত বিবরণ দিন (কমপক্ষে ১০ অক্ষর)" }),
+  whatsapp: z.string().optional(),
   date: z.string().min(1, { message: "তারিখ নির্বাচন করুন" }),
+  time: z.string().min(1, { message: "সময় নির্বাচন করুন" }),
+  problem: z.string().min(10, { message: "সমস্যার বিস্তারিত বিবরণ দিন (কমপক্ষে ১০ অক্ষর)" }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -46,6 +47,8 @@ const fadeUp = {
 export function AppointmentForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [appointmentId, setAppointmentId] = React.useState<string | null>(null);
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
 
   const {
     register,
@@ -61,7 +64,7 @@ export function AppointmentForm() {
   // Calculate progress
   // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch();
-  const fields = ["name", "phone", "age", "gender", "date", "problem"] as const;
+  const fields = ["fullName", "phone", "date", "time", "problem"] as const;
   const completedFields = fields.filter(field => {
     const val = formValues[field];
     return val && val.length > 0 && !errors[field];
@@ -70,12 +73,45 @@ export function AppointmentForm() {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log("Form submitted:", data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
+    setSubmitError(null);
+    try {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !anonKey) {
+        throw new Error("সিস্টেম কনফিগারেশন ত্রুটি।");
+      }
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/submit-appointment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${anonKey}`,
+          "apikey": anonKey,
+        },
+        body: JSON.stringify({
+          ...data,
+          type: "General",
+          client: "website"
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।");
+      }
+
+      setAppointmentId(result.appointmentId);
+      setIsSuccess(true);
+      reset();
+    } catch (error: unknown) {
+      console.error("Submission error:", error);
+      const errorMessage = error instanceof Error ? error.message : "অজানা ত্রুটি। আবার চেষ্টা করুন।";
+      setSubmitError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
@@ -110,10 +146,23 @@ export function AppointmentForm() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-lg md:text-xl text-light-text dark:text-slate-300 max-w-md mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-xl text-light-text dark:text-slate-300 max-w-md mx-auto mb-6 leading-relaxed"
         >
-          আপনার অ্যাপয়েন্টমেন্ট রিকোয়েস্ট সফলভাবে জমা হয়েছে। আমাদের প্রতিনিধি দ্রুতই আপনার সাথে যোগাযোগ করবেন ইনশাআল্লাহ।
+          আপনার অ্যাপয়েন্টমেন্ট সফলভাবে গ্রহণ করা হয়েছে। আমাদের প্রতিনিধি দ্রুতই আপনার সাথে যোগাযোগ করবেন ইনশাআল্লাহ।
         </motion.p>
+        
+        {appointmentId && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="mb-10 p-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-800/50"
+          >
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-1 font-medium">অ্যাপয়েন্টমেন্ট আইডি</p>
+            <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 tracking-wider">{appointmentId}</p>
+            <p className="text-xs text-emerald-500 mt-2">ভবিষ্যতের যোগাযোগের জন্য আইডিটি সংরক্ষণ করুন</p>
+          </motion.div>
+        )}
         
         <motion.button
           initial={{ opacity: 0, y: 20 }}
@@ -160,7 +209,7 @@ export function AppointmentForm() {
           
           {/* Name Field */}
           <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="name" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
+            <label htmlFor="fullName" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
               সম্পূর্ণ নাম <span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -168,25 +217,25 @@ export function AppointmentForm() {
                 <User className="h-5 w-5" />
               </div>
               <input
-                id="name"
+                id="fullName"
                 type="text"
                 placeholder="আপনার নাম লিখুন"
-                {...register("name")}
+                {...register("fullName")}
                 className={cn(
                   "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                  errors.name ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  errors.fullName ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
                 )}
               />
-              {formValues.name && !errors.name && (
+              {formValues.fullName && !errors.fullName && (
                 <div className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
               )}
             </div>
             <AnimatePresence>
-              {errors.name && (
+              {errors.fullName && (
                 <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.name.message}
+                  <AlertCircle className="w-4 h-4" /> {errors.fullName.message}
                 </motion.p>
               )}
             </AnimatePresence>
@@ -226,61 +275,62 @@ export function AppointmentForm() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Age Field */}
+          {/* WhatsApp Field */}
           <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="age" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              বয়স <span className="text-red-500">*</span>
+            <label htmlFor="whatsapp" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
+              হোয়াটসঅ্যাপ নাম্বার <span className="text-slate-400 font-normal text-sm">(ঐচ্ছিক)</span>
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                <UserPlus className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" />
               </div>
               <input
-                id="age"
-                type="number"
-                placeholder="আপনার বয়স"
-                {...register("age")}
+                id="whatsapp"
+                type="tel"
+                placeholder="01XXXXXXXXX"
+                {...register("whatsapp")}
                 className={cn(
                   "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                  errors.age ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  errors.whatsapp ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
                 )}
               />
             </div>
             <AnimatePresence>
-              {errors.age && (
+              {errors.whatsapp && (
                 <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.age.message}
+                  <AlertCircle className="w-4 h-4" /> {errors.whatsapp.message}
                 </motion.p>
               )}
             </AnimatePresence>
           </motion.div>
-
-          {/* Gender Field */}
+          
+          {/* Time Field */}
           <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="gender" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              লিঙ্গ <span className="text-red-500">*</span>
+            <label htmlFor="time" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
+              সম্ভাব্য সময় <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <select
-                id="gender"
-                {...register("gender")}
+                id="time"
+                {...register("time")}
                 className={cn(
                   "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 px-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 appearance-none",
-                  errors.gender ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  errors.time ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
                 )}
               >
                 <option value="">নির্বাচন করুন</option>
-                <option value="male">পুরুষ</option>
-                <option value="female">মহিলা</option>
+                <option value="Morning">সকাল (১০টা - দুপুর ১টা)</option>
+                <option value="Afternoon">বিকাল (৩টা - সন্ধ্যা ৬টা)</option>
+                <option value="Evening">সন্ধ্যা (৭টা - রাত ১০টা)</option>
               </select>
               <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                <Clock className="w-4 h-4" />
               </div>
             </div>
             <AnimatePresence>
-              {errors.gender && (
+              {errors.time && (
                 <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.gender.message}
+                  <AlertCircle className="w-4 h-4" /> {errors.time.message}
                 </motion.p>
               )}
             </AnimatePresence>
@@ -344,6 +394,24 @@ export function AppointmentForm() {
             )}
           </AnimatePresence>
         </motion.div>
+
+        {/* Error Alert */}
+        <AnimatePresence>
+          {submitError && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-start gap-3"
+            >
+              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-red-700 dark:text-red-400 font-bold mb-1">দুঃখিত, সমস্যা হয়েছে</h4>
+                <p className="text-sm text-red-600 dark:text-red-300">{submitError}</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Submit Button */}
         <motion.div variants={fadeUp} className="pt-4">
