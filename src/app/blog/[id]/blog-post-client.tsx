@@ -5,19 +5,35 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Clock, User, ArrowLeft, Link2, ChevronRight } from "lucide-react";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
-import { BlogPost, blogPosts } from "@/lib/blog-data";
+import ReactMarkdown from "react-markdown";
 
-export function BlogPostClient({ post }: { post: BlogPost }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { post: any, relatedPosts: any[] }) {
   const [copied, setCopied] = React.useState(false);
 
-  const relatedPosts = blogPosts
-    .filter(p => p.category === post.category && p.id !== post.id)
-    .slice(0, 3);
-    
-  if (relatedPosts.length === 0) {
-    const fallbacks = blogPosts.filter(p => p.id !== post.id).slice(0, 3);
-    relatedPosts.push(...fallbacks);
-  }
+  // Format data safely
+  const post = {
+    id: rawPost.id,
+    slug: rawPost.slug,
+    title: rawPost.title,
+    excerpt: rawPost.excerpt,
+    content: rawPost.content,
+    category: rawPost.category?.name || 'Uncategorized',
+    date: new Date(rawPost.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+    author: 'শিফা আল কুরআন',
+    readTime: '৫ মিনিট',
+    cover_image_url: rawPost.cover_image_url
+  };
+
+  const relatedPosts = rawRelated.map(rp => ({
+    id: rp.id,
+    slug: rp.slug,
+    title: rp.title,
+    category: rp.category?.name || 'Uncategorized',
+    date: new Date(rp.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+    readTime: '৫ মিনিট',
+    cover_image_url: rp.cover_image_url
+  }));
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
@@ -100,10 +116,16 @@ export function BlogPostClient({ post }: { post: BlogPost }) {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="w-full h-64 md:h-96 rounded-[32px] md:rounded-[40px] bg-slate-200 dark:bg-slate-800 mb-12 md:mb-16 overflow-hidden relative shadow-xl"
         >
-          <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
-            <span className="text-3xl font-bold opacity-20">শিফা আল কুরআন</span>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent mix-blend-overlay" />
+          {post.cover_image_url ? (
+            <img src={post.cover_image_url} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
+                <span className="text-3xl font-bold opacity-20">শিফা আল কুরআন</span>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent mix-blend-overlay" />
+            </>
+          )}
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
@@ -119,14 +141,9 @@ export function BlogPostClient({ post }: { post: BlogPost }) {
               {post.excerpt}
             </div>
             
-            {/* Simple Markdown Renderer for the `content` string */}
-            <div className="space-y-6 text-light-text dark:text-slate-300 leading-relaxed" dangerouslySetInnerHTML={{
-              __html: post.content
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/### (.*)/g, '<h3 class="text-2xl font-bold text-light-heading dark:text-white mt-10 mb-4">$1</h3>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-light-heading dark:text-white">$1</strong>')
-                .replace(/^(.+)/, '<p>$1') + '</p>'
-            }} />
+            <div className="space-y-6 text-light-text dark:text-slate-300 leading-relaxed">
+               <ReactMarkdown>{post.content || ''}</ReactMarkdown>
+            </div>
           </motion.article>
           
           {/* Share Sidebar */}
@@ -166,13 +183,17 @@ export function BlogPostClient({ post }: { post: BlogPost }) {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {relatedPosts.map((relatedPost) => (
-              <Link href={`/blog/${relatedPost.id}`} key={relatedPost.id} className="group block">
+              <Link href={`/blog/${relatedPost.slug}`} key={relatedPost.id} className="group block">
                 <div className="bg-white dark:bg-slate-900/80 backdrop-blur-md rounded-3xl overflow-hidden shadow-sm border border-light-border dark:border-slate-800 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 h-full flex flex-col">
                   
                   <div className="relative h-48 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
-                      <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>
-                    </div>
+                    {relatedPost.cover_image_url ? (
+                      <img src={relatedPost.cover_image_url} alt={relatedPost.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    ) : (
+                      <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
+                        <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="p-6 flex flex-col flex-grow">

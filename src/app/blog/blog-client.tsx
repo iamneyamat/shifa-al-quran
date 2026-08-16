@@ -6,25 +6,38 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Clock, User, ChevronRight, Search, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { blogPosts } from "@/lib/blog-data";
-
-const categories = ["সব", "সুন্নাহ", "মানসিক স্বাস্থ্য", "রুকইয়াহ"];
-
-export function BlogClient() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function BlogClient({ initialPosts, initialCategories }: { initialPosts: any[], initialCategories: any[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("সব");
 
-  const featuredPost = blogPosts.find(post => post.isFeatured);
+  const categories = ["সব", ...initialCategories.map(c => c.name)];
+
+  const formattedPosts = initialPosts.map(post => {
+    return {
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      category: post.category?.name || 'Uncategorized',
+      date: new Date(post.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+      author: 'শিফা আল কুরআন',
+      readTime: '৫ মিনিট', // Calculate if needed based on length
+      isFeatured: post.featured,
+      cover_image_url: post.cover_image_url
+    }
+  });
+
+  const featuredPost = formattedPosts.find(post => post.isFeatured);
   
   // Filter out featured post if it's currently being shown at top
-  // Actually, let's keep it in the list if they search, but hide if "Home" (no search/filter)
   const isDefaultView = searchQuery === "" && activeCategory === "সব";
   
-  const displayPosts = blogPosts.filter((post) => {
+  const displayPosts = formattedPosts.filter((post) => {
     if (isDefaultView && post.isFeatured) return false; // Don't show featured post twice in default view
     
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+                          (post.excerpt || "").toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === "সব" || post.category === activeCategory;
     
     return matchesSearch && matchesCategory;
@@ -101,14 +114,19 @@ export function BlogClient() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mb-16 md:mb-24"
           >
-            <Link href={`/blog/${featuredPost.id}`} className="block group">
+            <Link href={`/blog/${featuredPost.slug}`} className="block group">
               <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl rounded-[40px] border border-light-border dark:border-slate-800 shadow-xl overflow-hidden flex flex-col md:flex-row hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500">
                 <div className="md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-emerald-900/20">
-                  <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
-                    <span className="text-2xl font-bold opacity-20">শিফা আল কুরআন</span>
-                  </div>
-                  {/* Pseudo image for now since we don't have real images in public */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-blue-900/40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700" />
+                  {featuredPost.cover_image_url ? (
+                    <img src={featuredPost.cover_image_url} alt={featuredPost.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
+                        <span className="text-2xl font-bold opacity-20">শিফা আল কুরআন</span>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-blue-900/40 mix-blend-overlay group-hover:scale-105 transition-transform duration-700" />
+                    </>
+                  )}
                 </div>
                 <div className="md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
                   <div className="flex items-center gap-4 mb-6">
@@ -157,10 +175,14 @@ export function BlogClient() {
                   className="flex flex-col bg-white dark:bg-slate-900/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-sm border border-light-border dark:border-slate-800 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/5 hover:-translate-y-2 group"
                 >
                   {/* Image Section */}
-                  <Link href={`/blog/${post.id}`} className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 block">
-                    <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
-                      <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>
-                    </div>
+                  <Link href={`/blog/${post.slug}`} className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 block">
+                    {post.cover_image_url ? (
+                      <img src={post.cover_image_url} alt={post.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    ) : (
+                      <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
+                        <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                   </Link>
 
@@ -177,7 +199,7 @@ export function BlogClient() {
                     </div>
 
                     <h3 className="text-xl font-bold text-light-heading dark:text-slate-100 mb-3 leading-snug group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                      <Link href={`/blog/${post.id}`}>
+                      <Link href={`/blog/${post.slug}`}>
                         {post.title}
                       </Link>
                     </h3>
@@ -191,7 +213,7 @@ export function BlogClient() {
                         {post.date}
                       </div>
                       
-                      <Link href={`/blog/${post.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 text-sm font-bold group-hover:translate-x-1 transition-transform">
+                      <Link href={`/blog/${post.slug}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 text-sm font-bold group-hover:translate-x-1 transition-transform">
                         পড়ুন <ChevronRight className="w-4 h-4 ml-0.5" />
                       </Link>
                     </div>
