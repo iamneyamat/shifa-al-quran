@@ -183,10 +183,10 @@ export function AppointmentForm() {
           আমাদের প্রতিনিধি দ্রুত আপনার সাথে ফোনে যোগাযোগ করে সময় ও মাধ্যম নিশ্চিত করবেন ইনশাআল্লাহ।
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <button
             onClick={() => setIsSuccess(false)}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-hairline bg-surface-base px-6 py-3 text-sm font-semibold text-ink-strong transition-all hover:bg-surface-sunken"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-hairline bg-surface-base px-5 sm:px-6 py-3 text-xs sm:text-sm font-semibold text-ink-strong transition-all hover:bg-surface-sunken min-h-[44px]"
           >
             অন্য একটি অ্যাপয়েন্টমেন্ট করুন
           </button>
@@ -197,9 +197,9 @@ export function AppointmentForm() {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-sm font-bold shadow-md transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold shadow-md transition-all min-h-[44px]"
           >
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4 shrink-0" />
             <span>হোয়াটসঅ্যাপে যোগাযোগ</span>
           </a>
         </div>
@@ -214,18 +214,18 @@ export function AppointmentForm() {
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-3xl p-6 bg-gradient-to-r from-emerald-500/15 via-amber-500/10 to-teal-500/15 border border-emerald-500/30 dark:border-emerald-500/20 backdrop-blur-xl shadow-lg relative overflow-hidden"
+          className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 bg-gradient-to-r from-emerald-500/15 via-amber-500/10 to-teal-500/15 border border-emerald-500/30 dark:border-emerald-500/20 backdrop-blur-xl shadow-lg relative overflow-hidden"
         >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center shrink-0 shadow-md">
-              <Stethoscope className="w-6 h-6" />
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center shrink-0 shadow-md">
+              <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
 
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-900 dark:text-emerald-300 text-xs font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" /> সেলফ ডায়াগনোসিস সিঙ্কড
+            <div className="space-y-1 min-w-0">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-900 dark:text-emerald-300 text-[11px] sm:text-xs font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" /> <span className="truncate">সেলফ ডায়াগনোসিস সিঙ্কড</span>
               </div>
-              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-zinc-100">
+              <h4 className="text-sm sm:text-lg font-bold text-slate-900 dark:text-zinc-100 truncate">
                 {diagnosisContext.title}
               </h4>
               <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300">
@@ -242,7 +242,7 @@ export function AppointmentForm() {
         initial="hidden"
         animate="visible"
         onSubmit={handleSubmit(onSubmit)}
-        className="glass-card rounded-[2.5rem] border border-white/50 dark:border-white/10 bg-surface-raised/80 p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-2xl relative overflow-hidden space-y-8"
+        className="glass-card rounded-2xl sm:rounded-[2.5rem] border border-white/50 dark:border-white/10 bg-surface-raised/80 p-4 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-2xl relative overflow-hidden space-y-5 sm:space-y-8"
       >
         {/* Subtle Top Glass Hairline */}
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
@@ -413,22 +413,22 @@ export function AppointmentForm() {
         </motion.div>
 
         {/* Submit Button */}
-        <motion.div variants={fadeUp} className="pt-4">
+        <motion.div variants={fadeUp} className="pt-2 sm:pt-4">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative flex w-full items-center justify-center gap-3 rounded-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 dark:from-emerald-600 dark:to-emerald-500 py-4 text-base font-bold text-white shadow-xl shadow-emerald-900/30 transition-all hover:scale-[1.01] hover:shadow-2xl active:scale-[0.99] disabled:opacity-50"
+            className="group relative flex w-full items-center justify-center gap-2 sm:gap-3 rounded-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 dark:from-emerald-600 dark:to-emerald-500 py-3.5 sm:py-4 px-4 text-sm sm:text-base font-bold text-white shadow-xl shadow-emerald-900/30 transition-all hover:scale-[1.01] hover:shadow-2xl active:scale-[0.99] disabled:opacity-50 min-h-[48px]"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin shrink-0" />
                 <span>প্রসেসিং হচ্ছে...</span>
               </>
             ) : (
               <>
-                <ShieldCheck className="h-5 w-5" />
+                <ShieldCheck className="h-5 w-5 shrink-0" />
                 <span>অ্যাপয়েন্টমেন্ট বুকিং সম্পন্ন করুন</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 shrink-0" />
               </>
             )}
           </button>

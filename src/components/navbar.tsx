@@ -70,8 +70,8 @@ export function Navbar() {
         )}
       >
         {/* Brand Logo & Wordmark */}
-        <Link href="/" className="group flex shrink-0 items-center gap-2.5 rounded-full focus-visible:outline-none">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600/20 via-emerald-500/10 to-transparent p-0.5 border border-emerald-500/30 transition-transform duration-300 group-hover:scale-105">
+        <Link href="/" className="group flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-full focus-visible:outline-none min-w-0">
+          <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600/20 via-emerald-500/10 to-transparent p-0.5 border border-emerald-500/30 transition-transform duration-300 group-hover:scale-105">
             <Image
               src="/logo.png"
               alt="শিফা আল কুরআন লোগো"
@@ -80,11 +80,11 @@ export function Navbar() {
               className="h-full w-full rounded-full object-contain"
             />
           </div>
-          <div className="flex flex-col">
-            <span className="type-subtitle text-slate-900 dark:text-zinc-100 font-bold tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors text-sm sm:text-base">
+          <div className="flex flex-col min-w-0">
+            <span className="type-subtitle text-slate-900 dark:text-zinc-100 font-bold tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors text-sm sm:text-base truncate">
               শিফা আল কুরআন
             </span>
-            <span className="type-citation text-[9px] text-amber-800 dark:text-gold-ink hidden sm:block -mt-1 font-semibold">
+            <span className="type-citation text-[9px] text-amber-800 dark:text-gold-ink hidden sm:block -mt-1 font-semibold truncate">
               রুকইয়াহ শারইয়াহ সেন্টার
             </span>
           </div>
@@ -123,7 +123,7 @@ export function Navbar() {
           <span className="mx-2 h-5 w-px bg-slate-200 dark:bg-white/10" aria-hidden="true" />
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            <ThemeToggle className="h-9 w-9 rounded-full border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-white/10 text-slate-900 dark:text-zinc-100" />
             <Link 
               href="/appointment" 
               className="group inline-flex items-center gap-2 rounded-full bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 px-4 py-2 text-xs sm:text-sm font-bold text-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
@@ -135,8 +135,8 @@ export function Navbar() {
         </nav>
 
         {/* Compact Mobile Controls */}
-        <div className="flex items-center gap-2 xl:hidden">
-          <ThemeToggle />
+        <div className="flex items-center gap-2 xl:hidden shrink-0">
+          <ThemeToggle className="h-9 w-9 rounded-full border border-slate-200 dark:border-white/10 bg-slate-100/80 dark:bg-white/10 text-slate-900 dark:text-zinc-100 shadow-sm backdrop-blur-md" />
           <button
             ref={triggerRef}
             type="button"
@@ -183,7 +183,7 @@ export function Navbar() {
             : "invisible translate-x-full [transition:translate_var(--duration-exit-normal)_var(--ease-accelerate),visibility_0s_var(--duration-exit-normal)]"
         )}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-200 dark:border-white/10 px-5">
+        <div className="flex h-16 shrink-0 items-center justify-between gap-4 border-b border-slate-200 dark:border-white/10 px-5 pt-[env(safe-area-inset-top,0px)]">
           <div className="flex items-center gap-2">
             <Leaf className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
             <span className="type-subtitle text-slate-900 dark:text-zinc-100 font-bold">মেনু</span>
@@ -220,7 +220,7 @@ export function Navbar() {
           })}
         </ul>
 
-        <div className="shrink-0 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 p-4 backdrop-blur-md">
+        <div className="shrink-0 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-md">
           <Link
             href="/appointment"
             className="flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white py-3 px-4 text-center font-bold shadow-md transition-all active:scale-98"

@@ -26,8 +26,8 @@ export function Footer() {
       {/* Top ornamental border separator */}
       <div className="ornament-rule w-full" aria-hidden="true" />
 
-      <div className="shell py-14 lg:py-20">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
+      <div className="shell py-10 sm:py-14 lg:py-20 pb-28 sm:pb-14 lg:pb-20">
+        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
           {/* Brand Column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="group inline-flex items-center gap-3 rounded-lg focus-visible:outline-none">

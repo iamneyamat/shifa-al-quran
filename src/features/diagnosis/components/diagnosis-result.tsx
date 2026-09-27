@@ -83,12 +83,26 @@ export function DiagnosisResultView() {
     setIsDownloadingPdf(true);
 
     try {
+      const answersToSend =
+        userAnswers && Object.keys(userAnswers).length > 0
+          ? userAnswers
+          : (() => {
+              try {
+                const stored = sessionStorage.getItem("ruqyah_diagnosis_session");
+                if (stored) {
+                  const parsed = JSON.parse(stored);
+                  if (parsed.answers) return parsed.answers;
+                }
+              } catch {}
+              return {};
+            })();
+
       const response = await fetch("/api/diagnosis/pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           categoryId: category.id,
-          answers: userAnswers || {},
+          answers: answersToSend,
         }),
       });
 
@@ -96,17 +110,61 @@ export function DiagnosisResultView() {
         throw new Error(`Server returned ${response.status}`);
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `Shifa-Al-Quran-Assessment-Report-${category.id.toUpperCase()}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      const contentType = response.headers.get("content-type") || "";
+
+      if (contentType.includes("application/pdf")) {
+        // Direct Chromium PDF binary download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Shifa-Al-Quran-Assessment-Report-${category.id.toUpperCase()}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Defer revocation by 30 seconds to allow the browser's download manager to finish saving
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+        }, 30000);
+      } else {
+        // Serverless fallback: load self-contained vector report HTML and trigger native A4 print/PDF save
+        const data = await response.json();
+        if (data.html) {
+          const iframe = document.createElement("iframe");
+          iframe.style.position = "fixed";
+          iframe.style.right = "0";
+          iframe.style.bottom = "0";
+          iframe.style.width = "0";
+          iframe.style.height = "0";
+          iframe.style.border = "0";
+          document.body.appendChild(iframe);
+
+          const doc = iframe.contentWindow?.document;
+          if (doc) {
+            doc.open();
+            doc.write(data.html);
+            doc.close();
+
+            setTimeout(() => {
+              try {
+                iframe.contentWindow?.focus();
+                iframe.contentWindow?.print();
+              } catch (printErr) {
+                console.error("Print trigger failed:", printErr);
+              } finally {
+                setTimeout(() => {
+                  if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
+                  }
+                }, 60000);
+              }
+            }, 400);
+          }
+        }
+      }
     } catch (error) {
-      console.error("Direct Chromium PDF generation failed:", error);
+      console.error("Diagnosis PDF generation failed:", error);
       alert("রিপোর্ট তৈরি করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
       setIsDownloadingPdf(false);
@@ -124,33 +182,33 @@ export function DiagnosisResultView() {
   )}&score=${totalScore}&maxScore=${maxScore}`;
 
   return (
-    <div className="relative min-h-screen pt-28 pb-24 overflow-hidden font-sans print:pt-4 print:pb-4 print:bg-white print:text-black">
+    <div className="relative min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-24 overflow-hidden font-sans print:pt-4 print:pb-4 print:bg-white print:text-black">
       {/* Background Animated Ambient Lights (Screen Only) */}
       <div className="print:hidden absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
       <div className="print:hidden absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Navigation & Utilities Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 print:hidden">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 print:hidden">
           <Link
             href="/diagnosis"
-            className="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-zinc-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors bg-white/80 dark:bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 shadow-sm"
+            className="inline-flex items-center justify-center sm:justify-start gap-2 text-sm text-slate-700 dark:text-zinc-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors bg-white/80 dark:bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" /> ক্যাটাগরি পোর্টালে ফিরুন
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
             <button
               onClick={handleDownloadPdf}
               disabled={isDownloadingPdf}
-              className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white shadow-md transition-colors disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white shadow-md transition-colors disabled:opacity-50 cursor-pointer min-h-[40px]"
             >
               <Download className={`w-3.5 h-3.5 ${isDownloadingPdf ? "animate-pulse" : ""}`} />
               {isDownloadingPdf ? "রিপোর্ট প্রস্তুত করা হচ্ছে..." : "রিপোর্ট ডাউনলোড করুন (PDF)"}
             </button>
             <Link
               href={`/diagnosis/test?category=${category.id}`}
-              className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-500/10 hover:bg-emerald-200 dark:hover:bg-emerald-500/20 text-emerald-900 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-2 text-xs font-bold px-4 py-2.5 rounded-full bg-emerald-100 dark:bg-emerald-500/10 hover:bg-emerald-200 dark:hover:bg-emerald-500/20 text-emerald-900 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30 transition-colors shadow-sm min-h-[40px]"
             >
               <RotateCcw className="w-3.5 h-3.5" /> পুনরায় টেস্ট করুন
             </Link>
@@ -169,13 +227,13 @@ export function DiagnosisResultView() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="rounded-3xl bg-white/80 dark:bg-zinc-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-xl dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-6 sm:p-10 mb-10 relative overflow-hidden print:border-none print:shadow-none print:bg-transparent print:p-0"
+          className="rounded-2xl sm:rounded-3xl bg-white/80 dark:bg-zinc-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-xl dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-4 sm:p-8 lg:p-10 mb-8 sm:mb-10 relative overflow-hidden print:border-none print:shadow-none print:bg-transparent print:p-0"
         >
           {/* Subtle Top Glow Bar */}
           <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-amber-400 to-emerald-500 print:hidden" />
 
           {/* Test Header */}
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/20 text-emerald-900 dark:text-emerald-400 text-xs font-bold mb-3 shadow-sm print:hidden">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> রুকইয়াহ ডায়াগনোসিস ফলাফল
             </span>
@@ -188,7 +246,7 @@ export function DiagnosisResultView() {
           </div>
 
           {/* Liquid Glass Score Gauge Section */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-12 p-6 sm:p-8 rounded-2xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 print:border-gray-300 print:bg-gray-50 print:mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center mb-8 sm:mb-12 p-4 sm:p-6 lg:p-8 rounded-2xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 print:border-gray-300 print:bg-gray-50 print:mb-6">
             {/* SVG Circular Severity Gauge */}
             <div className="md:col-span-5 flex flex-col items-center justify-center">
               <div className="relative w-44 h-44 flex items-center justify-center print:w-32 print:h-32">
@@ -296,17 +354,17 @@ export function DiagnosisResultView() {
                 বিশেষ দ্রষ্টব্য সূরা ও আয়াতসমূহ
               </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 print:grid-cols-3 print:gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 print:grid-cols-3 print:gap-2">
                 {prescription.recommendedSurahs.map((surah, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-2xl bg-slate-100/60 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 text-center flex flex-col items-center justify-center gap-2 shadow-sm print:p-2 print:border-gray-200"
+                    className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-100/60 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 text-center flex flex-col items-center justify-center gap-1.5 sm:gap-2 shadow-sm print:p-2 print:border-gray-200"
                   >
-                    <BookOpen className="w-6 h-6 text-amber-600 dark:text-amber-400/80 mb-1 print:w-4 print:h-4" />
-                    <span className="text-sm font-bold text-slate-900 dark:text-zinc-100 print:text-xs print:text-black">
+                    <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400/80 mb-0.5 print:w-4 print:h-4" />
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-zinc-100 print:text-xs print:text-black">
                       {surah}
                     </span>
-                    <span className="text-xs text-slate-600 dark:text-zinc-400 font-medium print:text-[10px] print:text-gray-500">প্রতিদিন তেলাওয়াত ও দম করুন</span>
+                    <span className="text-[11px] sm:text-xs text-slate-600 dark:text-zinc-400 font-medium print:text-[10px] print:text-gray-500">প্রতিদিন তেলাওয়াত ও দম করুন</span>
                   </div>
                 ))}
               </div>
@@ -320,7 +378,7 @@ export function DiagnosisResultView() {
                   প্রস্তাবিত রুকইয়াহ অডিও
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {prescription.audioLinks.map((audio, idx) => {
                     const isTrackActive = currentTrack?.title === audio.title && isPlaying;
                     return (
@@ -336,17 +394,17 @@ export function DiagnosisResultView() {
                             category: category.title,
                           })
                         }
-                        className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-zinc-900/80 border border-emerald-200/80 dark:border-white/10 hover:border-emerald-500/50 dark:hover:border-emerald-500/40 hover:bg-emerald-100/60 dark:hover:bg-zinc-900 transition-all flex items-center justify-between group shadow-sm text-left w-full cursor-pointer"
+                        className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-50/70 dark:bg-zinc-900/80 border border-emerald-200/80 dark:border-white/10 hover:border-emerald-500/50 dark:hover:border-emerald-500/40 hover:bg-emerald-100/60 dark:hover:bg-zinc-900 transition-all flex items-center justify-between group shadow-sm text-left w-full cursor-pointer gap-2"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center font-bold shadow-sm shrink-0">
+                        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center font-bold shadow-sm shrink-0">
                             {isTrackActive ? <Headphones className="w-4 h-4 animate-pulse" /> : <Play className="w-4 h-4 ml-0.5" />}
                           </div>
-                          <span className="text-sm font-bold text-slate-900 dark:text-zinc-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                          <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-zinc-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">
                             {audio.title}
                           </span>
                         </div>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100/80 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-500/30">
+                        <span className="shrink-0 inline-flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-emerald-100/80 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-500/30">
                           {isTrackActive ? "চলছে" : "প্লে করুন"}
                         </span>
                       </button>
@@ -358,17 +416,17 @@ export function DiagnosisResultView() {
           </div>
 
           {/* Action & Consultation Footer Bar (Screen Only) */}
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4 print:hidden">
-            <div className="text-xs text-slate-600 dark:text-zinc-400 font-medium">
+          <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 print:hidden">
+            <div className="text-xs text-slate-600 dark:text-zinc-400 font-medium text-center sm:text-left">
               জরুরি প্রয়োজনে সরাসরি আমাদের সার্টিফাইড রাকির সাথে পরামর্শ করতে পারেন।
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-500/30 font-bold text-sm transition-all shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-500/30 font-bold text-sm transition-all shadow-sm min-h-[44px]"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
                 <span>হোয়াটসঅ্যাপে পরামর্শ নিন</span>
@@ -376,7 +434,7 @@ export function DiagnosisResultView() {
 
               <Link
                 href={appointmentUrl}
-                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-bold text-sm transition-all shadow-md shadow-emerald-900/20 hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-bold text-sm transition-all shadow-md shadow-emerald-900/20 hover:scale-[1.02] active:scale-[0.98] min-h-[44px]"
               >
                 <Calendar className="w-4 h-4" />
                 <span>সরাসরি রাকির সাথে বুকিং নিন</span>

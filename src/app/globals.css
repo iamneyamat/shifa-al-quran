@@ -835,7 +835,7 @@
   border-radius: var(--radius-lg);
   /* Fluid so consumers never need a `sm:p-*` override, which would collide
      with this declaration inside the same cascade layer. */
-  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  padding: clamp(1rem, 0.75rem + 1.25vw, 1.75rem);
   box-shadow: var(--shadow-card);
 }
 
@@ -1078,7 +1078,7 @@
   width: 100%;
   max-width: var(--container-page);
   margin-inline: auto;
-  padding-inline: 1.25rem;
+  padding-inline: clamp(1rem, 4vw, 1.25rem);
 }
 
 /* Unlayered on purpose: the shell gutter is structural and should not be

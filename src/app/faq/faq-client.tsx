@@ -83,29 +83,29 @@ export function FaqClient() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl py-20 md:py-32">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl py-12 sm:py-20 md:py-32">
         
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-10 sm:mb-16 md:mb-20"
         >
-          <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 shadow-sm">
-            <HelpCircle className="h-10 w-10" />
+          <div className="mb-4 sm:mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-[2rem] bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 shadow-sm">
+            <HelpCircle className="h-8 w-8 sm:h-10 sm:w-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight mb-4 sm:mb-6 md:mb-8">
             সাধারণ <span className="text-emerald-600 dark:text-emerald-400">জিজ্ঞাসা</span> (FAQ)
           </h1>
-          <p className="text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium mb-10">
+          <p className="text-sm sm:text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium mb-6 sm:mb-10">
             রুকইয়াহ ও আমাদের চিকিৎসা পদ্ধতি সম্পর্কে আপনার মনে থাকা সাধারণ প্রশ্নগুলোর উত্তর এখানে দেওয়া হলো।
           </p>
 
           {/* Search Bar */}
-          <div className="relative max-w-2xl mx-auto mb-8">
-            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400">
-              <Search className="h-6 w-6" />
+          <div className="relative max-w-2xl mx-auto mb-6 sm:mb-8">
+            <div className="absolute inset-y-0 left-0 pl-4 sm:pl-5 flex items-center pointer-events-none text-slate-400">
+              <Search className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <input
               type="text"
@@ -115,12 +115,12 @@ export function FaqClient() {
                 setSearchQuery(e.target.value);
                 setOpenIndex(null); // Close accordion on new search
               }}
-              className="flex h-16 w-full rounded-full border border-light-border dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md pl-14 pr-6 text-lg shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-light-heading dark:text-slate-100 placeholder:text-slate-400"
+              className="flex h-12 sm:h-16 w-full rounded-full border border-light-border dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md pl-11 sm:pl-14 pr-4 sm:pr-6 text-sm sm:text-lg shadow-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 text-light-heading dark:text-slate-100 placeholder:text-slate-400"
             />
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {categories.map((category) => (
               <button
                 key={category}
@@ -129,7 +129,7 @@ export function FaqClient() {
                   setOpenIndex(null);
                 }}
                 className={cn(
-                  "px-5 py-2.5 rounded-full text-[15px] font-bold transition-all duration-300 shadow-sm",
+                  "px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-[15px] font-bold transition-all duration-300 shadow-sm",
                   activeCategory === category
                     ? "bg-emerald-600 text-white shadow-emerald-600/30 dark:shadow-emerald-900/50 scale-105"
                     : "bg-white dark:bg-slate-900 text-light-text dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 border border-light-border dark:border-slate-800"
@@ -146,7 +146,7 @@ export function FaqClient() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="space-y-4 md:space-y-6 min-h-[400px]"
+          className="space-y-3 sm:space-y-4 md:space-y-6 min-h-[300px]"
         >
           <AnimatePresence mode="popLayout">
             {filteredFaqs.length > 0 ? (
@@ -161,25 +161,25 @@ export function FaqClient() {
                     animate="visible"
                     exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
                     key={faq.question} 
-                    className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border border-light-border dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+                    className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border border-light-border dark:border-slate-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
                     <button
                       onClick={() => setOpenIndex(isOpen ? null : index)}
-                      className="flex items-center justify-between w-full p-6 md:p-8 text-left focus:outline-none group"
+                      className="flex items-center justify-between w-full p-4 sm:p-6 md:p-8 text-left focus:outline-none group gap-3"
                     >
                       <span className={cn(
-                        "font-bold text-lg md:text-xl pr-6 transition-colors duration-300",
+                        "font-bold text-base sm:text-lg md:text-xl transition-colors duration-300 flex-1 leading-snug",
                         isOpen ? "text-emerald-700 dark:text-emerald-400" : "text-light-heading dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-300"
                       )}>
                         {faq.question}
                       </span>
                       <div className={cn(
-                        "flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300",
+                        "flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300",
                         isOpen ? "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400" : "bg-light-bg-alt2 dark:bg-slate-800 text-slate-400 group-hover:bg-emerald-50 dark:group-hover:bg-slate-700 group-hover:text-emerald-500"
                       )}>
                         <ChevronDown 
                           className={cn(
-                            "h-5 w-5 transition-transform duration-500",
+                            "h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-500",
                             isOpen ? "rotate-180" : ""
                           )} 
                         />
@@ -194,8 +194,8 @@ export function FaqClient() {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                         >
-                          <div className="px-6 md:px-8 pb-6 md:pb-8 pt-0 text-[15px] md:text-[17px] text-light-text dark:text-slate-400 leading-relaxed border-t border-light-border/50 dark:border-slate-800/50 mt-2 mx-6 md:mx-8">
-                            <div className="pt-6">
+                          <div className="px-4 sm:px-6 md:px-8 pb-4 sm:pb-6 md:pb-8 pt-0 text-sm sm:text-[15px] md:text-[17px] text-light-text dark:text-slate-400 leading-relaxed border-t border-light-border/50 dark:border-slate-800/50 mt-1 sm:mt-2 mx-0 sm:mx-6 md:mx-8">
+                            <div className="pt-3 sm:pt-6">
                               {faq.answer}
                             </div>
                           </div>
@@ -227,28 +227,28 @@ export function FaqClient() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-20 bg-gradient-to-br from-emerald-600 to-blue-700 rounded-[40px] p-8 md:p-12 text-center shadow-2xl relative overflow-hidden"
+          className="mt-12 sm:mt-20 bg-gradient-to-br from-emerald-600 to-blue-700 rounded-2xl sm:rounded-[40px] p-5 sm:p-8 md:p-12 text-center shadow-2xl relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
           
           <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4">এখনো আপনার প্রশ্নের উত্তর পাননি?</h3>
-            <p className="text-emerald-50 text-lg md:text-xl mb-8 opacity-90 max-w-xl mx-auto">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mb-2 sm:mb-4">এখনো আপনার প্রশ্নের উত্তর পাননি?</h3>
+            <p className="text-emerald-50 text-sm sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-90 max-w-xl mx-auto">
               আমাদের সাথে সরাসরি যোগাযোগ করুন অথবা অ্যাপয়েন্টমেন্ট বুক করুন। আমরা আপনাকে সাহায্য করতে প্রস্তুত।
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link 
                 href="/appointment"
-                className="inline-flex items-center justify-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-emerald-50 transition-colors shadow-lg w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 bg-white text-emerald-700 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-lg hover:bg-emerald-50 transition-colors shadow-lg w-full sm:w-auto min-h-[44px]"
               >
                 অ্যাপয়েন্টমেন্ট নিন
               </Link>
               <Link 
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-black/20 text-white border border-white/30 backdrop-blur-md px-8 py-4 rounded-full font-bold text-lg hover:bg-black/30 transition-colors shadow-lg w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 bg-black/20 text-white border border-white/30 backdrop-blur-md px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-lg hover:bg-black/30 transition-colors shadow-lg w-full sm:w-auto min-h-[44px]"
               >
                 যোগাযোগ করুন
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </Link>
             </div>
           </div>

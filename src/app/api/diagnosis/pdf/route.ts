@@ -4,14 +4,15 @@ import { calculateDiagnosisResult } from "@/features/diagnosis/utils/diagnosisEn
 import { AssessmentReportData, EvaluatedQuestion } from "@/features/diagnosis/types/report";
 import { getQuranicVersesForPrescription } from "@/features/diagnosis/server/quranicData";
 import { generateAssessmentPdf } from "@/features/diagnosis/server/pdfGenerator";
-import { formatBengaliDate } from "@/features/diagnosis/server/reportTemplate";
+import { formatBengaliDate, renderFullReportHtml } from "@/features/diagnosis/server/reportTemplate";
 
 function buildReportData(
   categoryId: string,
   userAnswers: Record<string, number> = {}
 ): AssessmentReportData {
+  const normId = (categoryId || "general").toLowerCase().trim();
   const category =
-    diagnosisCategories.find((c) => c.id === categoryId) || diagnosisCategories[0];
+    diagnosisCategories.find((c) => c.id.toLowerCase() === normId) || diagnosisCategories[0];
 
   // If no answers provided, default to realistic assessment values
   const answers: Record<string, number> = { ...userAnswers };
@@ -56,15 +57,19 @@ function buildReportData(
 }
 
 export async function POST(req: NextRequest) {
+  let reportData: AssessmentReportData | null = null;
+  let filename = "Shifa-Al-Quran-Assessment-Report.pdf";
+
   try {
     const body = await req.json().catch(() => ({}));
     const categoryId = body.categoryId || body.category || "waswas";
     const answers = body.answers || body.userAnswers || {};
 
-    const reportData = buildReportData(categoryId, answers);
-    const pdfBuffer = await generateAssessmentPdf(reportData);
+    reportData = buildReportData(categoryId, answers);
+    filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
 
-    const filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
+    // Attempt direct headless Chromium PDF generation
+    const pdfBuffer = await generateAssessmentPdf(reportData);
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
@@ -75,23 +80,52 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("API /api/diagnosis/pdf POST failed:", error);
-    return NextResponse.json(
-      { error: "Failed to generate assessment PDF report" },
-      { status: 500 }
-    );
+    console.warn("Headless Chromium PDF generation unavailable or failed, serving self-contained vector report HTML:", error);
+
+    // If reportData was built (or build it now with defaults)
+    if (!reportData) {
+      reportData = buildReportData("waswas", {});
+      filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
+    }
+
+    try {
+      const html = renderFullReportHtml(reportData);
+      return NextResponse.json(
+        {
+          success: true,
+          fallback: true,
+          filename,
+          html,
+        },
+        {
+          status: 200,
+          headers: {
+            "Cache-Control": "no-store, max-age=0",
+          },
+        }
+      );
+    } catch (renderError) {
+      console.error("HTML report render failed:", renderError);
+      return NextResponse.json(
+        { error: "Failed to generate assessment report" },
+        { status: 500 }
+      );
+    }
   }
 }
 
 export async function GET(req: NextRequest) {
+  let reportData: AssessmentReportData | null = null;
+  let filename = "Shifa-Al-Quran-Assessment-Report.pdf";
+
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("category") || searchParams.get("categoryId") || "waswas";
 
-    const reportData = buildReportData(categoryId, {});
-    const pdfBuffer = await generateAssessmentPdf(reportData);
+    reportData = buildReportData(categoryId, {});
+    filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
 
-    const filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
+    const pdfBuffer = await generateAssessmentPdf(reportData);
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
@@ -102,10 +136,17 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("API /api/diagnosis/pdf GET failed:", error);
-    return NextResponse.json(
-      { error: "Failed to generate assessment PDF report" },
-      { status: 500 }
-    );
+    console.warn("Direct Chromium PDF GET failed, serving fallback HTML:", error);
+    if (!reportData) {
+      reportData = buildReportData("waswas", {});
+    }
+    const html = renderFullReportHtml(reportData);
+    return new NextResponse(html, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store, max-age=0",
+      },
+    });
   }
 }

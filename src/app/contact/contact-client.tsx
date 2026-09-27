@@ -37,86 +37,86 @@ export function ContactClient() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 max-w-7xl">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 max-w-7xl">
         
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16 md:mb-24"
+          className="text-center mb-10 sm:mb-16 md:mb-24"
         >
-          <div className="icon-container-premium mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] text-emerald-600 dark:text-emerald-400">
-            <Phone className="h-10 w-10" />
+          <div className="icon-container-premium mb-4 sm:mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-[2rem] text-emerald-600 dark:text-emerald-400">
+            <Phone className="h-8 w-8 sm:h-10 sm:w-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-3 sm:mb-6 md:mb-8">
             আমাদের সাথে <span className="text-emerald-600 dark:text-emerald-400">যোগাযোগ</span> করুন
           </h1>
-          <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-3xl mx-auto font-medium">
+          <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-3xl mx-auto font-medium">
             যেকোনো জিজ্ঞাসা, পরামর্শ অথবা সিরিয়াল বুকিংয়ের জন্য আমাদের সাথে যোগাযোগ করুন। আমরা আপনার সেবায় সদা প্রস্তুত।
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12">
           
           {/* Left Column: Contact Cards & Map */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-7 space-y-6 md:space-y-8"
+            className="lg:col-span-7 space-y-4 sm:space-y-6 md:space-y-8"
           >
             {/* Quick Actions (Call & WhatsApp) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              <a href="tel:+8809639000999" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+              <a href="tel:+8809639000999" className="glass-card group flex items-center p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden min-h-[48px]">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="h-14 w-14 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mr-5 shadow-inner">
-                  <PhoneCall className="h-6 w-6" />
+                <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mr-3.5 sm:mr-5 shadow-inner shrink-0">
+                  <PhoneCall className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-light-text dark:text-slate-400 mb-1 uppercase tracking-wider">সরাসরি কল করুন</p>
-                  <p className="text-xl font-extrabold text-light-heading dark:text-slate-100">09639-000999</p>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-bold text-light-text dark:text-slate-400 mb-0.5 sm:mb-1 uppercase tracking-wider">সরাসরি কল করুন</p>
+                  <p className="text-lg sm:text-xl font-extrabold text-light-heading dark:text-slate-100 truncate">09639-000999</p>
                 </div>
               </a>
               
-              <a href="https://wa.me/8801353301772" target="_blank" rel="noopener noreferrer" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
+              <a href="https://wa.me/8801353301772" target="_blank" rel="noopener noreferrer" className="glass-card group flex items-center p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden min-h-[48px]">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#25D366]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="h-14 w-14 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] mr-5 shadow-inner">
-                  <MessageCircle className="h-6 w-6" />
+                <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] mr-3.5 sm:mr-5 shadow-inner shrink-0">
+                  <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-light-text dark:text-slate-400 mb-1 uppercase tracking-wider">হোয়াটসঅ্যাপ</p>
-                  <p className="text-xl font-extrabold text-light-heading dark:text-slate-100">01353301772</p>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-bold text-light-text dark:text-slate-400 mb-0.5 sm:mb-1 uppercase tracking-wider">হোয়াটসঅ্যাপ</p>
+                  <p className="text-lg sm:text-xl font-extrabold text-light-heading dark:text-slate-100 truncate">01353301772</p>
                 </div>
               </a>
             </div>
 
             {/* Emergency & Details Card */}
-            <div className="glass-card rounded-3xl p-8 md:p-10 relative overflow-hidden">
+            <div className="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
                 <MapPin className="w-48 h-48" />
               </div>
               
-              <div className="flex items-center gap-3 mb-8 pb-8 border-b border-light-border dark:border-slate-800/50">
-                <AlertCircle className="w-6 h-6 text-red-500" />
-                <h3 className="text-xl font-bold text-red-500">জরুরী প্রয়োজনে</h3>
-                <span className="text-light-text dark:text-slate-400 text-sm ml-auto">২৪/৭ খোলা</span>
+              <div className="flex items-center gap-3 mb-6 sm:mb-8 pb-4 sm:pb-8 border-b border-light-border dark:border-slate-800/50">
+                <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-red-500">জরুরী প্রয়োজনে</h3>
+                <span className="text-light-text dark:text-slate-400 text-xs sm:text-sm ml-auto">২৪/৭ খোলা</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                    <MapPin className="h-5 w-5" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 relative z-10">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="mt-1 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
-                    <h4 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">অফিসের ঠিকানা</h4>
-                    <p className="text-light-text dark:text-slate-400 text-sm leading-relaxed">#535/C Khilgaon, Dhaka<br/>(বিস্তারিত জানতে কল করুন)</p>
+                    <h4 className="text-sm sm:text-[15px] font-bold text-light-heading dark:text-slate-200 mb-0.5 sm:mb-1">অফিসের ঠিকানা</h4>
+                    <p className="text-light-text dark:text-slate-400 text-xs sm:text-sm leading-relaxed">#535/C Khilgaon, Dhaka<br/>(বিস্তারিত জানতে কল করুন)</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 h-10 w-10 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                    <Clock className="h-5 w-5" />
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="mt-1 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
+                    <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
                     <h4 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">অফিস সময়সূচী</h4>
@@ -160,11 +160,11 @@ export function ContactClient() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="lg:col-span-5"
           >
-            <div className="glass-card rounded-[40px] p-8 md:p-10 h-full relative overflow-hidden">
+            <div className="glass-card rounded-2xl sm:rounded-[40px] p-4 sm:p-8 md:p-10 h-full relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               
-              <h2 className="text-2xl md:text-3xl font-bold text-light-heading dark:text-white mb-2 relative z-10">আমাদের মেসেজ দিন</h2>
-              <p className="text-light-text dark:text-slate-400 mb-8 relative z-10">যেকোনো প্রশ্ন থাকলে সরাসরি এখানে লিখে পাঠাতে পারেন।</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-light-heading dark:text-white mb-1.5 sm:mb-2 relative z-10">আমাদের মেসেজ দিন</h2>
+              <p className="text-sm sm:text-base text-light-text dark:text-slate-400 mb-6 sm:mb-8 relative z-10">যেকোনো প্রশ্ন থাকলে সরাসরি এখানে লিখে পাঠাতে পারেন।</p>
               
               {isSuccess ? (
                 <motion.div 
@@ -172,42 +172,42 @@ export function ContactClient() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center h-64 text-center"
                 >
-                  <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mb-6">
-                    <Send className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <Send className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-2xl font-bold text-light-heading dark:text-white mb-2">মেসেজ পাঠানো হয়েছে!</h3>
-                  <p className="text-light-text dark:text-slate-400">আমরা শীঘ্রই আপনার সাথে যোগাযোগ করবো ইনশাআল্লাহ।</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-light-heading dark:text-white mb-2">মেসেজ পাঠানো হয়েছে!</h3>
+                  <p className="text-sm sm:text-base text-light-text dark:text-slate-400">আমরা শীঘ্রই আপনার সাথে যোগাযোগ করবো ইনশাআল্লাহ।</p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-                  <div className="space-y-2 group">
-                    <label htmlFor="name" className="text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">আপনার নাম</label>
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 relative z-10">
+                  <div className="space-y-1.5 sm:space-y-2 group">
+                    <label htmlFor="name" className="text-xs sm:text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">আপনার নাম</label>
                     <input 
                       type="text" 
                       id="name" 
-                      className="flex h-14 w-full rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-5 text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
+                      className="flex h-12 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
                       placeholder="নাম লিখুন" 
                       required 
                     />
                   </div>
                   
-                  <div className="space-y-2 group">
-                    <label htmlFor="phone" className="text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">ফোন নাম্বার</label>
+                  <div className="space-y-1.5 sm:space-y-2 group">
+                    <label htmlFor="phone" className="text-xs sm:text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">ফোন নাম্বার</label>
                     <input 
                       type="tel" 
                       id="phone" 
-                      className="flex h-14 w-full rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-5 text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
+                      className="flex h-12 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
                       placeholder="01XXXXXXXXX" 
                       required 
                     />
                   </div>
                   
-                  <div className="space-y-2 group">
-                    <label htmlFor="message" className="text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">মেসেজ</label>
+                  <div className="space-y-1.5 sm:space-y-2 group">
+                    <label htmlFor="message" className="text-xs sm:text-[14px] font-bold text-light-heading dark:text-slate-300 ml-1">মেসেজ</label>
                     <textarea 
                       id="message" 
-                      rows={5} 
-                      className="flex w-full rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-5 py-4 text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 resize-none" 
+                      rows={4} 
+                      className="flex w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 resize-none" 
                       placeholder="আপনার জিজ্ঞাসা বা বিস্তারিত লিখুন..." 
                       required
                     />
@@ -216,14 +216,14 @@ export function ContactClient() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="btn-premium group relative flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-600 px-8 text-lg font-bold text-white disabled:pointer-events-none disabled:opacity-70 overflow-hidden mt-6"
+                    className="btn-premium group relative flex h-13 sm:h-16 w-full items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-600 px-6 sm:px-8 text-base sm:text-lg font-bold text-white disabled:pointer-events-none disabled:opacity-70 overflow-hidden mt-4 sm:mt-6 min-h-[48px]"
                   >
                     {isSubmitting ? (
                       "পাঠানো হচ্ছে..."
                     ) : (
                       <>
                         <span>মেসেজ পাঠান</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                     <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />

@@ -108,7 +108,7 @@ export function ServicesClient() {
       />
       
       {/* 1. Hero Introduction */}
-      <section className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32 bg-light-bg-alt1 dark:bg-[#020817]">
+      <section className="relative overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-16 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32 bg-light-bg-alt1 dark:bg-[#020817]">
         {/* Soft Background Gradients */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -120,12 +120,12 @@ export function ServicesClient() {
             transition={{ duration: 0.7 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6 md:mb-8">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-4 sm:mb-6 md:mb-8">
               আমাদের <span className="text-emerald-600 dark:text-emerald-400">সেবাসমূহ</span>
             </h1>
-            <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-8 md:mb-10" />
+            <div className="h-1 sm:h-1.5 w-16 sm:w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-6 sm:mb-8 md:mb-10" />
             
-            <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
+            <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
               আমরা সম্পূর্ণ শরীয়াহ সম্মত উপায়ে জাদুটোনা, বদনজর ও জিন ঘটিত বিভিন্ন আধ্যাত্মিক ও শারীরিক সমস্যার রুকইয়াহ করে থাকি। আপনার সমস্যার ধরন অনুযায়ী সঠিক চিকিৎসা বেছে নিন।
             </p>
           </motion.div>
@@ -133,10 +133,10 @@ export function ServicesClient() {
       </section>
 
       {/* 2. Treatment Statistics */}
-      <section className="py-12 md:py-16 bg-emerald-600 dark:bg-emerald-900 border-y border-emerald-700/30 dark:border-emerald-800/50 relative overflow-hidden">
+      <section className="py-8 sm:py-12 md:py-16 bg-emerald-600 dark:bg-emerald-900 border-y border-emerald-700/30 dark:border-emerald-800/50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
         <div className="container relative mx-auto px-4 sm:px-6 max-w-6xl z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-white">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:gap-8 text-white">
             {[
               { label: "সমাধানকৃত কেস", value: 20000, suffix: "+" },
               { label: "অভিজ্ঞ রাকি", value: 20, suffix: "+" },
@@ -149,12 +149,12 @@ export function ServicesClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="text-center"
+                className="text-center p-2"
               >
-                <h4 className="text-3xl md:text-5xl font-extrabold mb-2 text-amber-300 drop-shadow-md">
+                <h4 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-1 sm:mb-2 text-amber-300 drop-shadow-md">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </h4>
-                <p className="text-sm md:text-lg font-medium text-emerald-50 opacity-90">{stat.label}</p>
+                <p className="text-xs sm:text-sm md:text-lg font-medium text-emerald-50 opacity-90">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -162,17 +162,17 @@ export function ServicesClient() {
       </section>
 
       {/* 3. Category Filter & Service Cards */}
-      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-10 sm:py-16 md:py-24 bg-light-bg-main dark:bg-[#020817]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-16">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={cn(
-                  "px-6 py-3 rounded-full text-sm md:text-base font-bold transition-all duration-300 shadow-sm",
+                  "px-3.5 sm:px-6 py-1.5 sm:py-3 rounded-full text-xs sm:text-sm md:text-base font-bold transition-all duration-300 shadow-sm",
                   activeCategory === category
                     ? "bg-emerald-600 text-white shadow-emerald-600/30 dark:shadow-emerald-900/50 scale-105"
                     : "bg-light-bg-alt2 dark:bg-slate-900 text-light-text dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 border border-light-border dark:border-slate-800"
@@ -184,7 +184,7 @@ export function ServicesClient() {
           </div>
 
           {/* Service Cards Grid with AnimatePresence */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 min-h-[400px]">
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 min-h-[300px]">
             <AnimatePresence mode="popLayout">
               {filteredServices.map((service) => (
                 <motion.div
@@ -194,7 +194,7 @@ export function ServicesClient() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                   key={service.id}
-                  className="flex flex-col glass-card p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
+                  className="flex flex-col glass-card p-4 sm:p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
                 >
                   {/* Subtle Background Glow on Hover */}
                   <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
@@ -240,20 +240,20 @@ export function ServicesClient() {
       </section>
 
       {/* 4. Disclaimer Section */}
-      <section className="py-16 bg-light-bg-alt2 dark:bg-[#020817] border-y border-light-border dark:border-slate-800">
+      <section className="py-10 sm:py-16 bg-light-bg-alt2 dark:bg-[#020817] border-y border-light-border dark:border-slate-800">
         <div className="container mx-auto px-4 max-w-4xl">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center gap-6 bg-amber-50 dark:bg-amber-950/20 p-8 md:p-10 rounded-[32px] border border-amber-200 dark:border-amber-900/50 shadow-sm"
+            className="flex flex-col md:flex-row items-center gap-4 sm:gap-6 bg-amber-50 dark:bg-amber-950/20 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[32px] border border-amber-200 dark:border-amber-900/50 shadow-sm"
           >
-            <div className="flex-shrink-0 w-16 h-16 bg-amber-100 dark:bg-amber-900/40 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-500">
-              <ShieldAlert className="w-8 h-8" />
+            <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-amber-100 dark:bg-amber-900/40 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-500">
+              <ShieldAlert className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
-            <div>
-              <h4 className="text-xl font-bold text-amber-800 dark:text-amber-500 mb-2 tracking-tight">গুরুত্বপূর্ণ সতর্কতা</h4>
-              <p className="text-base text-amber-700/80 dark:text-amber-500/80 leading-relaxed">
+            <div className="text-center md:text-left">
+              <h4 className="text-lg sm:text-xl font-bold text-amber-800 dark:text-amber-500 mb-1.5 sm:mb-2 tracking-tight">গুরুত্বপূর্ণ সতর্কতা</h4>
+              <p className="text-xs sm:text-base text-amber-700/80 dark:text-amber-500/80 leading-relaxed">
                 আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা কেবল কুরআন ও সুন্নাহর আলোকে একটি মাধ্যম হিসেবে কাজ করি। রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।
               </p>
             </div>
@@ -262,30 +262,30 @@ export function ServicesClient() {
       </section>
 
       {/* 5. Final CTA */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-light-bg-main dark:bg-[#020817]">
+      <section className="py-12 sm:py-16 md:py-24 relative overflow-hidden bg-light-bg-main dark:bg-[#020817]">
         <div className="container mx-auto px-4 max-w-5xl">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-emerald-600 to-blue-700 p-10 md:p-24 text-center shadow-2xl"
+            className="relative rounded-2xl sm:rounded-[40px] overflow-hidden bg-gradient-to-br from-emerald-600 to-blue-700 p-6 sm:p-12 md:p-24 text-center shadow-2xl"
           >
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
             
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3 sm:mb-6 tracking-tight leading-tight text-center">
                 আপনার সুস্থতার যাত্রা আজই শুরু করুন
               </h2>
-              <p className="text-emerald-50 text-base md:text-lg max-w-3xl mx-auto mb-8 md:mb-10 opacity-90 leading-relaxed text-center">
+              <p className="text-emerald-50 text-sm sm:text-lg max-w-3xl mx-auto mb-6 sm:mb-10 opacity-90 leading-relaxed text-center">
                 সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং পরিবারকে নিরাপদে রাখুন।
               </p>
               
               <Link 
                 href="/appointment"
-                className="btn-premium inline-flex items-center gap-2 md:gap-3 bg-white text-emerald-700 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-emerald-50"
+                className="btn-premium inline-flex items-center gap-2 md:gap-3 bg-white text-emerald-700 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-lg hover:bg-emerald-50 min-h-[44px]"
               >
-                <CalendarHeart className="w-5 h-5 md:w-6 md:h-6" />
+                <CalendarHeart className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                 অ্যাপয়েন্টমেন্ট নিন
               </Link>
             </div>

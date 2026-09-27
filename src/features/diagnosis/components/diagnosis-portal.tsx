@@ -68,28 +68,28 @@ export function DiagnosisPortal() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.2, 0, 0, 1] }}
-          className="glass-panel relative rounded-[2.5rem] p-8 sm:p-12 lg:p-16 border border-white/50 dark:border-white/10 shadow-2xl backdrop-blur-2xl overflow-hidden mb-12"
+          className="glass-panel relative rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-10 lg:p-16 border border-white/50 dark:border-white/10 shadow-2xl backdrop-blur-2xl overflow-hidden mb-8 sm:mb-12"
         >
           {/* Subtle Top Specular Glass Edge Highlight */}
           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
           
           <div className="max-w-3xl mx-auto text-center relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 dark:bg-emerald-500/15 px-4 py-1.5 backdrop-blur-xl mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 dark:bg-emerald-500/15 px-3.5 py-1 sm:px-4 sm:py-1.5 backdrop-blur-xl mb-4 sm:mb-6 shadow-sm">
               <Activity className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
               <span className="type-citation text-xs font-semibold text-emerald-900 dark:text-emerald-300 tracking-wide">
                 আত্মিক স্বাস্থ্য নির্দেশিকা
               </span>
             </div>
 
-            <h1 className="type-display text-ink-strong tracking-tight text-3xl sm:text-4xl lg:text-6xl font-extrabold leading-[1.2]">
+            <h1 className="type-display text-ink-strong tracking-tight text-2xl sm:text-4xl lg:text-6xl font-extrabold leading-[1.2]">
               সেলফ রুকইয়াহ <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-200">ডায়াগনোসিস</span> পোর্টাল
             </h1>
 
-            <p className="type-body-lg mt-6 text-ink-body leading-relaxed font-normal">
+            <p className="type-body-lg mt-4 sm:mt-6 text-ink-body leading-relaxed font-normal text-sm sm:text-base">
               কুরআন ও সহীহ সুন্নাহর আলোকে আপনার ও আপনার পরিবারের আত্মিক ও শারীরিক লক্ষণসমূহ যাচাই করুন। কোনো ক্যাটাগরি নির্বাচন করে নিজেই সুন্নাহসম্মত ফলাফল ও আমলের প্রেসক্রিপশন পান।
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center items-center gap-6 text-xs text-ink-muted border-t border-hairline/60 pt-6">
+            <div className="mt-6 sm:mt-8 flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-xs text-ink-muted border-t border-hairline/60 pt-4 sm:pt-6">
               <div className="flex items-center gap-2 font-medium">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>শতভাগ শরীয়াহ সম্মত</span>
@@ -107,7 +107,7 @@ export function DiagnosisPortal() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           {diagnosisCategories.map((cat) => {
             const IconComponent = iconMap[cat.iconName] || Stethoscope;
@@ -121,7 +121,7 @@ export function DiagnosisPortal() {
                 variants={itemVariants}
                 whileHover={{ y: -6, scale: 1.01 }}
                 transition={{ duration: 0.3 }}
-                className="group relative flex flex-col justify-between rounded-3xl glass-card border border-white/40 dark:border-white/10 p-7 shadow-xl backdrop-blur-2xl transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-900/10 overflow-hidden"
+                className="group relative flex flex-col justify-between rounded-2xl sm:rounded-3xl glass-card border border-white/40 dark:border-white/10 p-5 sm:p-7 shadow-xl backdrop-blur-2xl transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-900/10 overflow-hidden"
               >
                 <Link href={targetHref} className="flex flex-col justify-between h-full">
                   {/* Subtle top edge highlight */}

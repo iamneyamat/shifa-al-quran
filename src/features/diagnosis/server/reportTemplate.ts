@@ -172,7 +172,7 @@ export function renderRunningHeader(data: AssessmentReportData, pageTitle: strin
         </div>
       </div>
       <div style="font-size: 8.5pt; color: #64748b; font-family: monospace; font-weight: 600;">
-        DOC ID: #${data.reportId}
+        DOC ID: #${data.reportId || "SAQ-GEN"}
       </div>
     </div>
   `;
@@ -193,8 +193,24 @@ export function renderRunningFooter(data: AssessmentReportData, pageNumber: numb
 // ---------------------------------------------------------------------------
 export function renderReportCover(data: AssessmentReportData): string {
   const { logo } = getFontsAndLogo();
-  const { category, result, reportId, reportDate } = data;
-  const { totalScore, maxScore, percentage, level, levelTitle, prescription } = result;
+  const category = data.category || { title: "রুকইয়াহ মূল্যায়ন", questions: [] };
+  const result = data.result || {
+    totalScore: 0,
+    maxScore: 20,
+    percentage: 0,
+    level: "low",
+    levelTitle: "স্বাভাবিক স্তর",
+    prescription: { summary: "", steps: [], recommendedSurahs: [] },
+  };
+  const reportId = data.reportId || "SAQ-GEN-8824";
+  const reportDate = data.reportDate || formatBengaliDate();
+
+  const totalScore = result.totalScore ?? 0;
+  const maxScore = result.maxScore ?? 20;
+  const percentage = result.percentage ?? 0;
+  const level = result.level || "low";
+  const levelTitle = result.levelTitle || "স্বাভাবিক স্তর";
+  const prescription = result.prescription || { summary: "", steps: [], recommendedSurahs: [] };
 
   const isHigh = level === "high";
   const isMedium = level === "medium";
@@ -342,13 +358,13 @@ export function renderReportCover(data: AssessmentReportData): string {
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
           <div style="font-size: 8pt; color: #64748b; font-weight: 600;">চিহ্নিত উপসর্গের তীব্রতা</div>
           <div style="font-size: 12pt; font-weight: 800; color: ${themeColor.primary}; margin-top: 2px;">
-            ${levelTitle.split(" ")[0]}
+            ${(levelTitle || "স্বাভাবিক").split(" ")[0] || "স্বাভাবিক"}
           </div>
         </div>
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
           <div style="font-size: 8pt; color: #64748b; font-weight: 600;">নির্ধারিত সুন্নাহ আমল</div>
           <div style="font-size: 12pt; font-weight: 800; color: #047857; margin-top: 2px;">
-            ${toBnNumber(prescription.steps.length)} টি ধাপ
+            ${toBnNumber((prescription?.steps || []).length)} টি ধাপ
           </div>
         </div>
       </div>
@@ -362,7 +378,8 @@ export function renderReportCover(data: AssessmentReportData): string {
 // PAGE 2: ASSESSMENT OVERVIEW & QUESTION-BY-QUESTION ANALYSIS
 // ---------------------------------------------------------------------------
 export function renderAssessmentOverview(data: AssessmentReportData): string {
-  const { category, evaluatedQuestions } = data;
+  const category = data.category || { title: "রুকইয়াহ মূল্যায়ন", subtitle: "", badge: "যাচাইকৃত", description: "" };
+  const evaluatedQuestions = data.evaluatedQuestions || [];
 
   return `
     <div class="report-section">
@@ -382,14 +399,14 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
       <div class="report-card" style="padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 14px;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
           <div style="font-size: 10.5pt; font-weight: 800; color: #0f172a;">
-            ${category.title} (${category.subtitle})
+            ${category.title || "রুকইয়াহ মূল্যায়ন"} ${category.subtitle ? `(${category.subtitle})` : ""}
           </div>
           <span style="font-size: 8.5pt; font-weight: 700; padding: 2px 8px; border-radius: 9999px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">
-            ${category.badge}
+            ${category.badge || "যাচাইকৃত"}
           </span>
         </div>
         <p style="font-size: 9pt; color: #475569; margin: 0; line-height: 1.5;">
-          ${category.description}
+          ${category.description || ""}
         </p>
       </div>
 
@@ -402,8 +419,8 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
 
         <div style="display: flex; flex-direction: column; gap: 6px;">
           ${evaluatedQuestions.map((item, idx) => {
-            const isAffirmative = item.answerWeight === 2;
-            const isSometimes = item.answerWeight === 1;
+            const isAffirmative = item?.answerWeight === 2;
+            const isSometimes = item?.answerWeight === 1;
 
             const badgeBg = isAffirmative ? "#fee2e2" : isSometimes ? "#fef3c7" : "#f1f5f9";
             const badgeColor = isAffirmative ? "#991b1b" : isSometimes ? "#92400e" : "#475569";
@@ -418,11 +435,11 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
                     ${toBnNumber(idx + 1)}
                   </span>
                   <span style="color: #1e293b; line-height: 1.4; font-weight: 500;">
-                    ${item.question.text}
+                    ${item?.question?.text || (typeof item?.question === "string" ? item.question : "")}
                   </span>
                 </div>
                 <span style="padding: 2px 8px; border-radius: 9999px; font-size: 8pt; font-weight: 700; flex-shrink: 0; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder};">
-                  ${item.answerLabel}
+                  ${item?.answerLabel || "উত্তর দেওয়া হয়েছে"}
                 </span>
               </div>
             `;
@@ -454,7 +471,8 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
 // PAGE 3: RECOMMENDED ACTIONS PROTOCOL & DAILY ROUTINE
 // ---------------------------------------------------------------------------
 export function renderRecommendedActions(data: AssessmentReportData): string {
-  const { prescription } = data.result;
+  const prescription = data.result?.prescription || { steps: [] };
+  const steps = prescription.steps || [];
 
   return `
     <div class="report-section">
@@ -475,7 +493,7 @@ export function renderRecommendedActions(data: AssessmentReportData): string {
 
       <!-- Numbered Recommendation Cards -->
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px;">
-        ${prescription.steps.map((step, idx) => `
+        ${steps.map((step, idx) => `
           <div class="report-card" style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.02);">
             <div style="width: 32px; height: 32px; border-radius: 9999px; background: #047857; color: #ffffff; font-weight: 800; font-size: 11pt; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid #d1fae5;">
               ${toBnNumber(idx < 9 ? `0${idx + 1}` : idx + 1)}
@@ -534,8 +552,8 @@ export function renderRecommendedActions(data: AssessmentReportData): string {
 // PAGE 4: QURANIC GUIDANCE, OFFICIAL SEAL & DISCLAIMER
 // ---------------------------------------------------------------------------
 export function renderQuranicPrescriptions(data: AssessmentReportData): string {
-  const { quranicVerses, result } = data;
-  const { audioLinks } = result.prescription;
+  const quranicVerses = data.quranicVerses || [];
+  const audioLinks = data.result?.prescription?.audioLinks || [];
 
   return `
     <div class="report-section">
@@ -560,25 +578,25 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
           <div class="report-card" style="padding: 12px 16px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
               <div>
-                <span style="font-size: 10pt; font-weight: 800; color: #0f172a;">${item.surahName}</span>
-                ${item.reference ? `<span style="font-size: 8pt; color: #64748b; margin-left: 6px;">(${item.reference})</span>` : ""}
+                <span style="font-size: 10pt; font-weight: 800; color: #0f172a;">${item?.surahName || ""}</span>
+                ${item?.reference ? `<span style="font-size: 8pt; color: #64748b; margin-left: 6px;">(${item.reference})</span>` : ""}
               </div>
               <span style="font-size: 8pt; font-weight: 700; padding: 2px 8px; border-radius: 9999px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">
-                ${item.arabicName}
+                ${item?.arabicName || ""}
               </span>
             </div>
 
             <!-- Authentic Arabic Text -->
             <div dir="rtl" class="arabic-text" style="background: #fbfdfc; padding: 8px 12px; border-radius: 6px; border: 1px solid #ecfdf5; margin-bottom: 6px;">
-              ${item.arabicText}
+              ${item?.arabicText || ""}
             </div>
 
             <!-- Bengali Translation & Instruction -->
             <div style="font-size: 8.5pt; color: #475569; margin-bottom: 4px; line-height: 1.45;">
-              <strong style="color: #0f172a;">অর্থ:</strong> ${item.translationBn}
+              <strong style="color: #0f172a;">অর্থ:</strong> ${item?.translationBn || ""}
             </div>
             <div style="font-size: 8pt; color: #b45309; font-weight: 600;">
-              ✦ আমল নির্দেশ: ${item.instruction}
+              ✦ আমল নির্দেশ: ${item?.instruction || ""}
             </div>
           </div>
         `).join("")}
@@ -593,7 +611,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
           <div style="display: flex; flex-wrap: wrap; gap: 6px;">
             ${audioLinks.map((a) => `
               <span style="padding: 3px 8px; border-radius: 4px; background: #ffffff; border: 1px solid #6ee7b7; color: #065f46; font-size: 8pt; font-weight: 600;">
-                🎧 ${a.title}
+                🎧 ${a?.title || ""}
               </span>
             `).join("")}
           </div>

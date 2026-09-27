@@ -33,37 +33,37 @@ export function GuidelinesClient() {
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] translate-y-1/3 translate-x-1/3 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 md:pt-32 md:pb-24 max-w-6xl">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-24 sm:pb-16 md:pt-32 md:pb-24 max-w-6xl">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
-          <div className="icon-container-premium mb-6 inline-flex h-20 w-20 items-center justify-center rounded-[2rem] text-emerald-600 dark:text-emerald-400">
-            <ClipboardList className="h-10 w-10" />
+          <div className="icon-container-premium mb-4 sm:mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl sm:rounded-[2rem] text-emerald-600 dark:text-emerald-400">
+            <ClipboardList className="h-8 w-8 sm:h-10 sm:w-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight leading-tight mb-6">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight leading-tight mb-3 sm:mb-6">
             রোগীদের প্রতি <span className="text-emerald-600 dark:text-emerald-400">নির্দেশনা</span>
           </h1>
-          <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
+          <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
             রুকইয়াহ চিকিৎসার পূর্বে ও পরে রোগীদের পালনীয় নিয়মাবলি। এই নিয়মগুলো সঠিকভাবে পালন করলে ইনশাআল্লাহ দ্রুত সুস্থতা লাভ করা সম্ভব।
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
           {/* Before Treatment */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="glass-card p-6 md:p-10 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
+            className="glass-card p-4 sm:p-6 md:p-10 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             
-            <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 relative z-10 flex items-center gap-3">
-              <span className="w-2 h-6 md:h-8 rounded-full bg-emerald-500 block" />
-              চিকিৎসার পূর্বে করণীয়
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-4 sm:mb-6 md:mb-8 relative z-10 flex items-center gap-2.5 sm:gap-3">
+              <span className="w-1.5 sm:w-2 h-5 sm:h-6 md:h-8 rounded-full bg-emerald-500 block shrink-0" />
+              <span>চিকিৎসার পূর্বে করণীয়</span>
             </h2>
             
             <motion.ul 
@@ -71,7 +71,7 @@ export function GuidelinesClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-4 md:space-y-6 relative z-10"
+              className="space-y-3 sm:space-y-4 md:space-y-6 relative z-10"
             >
               {[
                 "পাঁচ ওয়াক্ত নামাজ পড়া বাধ্যতামূলক।",
@@ -80,11 +80,11 @@ export function GuidelinesClient() {
                 "শিরক ও বিদআতমুক্ত আকিদা রাখা এবং আল্লাহর কাছে সাহায্য চাওয়া।",
                 "বাড়িতে কোনো প্রাণীর ছবি বা মূর্তি থাকলে তা সরিয়ে ফেলা।"
               ].map((text, i) => (
-                <motion.li key={i} variants={itemVariants} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/40 flex items-center justify-center mt-0.5">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <motion.li key={i} variants={itemVariants} className="flex gap-3 sm:gap-4 items-start">
+                  <div className="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/40 flex items-center justify-center mt-0.5">
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <span className="text-light-text dark:text-slate-300 font-medium text-base md:text-lg leading-relaxed pt-1">
+                  <span className="text-light-text dark:text-slate-300 font-medium text-xs sm:text-base md:text-lg leading-relaxed pt-0.5 sm:pt-1">
                     {text}
                   </span>
                 </motion.li>
@@ -97,13 +97,13 @@ export function GuidelinesClient() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="glass-card p-6 md:p-10 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
+            className="glass-card p-4 sm:p-6 md:p-10 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             
-            <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 relative z-10 flex items-center gap-3">
-              <span className="w-2 h-6 md:h-8 rounded-full bg-blue-500 block" />
-              চিকিৎসা চলাকালীন নিয়ম
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-4 sm:mb-6 md:mb-8 relative z-10 flex items-center gap-2.5 sm:gap-3">
+              <span className="w-1.5 sm:w-2 h-5 sm:h-6 md:h-8 rounded-full bg-blue-500 block shrink-0" />
+              <span>চিকিৎসা চলাকালীন নিয়ম</span>
             </h2>
             
             <motion.ul 
@@ -111,7 +111,7 @@ export function GuidelinesClient() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-4 md:space-y-6 relative z-10"
+              className="space-y-3 sm:space-y-4 md:space-y-6 relative z-10"
             >
               {[
                 "রাকির দেওয়া আমলগুলো ও রুটিন নিয়মমতো পালন করা।",
@@ -120,11 +120,11 @@ export function GuidelinesClient() {
                 "ঘুমানোর আগে অযু করা এবং সুন্নাহ মেনে ডান কাতে ঘুমানো।",
                 "অসুস্থতার জন্য কাউকে দোষারোপ না করা বা সন্দেহ না করা।"
               ].map((text, i) => (
-                <motion.li key={i} variants={itemVariants} className="flex gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/40 flex items-center justify-center mt-0.5">
-                    <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <motion.li key={i} variants={itemVariants} className="flex gap-3 sm:gap-4 items-start">
+                  <div className="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-50 dark:bg-blue-900/40 flex items-center justify-center mt-0.5">
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <span className="text-light-text dark:text-slate-300 font-medium text-base md:text-lg leading-relaxed pt-1">
+                  <span className="text-light-text dark:text-slate-300 font-medium text-xs sm:text-base md:text-lg leading-relaxed pt-0.5 sm:pt-1">
                     {text}
                   </span>
                 </motion.li>

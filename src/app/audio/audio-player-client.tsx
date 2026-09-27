@@ -202,15 +202,15 @@ export function AudioPlayerClient() {
           <div className="mb-8">
             {activeTab === "home" && (
               <>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-8 tracking-tight">রুকইয়াহ কালেকশন</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-4 sm:mb-8 tracking-tight">রুকইয়াহ কালেকশন</h2>
                 {/* Categories */}
-                <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+                <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 sm:pb-4 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
                   {categories.map(cat => (
                     <button 
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
                       className={cn(
-                        "whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium transition-colors",
+                        "whitespace-nowrap px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors shrink-0",
                         activeCategory === cat ? "bg-white text-black" : "bg-white/10 text-white hover:bg-white/20"
                       )}
                     >
@@ -238,25 +238,25 @@ export function AudioPlayerClient() {
             )}
 
             {activeTab === "favorites" && (
-              <div className="flex items-end gap-6">
-                <div className="w-32 h-32 md:w-48 md:h-48 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-400 flex items-center justify-center shadow-2xl">
-                  <Heart className="w-16 h-16 text-white fill-white" />
+              <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-6">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-400 flex items-center justify-center shadow-2xl shrink-0">
+                  <Heart className="w-10 h-10 sm:w-16 sm:h-16 text-white fill-white" />
                 </div>
-                <div className="pb-2">
-                  <span className="text-sm font-bold uppercase tracking-widest">প্লেলিস্ট</span>
-                  <h2 className="text-4xl md:text-6xl font-extrabold text-white mt-2 mb-4 tracking-tight">পছন্দের অডিও</h2>
-                  <span className="text-sm text-slate-300 font-medium">{favorites.length} টি অডিও</span>
+                <div className="pb-1 sm:pb-2">
+                  <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-400">প্লেলিস্ট</span>
+                  <h2 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-white mt-1 sm:mt-2 mb-2 sm:mb-4 tracking-tight">পছন্দের অডিও</h2>
+                  <span className="text-xs sm:text-sm text-slate-300 font-medium">{favorites.length} টি অডিও</span>
                 </div>
               </div>
             )}
 
             {activeTab === "recent" && (
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">সম্প্রতি শোনা</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white tracking-tight">সম্প্রতি শোনা</h2>
             )}
           </div>
 
           {/* Track List */}
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             {displayTracks.length === 0 ? (
               <div className="text-center py-20 text-slate-400">
                 কোনো অডিও পাওয়া যায়নি
@@ -264,11 +264,11 @@ export function AudioPlayerClient() {
             ) : (
               <div className="flex flex-col">
                 {/* Header Row */}
-                <div className="grid grid-cols-[40px_1fr_60px_80px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-4 px-4 py-2 border-b border-white/10 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                <div className="grid grid-cols-[24px_1fr_auto] sm:grid-cols-[36px_1fr_40px_54px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-2.5 sm:gap-4 px-2.5 sm:px-4 py-2 border-b border-white/10 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 items-center">
                   <div className="text-center">#</div>
                   <div>শিরোনাম</div>
                   <div className="hidden md:block">সাইজ</div>
-                  <div className="text-center"></div>
+                  <div className="hidden sm:block text-center"></div>
                   <div className="text-right flex items-center justify-end"><Clock className="w-4 h-4" /></div>
                 </div>
 
@@ -283,47 +283,57 @@ export function AudioPlayerClient() {
                       key={track.id}
                       onClick={() => handlePlayTrack(originalIndex)}
                       className={cn(
-                        "grid grid-cols-[40px_1fr_60px_80px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-4 px-4 py-3 rounded-xl border border-transparent hover:border-emerald-500/30 hover:bg-white/10 dark:hover:bg-white/5 backdrop-blur-md transition-all duration-300 group cursor-pointer items-center",
+                        "grid grid-cols-[24px_1fr_auto] sm:grid-cols-[36px_1fr_40px_54px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-2.5 sm:gap-4 px-2.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-transparent hover:border-emerald-500/30 hover:bg-white/10 dark:hover:bg-white/5 backdrop-blur-md transition-all duration-300 group cursor-pointer items-center",
                         isThisPlaying ? "glass-card border-emerald-500/40 bg-emerald-500/10 shadow-lg" : ""
                       )}
                     >
                       {/* Number / Play / Wave */}
-                      <div className="text-center text-slate-400 text-sm flex justify-center relative">
+                      <div className="text-center text-slate-400 text-xs sm:text-sm flex justify-center relative">
                         {isThisPlaying && isPlaying ? (
-                          <div className="flex items-end gap-0.5 h-4 w-4">
-                            <motion.div animate={{ height: ["4px", "14px", "4px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
-                            <motion.div animate={{ height: ["10px", "4px", "10px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
-                            <motion.div animate={{ height: ["6px", "16px", "6px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
+                          <div className="flex items-end gap-0.5 h-3.5 sm:h-4 w-3.5 sm:w-4">
+                            <motion.div animate={{ height: ["3px", "12px", "3px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
+                            <motion.div animate={{ height: ["9px", "3px", "9px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
+                            <motion.div animate={{ height: ["5px", "14px", "5px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 bg-emerald-500 rounded-full" />
                           </div>
                         ) : (
                           <>
                             <span className={cn("group-hover:hidden", isThisPlaying ? "text-emerald-500" : "")}>{i + 1}</span>
-                            <Play className="w-4 h-4 text-white hidden group-hover:block" fill="white" />
+                            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white hidden group-hover:block" fill="white" />
                           </>
                         )}
                       </div>
 
                       {/* Title & Desc */}
-                      <div className="min-w-0 pr-4">
-                        <div className={cn("font-medium truncate text-[15px]", isThisPlaying ? "text-emerald-500" : "text-white")}>{track.title}</div>
-                        {track.description && <div className="text-xs text-slate-400 truncate mt-0.5">{track.description}</div>}
+                      <div className="min-w-0 pr-1 sm:pr-4">
+                        <div className={cn("font-medium truncate text-sm sm:text-[15px]", isThisPlaying ? "text-emerald-500" : "text-white")}>{track.title}</div>
+                        {track.description && <div className="text-[11px] sm:text-xs text-slate-400 truncate mt-0.5">{track.description}</div>}
                       </div>
 
                       {/* Size (Desktop) */}
                       <div className="hidden md:block text-sm text-slate-400">{track.size}</div>
 
-                      {/* Actions */}
-                      <div className="flex items-center justify-center gap-3">
+                      {/* Actions (sm and desktop) */}
+                      <div className="hidden sm:flex items-center justify-center">
                         <button 
                           onClick={(e) => toggleFavorite(track.id, e)}
-                          className={cn("hover:text-white transition-colors", isFav ? "text-emerald-500" : "text-slate-400 opacity-0 group-hover:opacity-100")}
+                          className={cn("hover:text-white transition-colors p-1", isFav ? "text-emerald-500" : "text-slate-400 opacity-0 group-hover:opacity-100")}
+                          aria-label="Add to favorites"
                         >
-                          <Heart className="w-5 h-5" fill={isFav ? "currentColor" : "none"} />
+                          <Heart className="w-4 h-4 sm:w-5 sm:h-5" fill={isFav ? "currentColor" : "none"} />
                         </button>
                       </div>
 
-                      {/* Duration */}
-                      <div className="text-sm text-slate-400 text-right">{track.duration}</div>
+                      {/* Duration & mobile favorite */}
+                      <div className="flex items-center justify-end gap-1.5 text-xs sm:text-sm text-slate-400 text-right">
+                        <button 
+                          onClick={(e) => toggleFavorite(track.id, e)}
+                          className={cn("sm:hidden p-1 transition-colors", isFav ? "text-emerald-500" : "text-slate-400 hover:text-white")}
+                          aria-label="Toggle favorite"
+                        >
+                          <Heart className="w-3.5 h-3.5" fill={isFav ? "currentColor" : "none"} />
+                        </button>
+                        <span className="shrink-0">{track.duration}</span>
+                      </div>
                     </div>
                   );
                 })}

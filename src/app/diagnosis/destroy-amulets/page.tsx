@@ -83,43 +83,43 @@ export default function DestroyAmuletsPage() {
         </div>
 
         {/* Hero Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-gold-ink text-xs font-semibold mb-4 shadow-sm backdrop-blur-md">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-gold-ink text-xs font-semibold mb-3 sm:mb-4 shadow-sm backdrop-blur-md">
             <FileX2 className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             <span>শরীয়াহসম্মত সুন্নাহ পদ্ধতি</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-zinc-100 tracking-tight leading-tight mb-4">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-zinc-100 tracking-tight leading-tight mb-3 sm:mb-4">
             শিরকী তাবিজ বা জাদুর নকশা <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-teal-600 to-amber-600 dark:from-emerald-400 dark:to-amber-300">নষ্ট করার নিয়ম</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-700 dark:text-zinc-300 leading-relaxed">
+          <p className="text-sm sm:text-lg text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
             বাসায়, পোশাকে বা ঘরের কোনো স্থানে সন্দেহজনক তাবিজ বা বান-টোনার উপাদান পাওয়া গেলে বিচলিত না হয়ে সুন্নাহসম্মত উপায়ে তা নিষ্ক্রিয় করুন।
           </p>
         </div>
 
         {/* 4 Steps Section */}
-        <div className="space-y-6 mb-12">
+        <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
           {steps.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.stepNum}
-                className="rounded-3xl bg-white/80 dark:bg-zinc-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-xl p-6 sm:p-8 transition-all hover:border-emerald-500/40"
+                className="rounded-2xl sm:rounded-3xl bg-white/80 dark:bg-zinc-900/60 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-xl p-4 sm:p-8 transition-all hover:border-emerald-500/40"
               >
-                <div className="flex flex-col sm:flex-row items-start gap-5">
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
                   <div
-                    className={`w-14 h-14 rounded-2xl ${item.bgColor} border flex items-center justify-center shrink-0 shadow-sm`}
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${item.bgColor} border flex items-center justify-center shrink-0 shadow-sm`}
                   >
-                    <Icon className={`w-7 h-7 ${item.color}`} />
+                    <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${item.color}`} />
                   </div>
 
-                  <div className="space-y-3 flex-1">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                  <div className="space-y-2.5 sm:space-y-3 flex-1 min-w-0">
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                      <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 shrink-0">
                         ধাপ {item.stepNum}
                       </span>
-                      <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-zinc-100">
+                      <h2 className="text-lg sm:text-2xl font-bold text-slate-900 dark:text-zinc-100 truncate">
                         {item.title}
                       </h2>
                     </div>
@@ -131,7 +131,7 @@ export default function DestroyAmuletsPage() {
                     {item.surahs && (
                       <div className="pt-2">
                         <div className="text-xs font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5" /> পাঠযোগ্য নির্দিষ্ট রুকইয়াহ আয়াতসমূহ:
+                          <Sparkles className="w-3.5 h-3.5 text-amber-500" /> পাঠযোগ্য নির্দিষ্ট রুকইয়াহ আয়াতসমূহ:
                         </div>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-800 dark:text-zinc-200">
                           {item.surahs.map((surah, idx) => (
@@ -153,21 +153,21 @@ export default function DestroyAmuletsPage() {
         </div>
 
         {/* Safety Note Card */}
-        <div className="rounded-3xl bg-gradient-to-r from-emerald-900/10 via-amber-500/10 to-emerald-900/10 border border-emerald-500/30 p-6 sm:p-8 mb-10 text-center">
-          <ShieldCheck className="w-10 h-10 text-emerald-600 dark:text-emerald-400 mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-slate-900 dark:text-zinc-100 mb-2">
+        <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-emerald-900/10 via-amber-500/10 to-emerald-900/10 border border-emerald-500/30 p-4 sm:p-8 mb-8 sm:mb-10 text-center">
+          <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400 mx-auto mb-2.5 sm:mb-3" />
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-zinc-100 mb-2">
             গুরুত্বপূর্ণ আত্মিক সতর্কতা
           </h3>
-          <p className="text-sm text-slate-700 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
             তাবিজ খোলার সময় মনে কোনো ভীতি বা শঙ্কা রাখবেন না। আয়াতুল কুরসি পাঠ করে পূর্ণ ঈমান ও তাওয়াক্কুলের সাথে নিষ্ক্রিয়করণ সম্পন্ন করুন। একমাত্র আল্লাহ তাআলাই সকল ক্ষতি থেকে রক্ষাকারী।
           </p>
         </div>
 
         {/* Bottom Actions */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/diagnosis"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-white/10 dark:hover:bg-white/15 text-slate-900 dark:text-white font-semibold text-sm transition-all"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-white/10 dark:hover:bg-white/15 text-slate-900 dark:text-white font-semibold text-sm transition-all"
           >
             <ArrowLeft className="w-4 h-4" /> ডায়াগনোসিস পোর্টালে ফিরুন
           </Link>
@@ -175,7 +175,7 @@ export default function DestroyAmuletsPage() {
             href="https://wa.me/8801353301772?text=আসসালামু%20আলাইকুম,%20তাবিজ%20নষ্টের%20ব্যাপারে%20পরামর্শ%20চাই।"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm transition-all shadow-lg shadow-emerald-900/20"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm transition-all shadow-lg shadow-emerald-900/20"
           >
             <MessageCircle className="w-4 h-4" /> সরাসরি রাকির পরামর্শ নিন
           </a>
