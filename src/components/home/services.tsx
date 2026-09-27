@@ -1,87 +1,150 @@
-import * as React from "react";
-import { EyeOff, Ghost, Brain, Frown, Users, Activity } from "lucide-react";
+"use client";
+
+import Link from "next/link";
+import { motion, Variants } from "framer-motion";
+import { EyeOff, Ghost, Brain, Frown, Users, Activity, ArrowRight, ShieldCheck } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
+
+const services = [
+  {
+    id: "jadu",
+    title: "জাদুটোনা (সিহর)",
+    description:
+      "কালো জাদু বা সিহরে আক্রান্ত ব্যক্তিদের শরিয়াহসম্মত দুআ ও আয়াতের মাধ্যমে সুস্থতার দিকনির্দেশনা।",
+    icon: Ghost,
+  },
+  {
+    id: "nazar",
+    title: "বদনজর (আইন)",
+    description:
+      "হঠাৎ অসুস্থতা, ব্যবসায় ক্ষতি বা হঠাৎ মানসিক পরিবর্তনের পেছনে বদনজরের প্রভাবে সুন্নাহসম্মত প্রতিষেধক।",
+    icon: EyeOff,
+  },
+  {
+    id: "jinn",
+    title: "জ্বিন আছর",
+    description:
+      "অহেতুক ভয়ভীতি, রাতে অস্থিরতা ও জিনের উপদ্রব থেকে কোরআনের কালাম দিয়ে আত্মরক্ষার উপায়।",
+    icon: Users,
+  },
+  {
+    id: "mental",
+    title: "মানসিক অস্থিরতা",
+    description:
+      "দুশ্চিন্তা, মানসিক অবসাদ ও বিষন্নতায় ভুগে যারা শান্তি পাচ্ছেন না—তাদের অন্তরের প্রশান্তির জন্য রুকইয়াহ।",
+    icon: Brain,
+  },
+  {
+    id: "physical",
+    title: "অজানা রোগ",
+    description:
+      "চিকিৎসাবিজ্ঞানে স্পষ্ট কারণ মিলছে না এমন দীর্ঘস্থায়ী শারীরিক ব্যথায় সুন্নাহসম্মত আরোগ্য।",
+    icon: Activity,
+  },
+  {
+    id: "family",
+    title: "পারিবারিক কলহ",
+    description:
+      "পারিবারিক সম্পর্কের অবক্ষয় বা স্বামী-স্ত্রীর দূরত্ব কমাতে সুন্নাহর আলোকে আত্মিক পরামর্শ।",
+    icon: Frown,
+  },
+];
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 export function ServicesSection() {
-  const services = [
-    {
-      id: "jadu",
-      title: "জাদুটোনা (সিহর)",
-      description: "কালো জাদু বা সিহরের কারণে হওয়া শারীরিক ও মানসিক সমস্যার কোরআন সুন্নাহ ভিত্তিক সমাধান।",
-      icon: Ghost,
-    },
-    {
-      id: "nazar",
-      title: "বদনজর (আইন)",
-      description: "বদনজরের কারণে হওয়া হঠাৎ অসুস্থতা, ব্যবসায় ক্ষতি বা পড়াশোনায় অমনোযোগিতার চিকিৎসা।",
-      icon: EyeOff,
-    },
-    {
-      id: "jinn",
-      title: "জ্বিন আছর",
-      description: "জিনের উপদ্রব, ভয় পাওয়া, বা অস্বাভাবিক আচরণের জন্য বিশেষ রুকইয়াহ।",
-      icon: Users,
-    },
-    {
-      id: "mental",
-      title: "মানসিক অস্থিরতা",
-      description: "অতিরিক্ত দুশ্চিন্তা, হতাশা, ডিপ্রেশন এবং মানসিক অবসাদ দূর করতে রুকইয়াহ।",
-      icon: Brain,
-    },
-    {
-      id: "physical",
-      title: "অজানা রোগ",
-      description: "ডাক্তারি পরীক্ষায় ধরা পড়ে না এমন শারীরিক ব্যথাবেদনা ও অসুস্থতার চিকিৎসা।",
-      icon: Activity,
-    },
-    {
-      id: "family",
-      title: "পারিবারিক কলহ",
-      description: "স্বামী-স্ত্রীর অমিল বা পরিবারে অশান্তি দূর করতে সুন্নাহ সম্মত পরামর্শ ও রুকইয়াহ।",
-      icon: Frown,
-    }
-  ];
-
   return (
-    <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">
-            যেসব সমস্যার চিকিৎসা করা হয়
-          </h2>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-6 md:mb-8" />
-          <p className="text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed">
-            আমরা সম্পূর্ণ শরীয়াহ সম্মত উপায়ে বিভিন্ন আধ্যাত্মিক ও শারীরিক সমস্যার চিকিৎসা প্রদান করে থাকি। 
-            নিচে আমাদের প্রধান সেবাসমূহ দেওয়া হলো।
-          </p>
-        </div>
+    <section className="relative overflow-hidden py-16 lg:py-24 border-y border-hairline/80 bg-surface-sunken/40">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-          {services.map((service) => (
-            <div 
-              key={service.id}
-              className="glass-card p-5 sm:p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
-            >
-              {/* Minimal Background Design */}
-              <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-full blur-3xl group-hover:bg-emerald-200/50 dark:group-hover:bg-emerald-800/30 transition-colors duration-500 pointer-events-none"></div>
-              <div className="absolute -bottom-8 -right-8 text-slate-50 dark:text-light-heading/50 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
-                <service.icon className="w-24 h-24 md:w-40 md:h-40 opacity-70 dark:opacity-40" />
-              </div>
-              
-              <div className="relative z-10">
-                <div className="icon-container-premium mb-4 md:mb-6 inline-flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-xl md:rounded-2xl text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-300">
-                  <service.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
+      <div className="shell relative z-10">
+        <Reveal className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold-ornament/40 bg-gold-soft/40 dark:bg-gold-soft/20 px-3.5 py-1 mb-4">
+            <ShieldCheck className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+            <span className="type-citation text-xs font-semibold text-amber-900 dark:text-gold-ink">সেবাসমূহ</span>
+          </div>
+          <h2 className="type-title text-ink-strong lg:text-4xl">
+            যেসব বিষয়ে আমরা পরামর্শ ও চিকিৎসা দিই
+          </h2>
+          <p className="type-body-lg mt-4 text-ink-body">
+            দৈনন্দিন জীবনের বিভিন্ন আত্মিক ও শারীরিক কষ্টে কুরআন ও হাদিসের আলোতে আপনার সুস্থতার জন্য আমরা নিবেদিত।
+          </p>
+        </Reveal>
+
+        <div className="mt-12 lg:mt-16">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={containerVariants}
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {services.map((service) => (
+              <motion.div
+                key={service.id}
+                variants={itemVariants}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3 }}
+                className="group relative flex flex-col justify-between rounded-2xl border border-hairline/80 bg-surface-raised/80 p-7 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-emerald-500/40 hover:shadow-md hover:shadow-emerald-900/5"
+              >
+                {/* Subtle card top glow */}
+                <div className="absolute top-0 right-8 h-px w-24 bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-interactive transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <service.icon className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+                  </div>
+                  <h3 className="type-heading-sm mt-6 text-ink-strong group-hover:text-interactive transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="type-body mt-2.5 text-ink-body leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-[14px] md:text-[15px] text-light-text dark:text-slate-400 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            </div>
-          ))}
+
+                <div className="mt-6 pt-4 border-t border-hairline/60 flex items-center gap-1.5 text-xs font-semibold text-interactive opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span>বিস্তারিত জানুন</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-raised px-6 py-3 text-sm font-semibold text-interactive shadow-sm backdrop-blur-md transition-all duration-200 hover:border-emerald-500/40 hover:bg-surface-sunken"
+            >
+              <span>সকল সেবার বিস্তারিত দেখুন</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+

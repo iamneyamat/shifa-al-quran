@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AboutClient } from "./about-client";
+import AboutPageClient from "./about-client";
 
 export const metadata: Metadata = {
   title: "আমাদের সম্পর্কে | Shifa Al Quran",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutClient />;
+  return <AboutPageClient />;
 }

@@ -1,189 +1,138 @@
 "use client";
 
-import * as React from "react";
-import { motion, useInView, useSpring, useTransform, Variants } from "framer-motion";
-import { 
-  BookOpen, 
-  Award, 
-  ShieldCheck, 
-  Sparkles, 
-  HeartHandshake, 
+import { motion, Variants } from "framer-motion";
+import {
+  BookOpen,
+  Award,
+  ShieldCheck,
+  CheckCircle2,
+  HeartHandshake,
   Globe2,
-  Users
+  Users,
 } from "lucide-react";
-
-// Custom Animated Counter
-function AnimatedCounter({ value, duration = 2 }: { value: number, duration?: number }) {
-  const ref = React.useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-  
-  const springValue = useSpring(0, {
-    bounce: 0,
-    duration: duration * 1000,
-  });
-
-  React.useEffect(() => {
-    if (isInView) {
-      springValue.set(value);
-    }
-  }, [isInView, springValue, value]);
-
-  const displayValue = useTransform(springValue, (current) => 
-    Math.round(current).toLocaleString("bn-BD")
-  );
-
-  return <motion.span ref={ref}>{displayValue}</motion.span>;
-}
+import { Reveal } from "@/components/motion/reveal";
 
 const features = [
   {
     icon: BookOpen,
     title: "কুরআন ও সুন্নাহ ভিত্তিক রুকইয়াহ",
-    description: "সম্পূর্ণ কোরআন ও সহিহ সুন্নাহর আলোকে বিশুদ্ধ চিকিৎসা পদ্ধতি।"
+    description: "সম্পূর্ণ কোরআন ও সহিহ সুন্নাহর আলোকে বিশুদ্ধ চিকিৎসা পদ্ধতি।",
   },
   {
     icon: Award,
     title: "অভিজ্ঞ রাকি",
-    description: "দীর্ঘদিনের অভিজ্ঞ ও নির্ভরযোগ্য রুকইয়াহ বিশেষজ্ঞ দ্বারা পরিচালিত।"
+    description:
+      "দীর্ঘদিনের অভিজ্ঞ ও নির্ভরযোগ্য রুকইয়াহ বিশেষজ্ঞ দ্বারা পরিচালিত।",
   },
   {
     icon: ShieldCheck,
     title: "সর্বোচ্চ গোপনীয়তা",
-    description: "আমাদের কাছে রোগীদের তথ্য ও চিকিৎসার শতভাগ গোপনীয়তা বজায় রাখা হয়।"
+    description:
+      "আমাদের কাছে রোগীদের তথ্য ও চিকিৎসার শতভাগ গোপনীয়তা বজায় রাখা হয়।",
   },
   {
-    icon: Sparkles,
+    icon: CheckCircle2,
     title: "বিদআত মুক্ত পদ্ধতি",
-    description: "যেকোনো প্রকার বিদআত, শিরক ও কুসংস্কার থেকে সম্পূর্ণ মুক্ত চিকিৎসা।"
+    description:
+      "যেকোনো প্রকার বিদআত, শিরক ও কুসংস্কার থেকে সম্পূর্ণ মুক্ত চিকিৎসা।",
   },
   {
     icon: HeartHandshake,
     title: "পারিবারিক কাউন্সেলিং",
-    description: "পারিবারিক অশান্তি ও মানসিক শান্তির জন্য কোরআনিক কাউন্সেলিং।"
+    description: "পারিবারিক অশান্তি ও মানসিক শান্তির জন্য কোরআনিক কাউন্সেলিং।",
   },
   {
     icon: Globe2,
     title: "অনলাইন ও অফলাইন সেবা",
-    description: "ঘরে বসে দেশ-বিদেশ থেকে অনলাইনে চিকিৎসা নেওয়ার সুব্যবস্থা।"
-  }
+    description: "ঘরে বসে দেশ-বিদেশ থেকে অনলাইনে চিকিৎসা নেওয়ার সুব্যবস্থা।",
+  },
 ];
 
-const staggerVariants: Variants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
 };
 
-const cardVariants: Variants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
-    opacity: 1, 
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
 };
 
 export function AboutSection() {
   return (
-    <section className="relative overflow-hidden bg-light-bg-alt3 dark:bg-[#020817] py-16 md:py-24">
-      {/* Background Decor */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 dark:opacity-20">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-300/20 dark:bg-blue-800/20 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-300/20 dark:bg-amber-800/10 rounded-full blur-[100px] -translate-x-1/3 translate-y-1/3" />
-      </div>
+    <section className="section-band bg-surface-base">
+      <div className="shell">
+        <Reveal className="max-w-3xl">
+          <p className="eyebrow">আমাদের বিশেষত্ব</p>
+          <h2 className="type-title mt-4 text-ink-strong">
+            কেন শিফা আল কুরআনকে বেছে নিবেন?
+          </h2>
+          <p className="type-body-lg mt-5 text-ink-body">
+            আমরা কোনো সাধারণ চিকিৎসা কেন্দ্র নই, বরং আমরা কোরআন ও সুন্নাহর আলোকে
+            মানুষের শারীরিক ও আধ্যাত্মিক সুস্থতা নিশ্চিত করতে বদ্ধপরিকর।
+          </p>
+        </Reveal>
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+        <div className="mt-11 lg:mt-14">
+          <motion.ul 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={containerVariants}
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
           >
-            <h2 className="text-sm font-bold tracking-widest uppercase text-amber-600 dark:text-amber-500 mb-3">
-              আমাদের বিশেষত্ব
-            </h2>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-6 leading-tight">
-              কেন শিফা আল কুরআনকে বেছে নিবেন?
-            </h3>
-            <div className="h-1.5 w-24 bg-gradient-to-r from-blue-600 to-amber-500 mx-auto rounded-full mb-6" />
-            <p className="text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
-              আমরা কোনো সাধারণ চিকিৎসা কেন্দ্র নই, বরং আমরা কোরআন ও সুন্নাহর আলোকে মানুষের শারীরিক ও আধ্যাত্মিক সুস্থতা নিশ্চিত করতে বদ্ধপরিকর।
-            </p>
-          </motion.div>
+            {features.map((feature) => (
+              <motion.li 
+                key={feature.title} 
+                variants={itemVariants}
+                className="card flex h-full flex-col hover:border-emerald-500/40 transition-colors"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+                  <feature.icon
+                    className="h-5 w-5"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                </span>
+                <h3 className="type-heading-sm mt-5 text-ink-strong">
+                  {feature.title}
+                </h3>
+                <p className="type-body mt-2 text-ink-body">
+                  {feature.description}
+                </p>
+              </motion.li>
+            ))}
+          </motion.ul>
         </div>
 
-        {/* 6 Feature Cards Grid */}
-        <motion.div 
-          variants={staggerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto mb-20"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              className="glass-card rounded-2xl md:rounded-[32px] p-5 sm:p-6 md:p-8 relative group overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 dark:bg-amber-400/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="mb-4 md:mb-6 inline-flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10 shadow-[0_0_15px_rgba(59,130,246,0.1)] dark:shadow-[0_0_15px_rgba(59,130,246,0.05)] border border-blue-100/80 dark:border-blue-800/30 text-blue-700 dark:text-amber-400 relative z-10 group-hover:scale-110 transition-transform duration-500 ease-out">
-                <feature.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
-              </div>
-              
-              <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3 relative z-10 group-hover:text-blue-700 dark:group-hover:text-amber-400 transition-colors">
-                {feature.title}
-              </h4>
-              <p className="text-[15px] leading-relaxed text-light-text dark:text-slate-400 relative z-10">
-                {feature.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Premium Trust Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8 }}
-          className="max-w-5xl mx-auto"
-        >
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-blue-700 to-slate-900 p-[1px] shadow-2xl group">
-            {/* Animated Gradient Border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-amber-400 to-blue-400 opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-700" />
-            
-            <div className="relative bg-light-bg-main dark:bg-slate-950 rounded-[23px] px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left overflow-hidden">
-              
-              {/* Minimal Grid Pattern for a premium touch */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808015_1px,transparent_1px),linear-gradient(to_bottom,#80808015_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-
-              {/* Soft background pulse */}
-              <motion.div 
-                animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} 
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -right-20 -top-20 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"
-              />
-
-              <div className="h-16 w-16 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-800/50">
-                <Users className="h-8 w-8 text-amber-500" />
-              </div>
-              
-              <div>
-                <h4 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-light-heading dark:text-slate-100 leading-snug">
-                  আলহামদুলিল্লাহ, আল্লাহর রহমতে গত এক বছরে অনলাইন ও অফলাইন মিলিয়ে প্রায় <span className="text-blue-700 dark:text-amber-500 inline-flex items-center"><AnimatedCounter value={30000} />+</span> মানুষ আমাদের সেবা গ্রহণ করেছেন।
-                </h4>
-              </div>
-            </div>
+        <Reveal>
+          <div className="mt-11 flex flex-col gap-5 rounded-lg border border-hairline bg-surface-sunken p-6 sm:flex-row sm:items-center sm:gap-6 sm:p-8 lg:mt-14">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+              <Users className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <p className="type-body-lg text-ink-body">
+              আলহামদুলিল্লাহ, আল্লাহর রহমতে গত এক বছরে অনলাইন ও অফলাইন মিলিয়ে
+              প্রায়{" "}
+              <strong className="font-semibold text-ink-strong">
+                ৩০,০০০+ মানুষ
+              </strong>{" "}
+              আমাদের সেবা গ্রহণ করেছেন।
+            </p>
           </div>
-        </motion.div>
-
+        </Reveal>
       </div>
     </section>
   );

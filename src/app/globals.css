@@ -2,61 +2,228 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --font-sans: var(--font-hind), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-hind), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+/* ===========================================================================
+   SHIFA AL QURAN — FOUNDATION DESIGN SYSTEM
+   Direction: "MAKHTUT" (Scholarly Codex) — paper, rule and ink.
+   Emerald = interaction/action. Gold = source/citation.
+   Light mode = "parchment". Dark mode = "ink" (default theme).
 
+   STEP 1 = FOUNDATION ONLY. Tokens and utilities are established here so that
+   later component steps can consume them. Existing token names are retained
+   and remapped so current components keep compiling without edits.
+
+   All contrast ratios in comments are computed WCAG 2.x sRGB values.
+   =========================================================================== */
+
+@theme {
+  /* ---------------------------------------------------------------- FONTS */
+  --font-sans: var(--font-hind), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Bengali display serif. Weights 600/700 only — see typography rules. */
+  --font-heading: var(--font-noto-bengali), var(--font-hind), ui-serif, Georgia, serif;
+  /* Quranic Calligraphy & Naskh. */
+  --font-arabic: var(--font-scheherazade), var(--font-aref-ruqaa), var(--font-amiri), "Amiri Quran", serif;
+
+  /* --------------------------------------------------- SEMANTIC SURFACES
+     Theme-aware: values flip in :root / .dark below. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  --color-surface-base: var(--surface-base);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-hairline: var(--hairline);
+  --color-control-border: var(--control-border);
+
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+
+  /* Emerald = interaction. `interactive` is the TEXT/LINK role;
+     `primary` is the BUTTON-BACKGROUND role (paired with primary-foreground). */
+  --color-interactive: var(--interactive);
+  --color-interactive-hover: var(--interactive-hover);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-ink: var(--primary-soft-ink);
+
+  /* Gold = source/citation. Asymmetric by design:
+     ornament-only in light (1.98:1), text-safe in dark (9.59:1). */
+  --color-gold-ornament: var(--gold-ornament);
+  --color-gold-ink: var(--gold-ink);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-soft-ink: var(--gold-soft-ink);
+
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-warning: var(--warning);
+  --color-focus-ring: var(--focus-ring);
 
   --color-border: var(--border);
 
+  /* ------------------------------------------------------- EMERALD RAMP
+     The 600/700 stops are shifted one step darker so that every existing
+     `bg-emerald-600 text-white` reaches AA without touching a component,
+     while `hover:bg-emerald-700` still yields a genuinely darker hover.
+       emerald-600 #047857 -> white on it = 5.48:1 PASS (was 3.77 FAIL)
+       emerald-700 #065F46 -> on parchment = 7.24:1
+       emerald-400 #00D492 -> on ink base  = 10.41:1 (dark interactive)
+       emerald-500 #10b981 -> ink text on it = 7.95:1 (dark button) */
+  --color-emerald-400: #00d492;
   --color-emerald-500: #10b981;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
+  --color-emerald-600: #047857;
+  --color-emerald-700: #065f46;
   --color-dark-green: #064e3b;
+
+  /* Legacy gold aliases (retained: --color-gold is referenced by name). */
   --color-gold: #d4af37;
   --color-gold-hover: #fcd34d;
 
-  --color-light-bg-main: #f8fafc; /* slate-50 */
-  --color-light-bg-alt1: #f1f5f9; /* slate-100 */
-  --color-light-bg-alt2: #ffffff; /* Use white for inner cards only, but keep background F8FAFC */
-  --color-light-bg-alt3: #e2e8f0; /* slate-200 */
-  --color-light-border: #cbd5e1; /* slate-300 */
-  --color-light-heading: #0f172a; /* slate-900 */
-  --color-light-text: #475569; /* slate-600 */
-  
-  /* Premium Soft Shadow */
-  --shadow-premium-soft: 0 8px 30px rgba(15, 23, 42, 0.04);
+  /* --------------------------------------- LEGACY LIGHT-MODE ALIASES
+     Literal light values (always paired with `dark:` variants in markup).
+     Remapped from cool slate to the parchment ramp so existing components
+     adopt the new direction with no markup changes. */
+  --color-light-bg-main: #faf8f4;   /* surface-base   (was slate-50)  */
+  --color-light-bg-alt1: #f2eee7;   /* surface-sunken (was slate-100) */
+  --color-light-bg-alt2: #ffffff;   /* surface-raised — inner cards   */
+  --color-light-bg-alt3: #e9e3d8;   /* deep band      (was slate-200) */
+  --color-light-border: #e4ded3;    /* hairline       (was slate-300) */
+  --color-light-heading: #16241f;   /* ink-strong  15.16:1 on base    */
+  --color-light-text: #43524c;      /* ink-body     7.76:1 on base    */
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  /* ------------------------------------------------------------ RADIUS
+     One language: three steps plus circles. xl/2xl/3xl are collapsed onto
+     the card radius so the ~64 existing rounded-xl/2xl/3xl usages unify
+     without component edits. Tailwind defaults were 4/6/8/12/16/24px. */
+  --radius-sm: 6px;    /* badges, chips, focus inset            */
+  --radius-md: 10px;   /* buttons, inputs, selects              */
+  --radius-lg: 14px;   /* cards, panels, modals, media          */
+  --radius-xl: 14px;
+  --radius-2xl: 14px;
+  --radius-3xl: 14px;
+
+  /* --------------------------------------------------------- ELEVATION
+     Default separator is a hairline, not a shadow. Shadows are for things
+     that genuinely float. In dark mode elevation is a surface lightness
+     step (see the elevation-* utilities), because shadows are invisible
+     against #020617. */
+  --shadow-card: 0 1px 2px rgba(22, 36, 31, 0.04), 0 2px 8px rgba(22, 36, 31, 0.04);
+  --shadow-elevated: 0 4px 16px rgba(22, 36, 31, 0.06);
+  --shadow-floating: 0 12px 32px rgba(22, 36, 31, 0.1);
+  --shadow-premium-soft: 0 8px 30px rgba(15, 23, 42, 0.04); /* retained: in use */
+
+  /* ------------------------------------------------------------ EASING */
+  --ease-decelerate: cubic-bezier(0.2, 0, 0, 1);   /* arriving / expanding */
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);   /* leaving  / collapsing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);   /* in-place changes      */
+
+  /* -------------------------------------------------------- CONTAINERS
+     Spacing itself is NOT redefined: Tailwind's --spacing is already
+     0.25rem, so p-1/2/3/4/5/6/8/10/12/16/20/28 give exactly the approved
+     4 8 12 16 20 24 32 40 48 64 80 112 scale. Only the two named layout
+     measures are added here. */
+  --container-reading: 68ch;   /* max-w-reading — long-form prose measure */
+  --container-page: 1200px;    /* max-w-page    — grid/shell maximum      */
 }
 
+/* ============================================================ LIGHT: PARCHMENT */
 :root {
-  --background: #f8fafc;
-  --foreground: #334155;
-  
-  --primary: #059669;
-  --primary-foreground: #ffffff;
-  
-  --border: #e2e8f0;
-  
-  --radius: 0.5rem;
+  --surface-base: #faf8f4;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f2eee7;
+
+  --hairline: #e4ded3;        /* 1.26:1 — ornamental only, never a sole cue */
+  --control-border: #7e8c84;  /* 3.52:1 on raised, 3.32:1 on base — PASS 3:1 */
+
+  --ink-strong: #16241f;      /* 15.16:1 */
+  --ink-body: #43524c;        /*  7.76:1 */
+  --ink-muted: #566259;       /*  6.02:1 */
+
+  --interactive: #047857;       /* 5.17:1 */
+  --interactive-hover: #065f46; /* 7.24:1 */
+  --primary: #047857;
+  --primary-foreground: #ffffff; /* 5.48:1 on primary — PASS (was 3.77 FAIL) */
+  --primary-hover: #065f46;      /* darker on hover; white on it = 7.68:1 */
+  --primary-soft: #d9f2e6;
+  --primary-soft-ink: #065f46;   /* 6.51:1 on primary-soft */
+
+  --gold-ornament: #d4af37;   /* 1.98:1 — ORNAMENT ONLY in light mode */
+  --gold-ink: #7a5e14;        /* 5.76:1 — citation text                */
+  --gold-soft: #f3e9ce;
+  --gold-soft-ink: #7a5e14;   /* 5.05:1 on gold-soft */
+
+  --error: #b91c1c;           /* 6.10:1 */
+  --error-foreground: #ffffff; /* 6.47:1 on error */
+  --warning: #92400e;         /* 6.68:1 */
+  --focus-ring: #047857;      /* 5.17:1 — PASS 3:1 (was emerald-500/60 at 2.42) */
+
+  --background: var(--surface-base);
+  --foreground: var(--ink-body);
+  --border: var(--hairline);
+
+  /* ------------------------------------------------------------- MOTION
+     Consume as duration-[var(--duration-fast)] or in plain CSS.
+     Exit durations are ~70% of their enter counterpart. */
+  --duration-instant: 120ms;
+  --duration-fast: 180ms;
+  --duration-normal: 240ms;
+  --duration-deliberate: 320ms;
+  --duration-exit-fast: 126ms;
+  --duration-exit-normal: 168ms;
+  --duration-exit-deliberate: 224ms;
+
+  /* ------------------------------------------------------------ Z-INDEX
+     Single source of truth for stacking. Later steps migrate the existing
+     ad-hoc z-50 / z-[90] / z-[100] usages onto this scale. */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky-nav: 40;
+  --z-fab: 50;
+  --z-player: 60;
+  --z-drawer: 90;
+  --z-modal: 100;
+
+  /* Height reserved by the persistent audio player. Later steps offset the
+     WhatsApp FAB by this so the two can never collide. 0 until a player exists. */
+  --player-offset: 0px;
 }
 
+/* ================================================================= DARK: INK */
 .dark {
-  --background: #020617;
-  --foreground: #f8fafc;
-  
+  --surface-base: #020617;    /* unchanged — protected base surface */
+  --surface-raised: #0b1220;
+  --surface-sunken: #010409;
+
+  --hairline: #17233a;        /* 1.29:1 — ornamental only */
+  --control-border: #64758f;  /* 4.00:1 on raised, 4.31:1 on base */
+
+  --ink-strong: #f8fafc;      /* 19.28:1 */
+  --ink-body: #cad5e2;        /* 13.57:1 */
+  --ink-muted: #90a1b9;       /*  7.67:1 */
+
+  --interactive: #00d492;       /* 10.41:1 */
+  --interactive-hover: #10b981;
   --primary: #10b981;
-  --primary-foreground: #f8fafc;
-  
-  --border: #1e293b;
+  --primary-foreground: #020617; /* 7.95:1 on primary — PASS (was 2.42 FAIL) */
+  --primary-hover: #00d492;      /* lighter on hover; ink on it = 10.41:1 */
+  --primary-soft: #06251c;
+  --primary-soft-ink: #00d492;   /* 8.40:1 on primary-soft */
+
+  --gold-ornament: #d4af37;   /* 9.59:1 — text-safe in dark mode */
+  --gold-ink: #d4af37;
+  --gold-soft: #241c06;
+  --gold-soft-ink: #d4af37;   /* 8.03:1 on gold-soft */
+
+  --error: #f87171;           /*  7.29:1 */
+  --error-foreground: #020617; /*  7.30:1 on error */
+  --warning: #fbbf24;         /* 12.08:1 */
+  --focus-ring: #10b981;      /*  7.95:1 */
+
+  --background: var(--surface-base);
+  --foreground: var(--ink-body);
+  --border: var(--hairline);
 }
 
 @layer base {
@@ -65,9 +232,38 @@
     color: var(--color-foreground);
   }
 
-  /* Global premium focus state for accessibility */
+  /* Global focus state. Mechanism preserved (2px ring + 2px offset gap);
+     only the colours change. The offset now tracks the page surface via
+     `ring-offset-background`, so it is correct in both themes from one rule.
+       light: emerald-600 #047857 on #FAF8F4 = 5.17:1 PASS 3:1
+       dark:  emerald-500 #10b981 on #020617 = 7.95:1 PASS 3:1 */
   *:focus-visible {
-    @apply outline-none ring-2 ring-emerald-500/60 ring-offset-2 ring-offset-white dark:ring-offset-slate-950 transition-shadow rounded-sm;
+    @apply outline-none ring-2 ring-emerald-600 dark:ring-emerald-500 ring-offset-2 ring-offset-background transition-shadow rounded-sm;
+  }
+
+  /* --------------------------------------------------------- REDUCED MOTION
+     Collapses CSS transitions/animations to effectively instant and stops
+     decorative loops. Interaction is unaffected: final states still apply,
+     only their interpolation is removed.
+
+     Opt an element out with data-allow-motion (genuine loading indicators
+     only) so progress feedback is never frozen.
+
+     NOTE: Framer Motion animates via inline style from JS and is therefore
+     NOT covered by this block. Components must additionally call
+     useReducedMotion() — that is component work, scheduled for later steps. */
+  @media (prefers-reduced-motion: reduce) {
+    *:not([data-allow-motion]),
+    *:not([data-allow-motion])::before,
+    *:not([data-allow-motion])::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      /* Delays are motion too: a staged transition left with its delay intact
+         still makes the UI wait. Collapse both halves of the timing. */
+      transition-delay: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -77,14 +273,962 @@
   }
 }
 
+/* ===========================================================================
+   TYPOGRAPHIC SCALE
+   One utility per role, carrying size + line-height + weight + family so the
+   three cannot drift apart. clamp() interpolates mobile -> desktop between
+   375px and 1280px viewports, hitting the approved tablet value in between.
+
+   HARD RULES (enforced by these utilities, do not override in markup):
+     - Arabic stays weight 400. Never faux-bold. Never drop-shadow.
+     - Never apply tracking-* or uppercase to Bengali text.
+     - Public weight ceiling is 700.
+   =========================================================================== */
+
+/* Quranic display — 30 / 40 / 52px */
+@utility type-ayah {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.875rem, 1.3053rem + 2.431vw, 3.25rem);
+  line-height: 1.95;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* Quranic inline — 22 / 24 / 26px */
+@utility type-ayah-inline {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.375rem, 1.2715rem + 0.442vw, 1.625rem);
+  line-height: 2;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* h1 — 28 / 34 / 40px */
+@utility type-display {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 1.4393rem + 1.326vw, 2.5rem);
+  line-height: 1.28;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-wrap: balance;
+}
+
+/* h2 — 24 / 26 / 30px */
+@utility type-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 1.3446rem + 0.663vw, 1.875rem);
+  line-height: 1.32;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-wrap: balance;
+}
+
+/* h3 — 20 / 21 / 22px. Serif Bengali floor: do not use below 20px. */
+@utility type-subtitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 1.1982rem + 0.221vw, 1.375rem);
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+/* h4 / card titles — 17 / 18 / 18px. Sans, because it is below the serif floor. */
+@utility type-heading-sm {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.0366rem + 0.1105vw, 1.125rem);
+  line-height: 1.45;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+/* Lead / article body — 17 / 18 / 19px */
+@utility type-body-lg {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.0107rem + 0.221vw, 1.1875rem);
+  line-height: 1.8;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* Body — 16px. Bengali needs the generous leading. */
+@utility type-body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+@utility type-body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* Metadata / labels. Bengali gets weight + colour, never uppercase/tracking. */
+@utility type-meta {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+/* Surah / collection references — 13 / 14px */
+@utility type-citation {
+  font-family: var(--font-sans);
+  font-size: clamp(0.8125rem, 0.7866rem + 0.1105vw, 0.875rem);
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+/* ===========================================================================
+   ELEVATION
+   Light mode separates with a hairline and, when it floats, a soft shadow.
+   Dark mode separates with a surface lightness step, because a shadow on
+   #020617 is invisible.
+   =========================================================================== */
+
+@utility elevation-subtle {
+  background-color: var(--surface-base);
+  border: 1px solid var(--hairline);
+  box-shadow: none;
+}
+
+.dark .elevation-subtle {
+  background-color: var(--surface-raised);
+}
+
+@utility elevation-card {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
+}
+
+.dark .elevation-card {
+  box-shadow: none;
+}
+
+/* Sticky navbar, dropdowns. */
+@utility elevation-elevated {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-elevated);
+}
+
+.dark .elevation-elevated {
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.04);
+}
+
+/* Modal, drawer, persistent audio bar — things that genuinely float. */
+@utility elevation-floating {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-floating);
+}
+
+.dark .elevation-floating {
+  box-shadow: 0 -8px 32px rgb(0 0 0 / 0.6);
+}
+
+/* ===========================================================================
+   LIQUID GLASS DESIGN SYSTEM
+   =========================================================================== */
+
+@utility glass-panel {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(228, 222, 211, 0.8);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-panel {
+  background-color: rgba(11, 18, 32, 0.6);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.4);
+}
+
 @utility glass-card {
-  @apply bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.2)];
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(228, 222, 211, 0.85);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.dark .glass-card {
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+@utility glass-nav {
+  background-color: rgba(250, 248, 244, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(228, 222, 211, 0.7);
+}
+
+.dark .glass-nav {
+  background-color: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===========================================================================
+   RICH TEXT
+   Shared long-form typography for CMS/markdown output and legal pages.
+   Dependency-free replacement for the inert `prose` classes — later steps
+   apply `rich-text` to /blog/[id], /privacy and /terms.
+   =========================================================================== */
+
+@utility rich-text {
+  max-width: var(--container-reading);
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.0107rem + 0.221vw, 1.1875rem);
+  line-height: 1.8;
+  color: var(--ink-body);
+  overflow-wrap: break-word;
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+
+  & p {
+    margin-block: 0 1.25em;
+  }
+
+  & h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 1.3446rem + 0.663vw, 1.875rem);
+    line-height: 1.32;
+    font-weight: 700;
+    color: var(--ink-strong);
+    text-wrap: balance;
+    margin-block: 2em 0.6em;
+  }
+
+  & h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 1.1982rem + 0.221vw, 1.375rem);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--ink-strong);
+    text-wrap: balance;
+    margin-block: 1.6em 0.5em;
+  }
+
+  & h4 {
+    font-family: var(--font-sans);
+    font-size: clamp(1.0625rem, 1.0366rem + 0.1105vw, 1.125rem);
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--ink-strong);
+    margin-block: 1.5em 0.5em;
+  }
+
+  & ul,
+  & ol {
+    margin-block: 0 1.25em;
+    padding-inline-start: 1.5em;
+  }
+
+  & ul {
+    list-style: disc;
+  }
+
+  & ol {
+    list-style: decimal;
+  }
+
+  /* Gold marks the ordered/unordered structure — restrained citation cue. */
+  & li::marker {
+    color: var(--gold-ornament);
+  }
+
+  & li {
+    margin-block: 0.4em;
+    line-height: 1.75;
+  }
+
+  & li > ul,
+  & li > ol {
+    margin-block: 0.4em 0.6em;
+  }
+
+  /* Manuscript pull-quote: a rule in the margin, not a tinted card.
+     No italics — Bengali has no true italic and browsers synthesise a
+     distorted oblique. */
+  & blockquote {
+    margin-block: 1.75em;
+    padding-inline-start: 1.25em;
+    border-inline-start: 2px solid var(--gold-ornament);
+    color: var(--ink-strong);
+    font-style: normal;
+  }
+
+  & blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  & a {
+    color: var(--interactive);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    overflow-wrap: anywhere;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  & a:hover {
+    color: var(--interactive-hover);
+    text-decoration-thickness: 2px;
+  }
+
+  & strong {
+    font-weight: 700;
+    color: var(--ink-strong);
+  }
+
+  /* Latin-run emphasis. Bengali emphasis should use <strong>. */
+  & em {
+    font-style: italic;
+  }
+
+  & code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.875em;
+    background-color: var(--surface-sunken);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    padding: 0.15em 0.4em;
+  }
+
+  & pre {
+    margin-block: 1.5em;
+    padding: 1rem 1.25rem;
+    background-color: var(--surface-sunken);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+
+  & pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  & hr {
+    margin-block: 2.5em;
+    border: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  & img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin-block: 1.75em;
+  }
+
+  & figcaption {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--ink-muted);
+    margin-top: 0.6em;
+  }
+
+  & table {
+    width: 100%;
+    margin-block: 1.75em;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  & th,
+  & td {
+    border: 1px solid var(--hairline);
+    padding: 0.6em 0.8em;
+    text-align: start;
+  }
+
+  & th {
+    background-color: var(--surface-sunken);
+    color: var(--ink-strong);
+    font-weight: 600;
+  }
+}
+
+/* ===========================================================================
+   STEP 2 - SHARED UI PRIMITIVES
+   Buttons, cards, inputs, badges, surfaces, dividers.
+
+   Defined as Tailwind v4 @utility so Server Components consume them with no
+   "use client" boundary and no new dependency, matching the primitive pattern
+   this project already used.
+
+   Cascade discipline: a base utility (.btn, .card, .badge) never declares a
+   property that a variant needs to override, so the two can never fight over
+   emitted source order. Where an override is genuinely required, a compound
+   rule (.btn.btn-sm) is used - higher specificity and unlayered, so it wins
+   deterministically.
+
+   Every colour is a foundation token, so one declaration covers both themes.
+   Contrast ratios in comments are computed WCAG 2.x values.
+   =========================================================================== */
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------ BUTTONS
+   Radius 10px. Colour transitions only: no lift, no scale, no glow shadow.
+   Focus comes from the global *:focus-visible rule; the utilities layer
+   outranks base for border-radius, so the ring follows the button shape.
+   Base declares NO background-color, color or border-color - variants own
+   those exclusively. */
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem; /* 44px - comfortable touch target at every breakpoint */
+  padding: 0.625rem 1.25rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Loading. The label stays legible and the spinner is a leading flex item,
+     so nothing overlaps and currentColor resolves to the variant's ink.
+     Set data-allow-motion alongside aria-busy so the global reduced-motion
+     block does not freeze genuine progress feedback. */
+  &[aria-busy="true"] {
+    cursor: wait;
+  }
+
+  &[aria-busy="true"]::before {
+    content: "";
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-block-start-color: transparent;
+    border-radius: 9999px;
+    animation: spinner-rotate 600ms linear infinite;
+  }
+}
+
+/* Emerald = action. Solid, high contrast, restrained. */
+@utility btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+  }
+}
+
+/* Neutral paper surface with a real rule around it. */
+@utility btn-secondary {
+  background-color: var(--surface-raised);
+  color: var(--ink-strong);
+  border-color: var(--control-border);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--surface-sunken);
+  }
+}
+
+/* Minimal. Hover resolves to the verified soft pair (6.51:1 / 8.40:1). */
+@utility btn-ghost {
+  background-color: transparent;
+  color: var(--interactive);
+  border-color: transparent;
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--primary-soft);
+    color: var(--primary-soft-ink);
+  }
+}
+
+/* Destructive only. Never used for ordinary navigation. */
+@utility btn-danger {
+  background-color: var(--error);
+  color: var(--error-foreground);
+  border-color: var(--error);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: transparent;
+    color: var(--error);
+  }
+}
+
+/* Sizes override the base, so they are compound + unlayered to win outright.
+   sm keeps a 40px target: still comfortable, above the 24px WCAG 2.2 floor. */
+.btn.btn-sm {
+  min-height: 2.5rem;
+  padding: 0.4375rem 0.875rem;
+  font-size: 0.875rem;
+}
+
+.btn.btn-lg {
+  min-height: 3.25rem;
+  padding: 0.875rem 1.75rem;
+  font-size: 1.0625rem;
+}
+
+.btn.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* -------------------------------------------------------------------- CARDS
+   Editorial and quiet: raised paper, a hairline rule, restrained elevation.
+   No gradient, no backdrop blur, no glow, no hover lift. */
+
+@utility card {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  /* Fluid so consumers never need a `sm:p-*` override, which would collide
+     with this declaration inside the same cascade layer. */
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  box-shadow: var(--shadow-card);
+}
+
+/* Dark separates by surface lightness step - a shadow on #020617 is invisible. */
+.dark .card {
+  box-shadow: none;
+}
+
+/* For a card that is itself a link or button. Border responds, geometry does not. */
+@utility card-interactive {
+  cursor: pointer;
+  transition-property: background-color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+
+  &:hover {
+    border-color: var(--control-border);
+    background-color: var(--surface-sunken);
+  }
+}
+
+/* Emphasis through a stronger rule, not through decoration. */
+.card.card-featured {
+  border-color: var(--control-border);
+}
+
+/* Gold = source/citation. The one place gold carries structural meaning. */
+.card.card-citation {
+  background-color: var(--surface-sunken);
+  border-color: var(--hairline);
+  border-inline-start: 2px solid var(--gold-ornament);
+  border-start-start-radius: var(--radius-sm);
+  border-end-start-radius: var(--radius-sm);
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------- INPUTS / FIELDS
+   Visual primitive only. Validation and submission behaviour are untouched. */
+
+@utility field-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: var(--ink-strong);
+  margin-block-end: 0.375rem;
+}
+
+@utility input-field {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem; /* matches btn, so rows align */
+  padding: 0.625rem 0.875rem;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 1rem; /* 16px: prevents iOS auto-zoom on focus */
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: var(--ink-strong);
+  transition-property: background-color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+
+  /* ink-muted: 6.02:1 - readable, not a decorative grey. */
+  &::placeholder {
+    color: var(--ink-muted);
+    opacity: 1;
+  }
+
+  &:hover:not(:disabled):not(:focus) {
+    border-color: var(--ink-muted);
+  }
+
+  /* The global focus ring still applies; the border reinforces it. */
+  &:focus {
+    border-color: var(--interactive);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: var(--surface-sunken);
+    color: var(--ink-muted);
+    cursor: not-allowed;
+  }
+
+  /* Never colour alone: pair with a visible field-error message. */
+  &[aria-invalid="true"] {
+    border-color: var(--error);
+  }
+
+  &[aria-invalid="true"]:focus {
+    border-color: var(--error);
+  }
+}
+
+/* Multi-line grows from the same baseline. */
+.input-field:is(textarea) {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+@utility field-hint {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin-block-start: 0.375rem;
+}
+
+@utility field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--error);
+  margin-block-start: 0.375rem;
+}
+
+/* ------------------------------------------------------------------- BADGES
+   Rectangular with a 6px radius by default. Pills are reserved for genuine
+   compact status via badge-pill, so not everything becomes rounded-full.
+   Base declares no colours - variants own them. */
+
+@utility badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  padding: 0.1875rem 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+@utility badge-neutral {
+  background-color: var(--surface-sunken);
+  color: var(--ink-body);
+  border-color: var(--hairline);
+}
+
+@utility badge-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+/* Source/citation. */
+@utility badge-source {
+  background-color: var(--gold-soft);
+  color: var(--gold-soft-ink);
+  border-color: var(--gold-ornament);
+}
+
+@utility badge-success {
+  background-color: var(--primary-soft);
+  color: var(--primary-soft-ink);
+  border-color: var(--primary-soft-ink);
+}
+
+/* Semantic status only, never decorative. */
+@utility badge-warning {
+  background-color: transparent;
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+@utility badge-error {
+  background-color: transparent;
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.badge.badge-pill {
+  border-radius: 9999px;
+  padding-inline: 0.625rem;
+}
+
+/* -------------------------------------------------- SURFACES AND DIVIDERS */
+
+@utility surface {
+  background-color: var(--surface-base);
+  color: var(--ink-body);
+}
+
+@utility surface-raised-panel {
+  background-color: var(--surface-raised);
+  color: var(--ink-body);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+
+@utility surface-sunken-panel {
+  background-color: var(--surface-sunken);
+  color: var(--ink-body);
+  border-radius: var(--radius-lg);
+}
+
+/* A rule, not an ornament. */
+@utility divider {
+  height: 1px;
+  border: 0;
+  background-color: var(--hairline);
+}
+
+/* Between major sections. Editorial breathing room, still just a rule. */
+@utility divider-section {
+  height: 1px;
+  border: 0;
+  background-color: var(--hairline);
+  margin-block: 3rem;
+}
+
+/* Marks quoted source material. Gold earns its place here. */
+@utility rule-source {
+  border-inline-start: 2px solid var(--gold-ornament);
+  padding-inline-start: 1rem;
+}
+
+/* ===========================================================================
+   PAGE SHELL + MANUSCRIPT DEVICES                          (STEP 3 / STEP 4)
+   The shell every public page inherits: one measure, one gutter, one rhythm.
+   `shell` replaces the ad-hoc `container mx-auto px-4 sm:px-6 lg:px-8` chain
+   so the maximum measure is a token rather than a breakpoint side effect.
+   =========================================================================== */
+
+@utility shell {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Unlayered on purpose: the shell gutter is structural and should not be
+   knocked out by an incidental px-* utility further down a class list. */
+@media (width >= 40rem) {
+  .shell {
+    padding-inline: 2rem;
+  }
+}
+
+@media (width >= 64rem) {
+  .shell {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Vertical rhythm of a public section band — 56px mobile, 96px desktop. */
+@utility section-band {
+  padding-block: clamp(3.5rem, 2.6rem + 3.8vw, 6rem);
+}
+
+/* Section overline. Gold labels rather than shouts, and — per the typography
+   rules — never uppercase and never tracked, both of which break Bengali
+   conjuncts. The leading rule supplies the emphasis that tracking would. */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--gold-ink);
+
+  &::before {
+    content: "";
+    flex: none;
+    width: 1.5rem;
+    height: 1px;
+    background-color: var(--gold-ornament);
+  }
+}
+
+/* The MIHRAB graft: a pointed arch drawn by two elliptical corners meeting at
+   a peak. 50% + 50% = the full width, so the radii are never down-scaled and
+   the bottom corners keep whatever radius they were given. Used in exactly
+   two places on the public site — the hero ayah frontispiece and the closing
+   invitation — so it reads as a device, not a motif. */
+@utility arch-crown {
+  border-start-start-radius: 50% clamp(3.5rem, 2rem + 6vw, 7rem);
+  border-start-end-radius: 50% clamp(3.5rem, 2rem + 6vw, 7rem);
+}
+
+/* Section rule with a single gold rhombus at the meridian. Ornament, so it is
+   always aria-hidden at the call site. */
+@utility ornament-rule {
+  position: relative;
+  height: 1px;
+  border: 0;
+  background-color: var(--hairline);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    margin-block-start: -0.21875rem;
+    margin-inline-start: -0.21875rem;
+    transform: rotate(45deg);
+    background-color: var(--gold-ornament);
+  }
+}
+
+/* ===========================================================================
+   LEGACY UTILITIES - REFINED INTO THE MAKHTUT LANGUAGE
+   These three ARE this project's shared primitive layer: 39 call sites across
+   13 files. Step 1 deliberately deferred them; this is that step.
+
+   Redefining them here is what carries the scholarly language into existing
+   pages with zero component edits, and it is what removes the treatments this
+   step explicitly rules out: glassmorphism, decorative gradients, glow
+   shadows and hover lift.
+
+   Deliberately NOT set: border-radius on btn-premium and color on
+   icon-container-premium, because call sites already supply their own and an
+   override here could fight them.
+   =========================================================================== */
+
+@utility glass-card {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
+  transition-property: background-color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+.dark .glass-card {
+  box-shadow: none;
 }
 
 @utility btn-premium {
-  @apply transition-all duration-300 ease-out shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 dark:focus:ring-offset-slate-900;
+  touch-action: manipulation;
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
 }
 
 @utility icon-container-premium {
-  @apply bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-900/40 dark:to-emerald-800/10 shadow-[0_0_15px_rgba(16,185,129,0.1)] dark:shadow-[0_0_15px_rgba(16,185,129,0.05)] border border-emerald-100/80 dark:border-emerald-800/30;
+  background-color: var(--primary-soft);
+  border: 1px solid var(--hairline);
 }
+
+@utility glass-nav {
+  background-color: rgba(250, 248, 244, 0.85);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.dark .glass-nav {
+  background-color: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid var(--hairline);
+}
+
+@utility glass-panel {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--hairline);
+}
+
+.dark .glass-panel {
+  background-color: rgba(11, 18, 32, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--hairline);
+}
+
+@utility glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+}
+
+@utility glow-gold {
+  box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.25);
+}
+
+

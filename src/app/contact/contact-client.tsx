@@ -79,14 +79,14 @@ export function ContactClient() {
                 </div>
               </a>
               
-              <a href="https://wa.me/8801840601484" target="_blank" rel="noopener noreferrer" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
+              <a href="https://wa.me/8801353301772" target="_blank" rel="noopener noreferrer" className="glass-card group flex items-center p-6 rounded-3xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#25D366]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-14 w-14 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] mr-5 shadow-inner">
                   <MessageCircle className="h-6 w-6" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-light-text dark:text-slate-400 mb-1 uppercase tracking-wider">হোয়াটসঅ্যাপ</p>
-                  <p className="text-xl font-extrabold text-light-heading dark:text-slate-100">+880 1840-601484</p>
+                  <p className="text-xl font-extrabold text-light-heading dark:text-slate-100">01353301772</p>
                 </div>
               </a>
             </div>

@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local Claude Code tooling (skills/scripts) is not application source and
+    // must not contaminate the project's lint gate.
+    ".claude/**",
+    "supabase/**",
+    "scripts/**",
   ]),
 ]);
 

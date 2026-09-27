@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   User, 
   Phone, 
@@ -16,7 +17,10 @@ import {
   Loader2,
   AlertCircle,
   Clock,
-  MessageCircle
+  MessageCircle,
+  Sparkles,
+  ShieldCheck,
+  Stethoscope,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,21 +49,57 @@ const fadeUp = {
 };
 
 export function AppointmentForm() {
+  const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [appointmentId, setAppointmentId] = React.useState<string | null>(null);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
 
+  // Auto-synced diagnosis data from search params or session
+  const [diagnosisContext, setDiagnosisContext] = React.useState<{
+    category: string;
+    level: string;
+    title: string;
+    score: string;
+    maxScore: string;
+  } | null>(null);
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     mode: "onChange"
   });
+
+  // Load auto-synced diagnosis data
+  React.useEffect(() => {
+    const categoryParam = searchParams.get("category");
+    const levelParam = searchParams.get("level");
+    const titleParam = searchParams.get("title");
+    const scoreParam = searchParams.get("score");
+    const maxScoreParam = searchParams.get("maxScore");
+
+    if (titleParam && levelParam) {
+      const diagData = {
+        category: categoryParam || "general",
+        level: levelParam,
+        title: titleParam,
+        score: scoreParam || "0",
+        maxScore: maxScoreParam || "0",
+      };
+      setDiagnosisContext(diagData);
+
+      // Pre-fill problem field if empty
+      const defaultProblemText = `[সেলফ রুকইয়াহ ডায়াগনোসিস ফলাফল সিঙ্কড]\nপরীক্ষা: ${titleParam}\nঝুঁকির মাত্রা: ${levelParam === 'high' ? 'উচ্চ ঝুঁকি' : levelParam === 'medium' ? 'মাঝারি ঝুঁকি' : 'স্বাভাবিক/মৃদু'}\nস্কোর: ${scoreParam}/${maxScoreParam}\nস্বাস্থ্যগত উপসর্গ ও অতিরিক্ত বিবরণ: `;
+      
+      setValue("problem", defaultProblemText);
+    }
+  }, [searchParams, setValue]);
 
   // Calculate progress
   // eslint-disable-next-line react-hooks/incompatible-library
@@ -91,18 +131,24 @@ export function AppointmentForm() {
         },
         body: JSON.stringify({
           ...data,
+          diagnosisContext: diagnosisContext || undefined,
           type: "General",
           client: "website"
         }),
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || "নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।");
+      let result: { error?: string; appointmentId?: string } | null = null;
+      try {
+        result = await response.json();
+      } catch {
+        result = null;
       }
 
-      setAppointmentId(result.appointmentId);
+      if (!response.ok) {
+        throw new Error(result?.error || "নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।");
+      }
+
+      setAppointmentId(result?.appointmentId ?? null);
       setIsSuccess(true);
       reset();
     } catch (error: unknown) {
@@ -119,136 +165,155 @@ export function AppointmentForm() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-10 md:py-20 flex flex-col items-center justify-center min-h-[500px]"
+        className="glass-card rounded-[2rem] border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-surface-raised to-emerald-500/5 p-8 text-center shadow-2xl backdrop-blur-2xl sm:p-12"
       >
-        <div className="relative">
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="icon-container-premium w-24 h-24 md:w-32 md:h-32 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto"
-          >
-            <CheckCircle2 className="w-12 h-12 md:w-16 md:h-16 text-emerald-600 dark:text-emerald-400" />
-          </motion.div>
-          <div className="absolute inset-0 bg-emerald-400/20 rounded-full blur-3xl animate-pulse" />
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 shadow-inner">
+          <CheckCircle2 className="h-10 w-10 stroke-[2.5]" />
         </div>
-        
-        <motion.h3 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-3xl md:text-5xl font-extrabold text-light-heading dark:text-white mb-4 tracking-tight"
-        >
-          আলহামদুলিল্লাহ!
-        </motion.h3>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-lg md:text-xl text-light-text dark:text-slate-300 max-w-md mx-auto mb-6 leading-relaxed"
-        >
-          আপনার অ্যাপয়েন্টমেন্ট সফলভাবে গ্রহণ করা হয়েছে। আমাদের প্রতিনিধি দ্রুতই আপনার সাথে যোগাযোগ করবেন ইনশাআল্লাহ।
-        </motion.p>
-        
-        {appointmentId && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-            className="mb-10 p-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-800/50"
+        <span className="mt-6 inline-block rounded-full bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+          অনুরোধ সফল হয়েছে
+        </span>
+        <h3 className="type-heading mt-4 text-2xl font-bold text-ink-strong sm:text-3xl">
+          আপনার অ্যাপয়েন্টমেন্ট সফলভাবে গৃহীত হয়েছে!
+        </h3>
+        <p className="type-body-lg mt-4 text-ink-body max-w-lg mx-auto">
+          আপনার রেফারেন্স আইডি: <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{appointmentId || "SAQ-PENDING"}</span>
+        </p>
+        <p className="type-body mt-2 text-ink-muted max-w-md mx-auto">
+          আমাদের প্রতিনিধি দ্রুত আপনার সাথে ফোনে যোগাযোগ করে সময় ও মাধ্যম নিশ্চিত করবেন ইনশাআল্লাহ।
+        </p>
+
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={() => setIsSuccess(false)}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-hairline bg-surface-base px-6 py-3 text-sm font-semibold text-ink-strong transition-all hover:bg-surface-sunken"
           >
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-1 font-medium">অ্যাপয়েন্টমেন্ট আইডি</p>
-            <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300 tracking-wider">{appointmentId}</p>
-            <p className="text-xs text-emerald-500 mt-2">ভবিষ্যতের যোগাযোগের জন্য আইডিটি সংরক্ষণ করুন</p>
-          </motion.div>
-        )}
-        
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          onClick={() => setIsSuccess(false)}
-          className="btn-premium inline-flex items-center gap-2 h-14 rounded-full bg-emerald-600 px-8 font-bold text-white hover:bg-emerald-700"
-        >
-          <CalendarHeart className="w-5 h-5" />
-          নতুন বুকিং করুন
-        </motion.button>
+            অন্য একটি অ্যাপয়েন্টমেন্ট করুন
+          </button>
+          
+          <a
+            href={`https://wa.me/8801353301772?text=${encodeURIComponent(
+              `আসসালামু আলাইকুম, আমি অ্যাপয়েন্টমেন্ট কনফার্মেশন পেয়েছি। আইডি: ${appointmentId || "SAQ"}`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-sm font-bold shadow-md transition-all"
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span>হোয়াটসঅ্যাপে যোগাযোগ</span>
+          </a>
+        </div>
       </motion.div>
     );
   }
 
   return (
-    <div className="relative">
-      
-      {/* Progress Bar */}
-      <div className="mb-10 md:mb-12">
-        <div className="flex justify-between items-end mb-3">
-          <span className="text-sm font-bold text-light-heading dark:text-slate-300 uppercase tracking-widest">পূরণের অগ্রগতি</span>
-          <span className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400">{Math.round(progress)}%</span>
-        </div>
-        <div className="h-2 md:h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full"
-          />
-        </div>
-      </div>
+    <div className="space-y-8">
+      {/* Auto-Synced Diagnosis Banner */}
+      {diagnosisContext && (
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-3xl p-6 bg-gradient-to-r from-emerald-500/15 via-amber-500/10 to-teal-500/15 border border-emerald-500/30 dark:border-emerald-500/20 backdrop-blur-xl shadow-lg relative overflow-hidden"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center shrink-0 shadow-md">
+              <Stethoscope className="w-6 h-6" />
+            </div>
 
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-900 dark:text-emerald-300 text-xs font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" /> সেলফ ডায়াগনোসিস সিঙ্কড
+              </div>
+              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-zinc-100">
+                {diagnosisContext.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300">
+                ঝুঁকির মাত্রা: <span className="font-bold text-emerald-700 dark:text-emerald-400">{diagnosisContext.level === "high" ? "উচ্চ ঝুঁকি" : diagnosisContext.level === "medium" ? "মাঝারি ঝুঁকি" : "স্বাভাবিক/মৃদু"}</span> (স্কোর: {diagnosisContext.score}/{diagnosisContext.maxScore})
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Main Appointment Form */}
       <motion.form 
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        onSubmit={handleSubmit(onSubmit)} 
-        className="space-y-6 md:space-y-8"
+        onSubmit={handleSubmit(onSubmit)}
+        className="glass-card rounded-[2.5rem] border border-white/50 dark:border-white/10 bg-surface-raised/80 p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-2xl relative overflow-hidden space-y-8"
       >
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          
-          {/* Name Field */}
-          <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="fullName" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              সম্পূর্ণ নাম <span className="text-red-500">*</span>
+        {/* Subtle Top Glass Hairline */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
+
+        {/* Progress Bar Header */}
+        <motion.div variants={fadeUp} className="space-y-3 pb-6 border-b border-hairline/60">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <CalendarHeart className="h-5 w-5 text-interactive" />
+              <span className="type-subtitle text-ink-strong">অ্যাপয়েন্টমেন্ট তথ্য</span>
+            </div>
+            <span className="type-citation text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+              {Math.round(progress)}% সম্পন্ন
+            </span>
+          </div>
+
+          <div className="h-2 w-full rounded-full bg-surface-sunken overflow-hidden p-0.5 border border-hairline">
+            <motion.div 
+              className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 shadow-sm"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+        </motion.div>
+
+        {submitError && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }} 
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 p-4 text-sm font-medium text-rose-600 dark:text-rose-400"
+          >
+            <AlertCircle className="h-5 w-5 shrink-0" />
+            <span>{submitError}</span>
+          </motion.div>
+        )}
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          {/* Full Name */}
+          <motion.div variants={fadeUp} className="space-y-2">
+            <label htmlFor="fullName" className="type-meta block text-ink-strong font-medium">
+              আপনার নাম <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                <User className="h-5 w-5" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-ink-muted">
+                <User className="h-4 w-4" />
               </div>
               <input
                 id="fullName"
                 type="text"
-                placeholder="আপনার নাম লিখুন"
+                placeholder="যেমন: মুহাম্মদ আব্দুল্লাহ"
                 {...register("fullName")}
                 className={cn(
-                  "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                  errors.fullName ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong placeholder:text-ink-muted transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                  errors.fullName && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
                 )}
               />
-              {formValues.fullName && !errors.fullName && (
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500">
-                  <CheckCircle2 className="h-5 w-5" />
-                </div>
-              )}
             </div>
-            <AnimatePresence>
-              {errors.fullName && (
-                <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.fullName.message}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {errors.fullName && (
+              <p className="type-citation text-xs text-rose-500 font-medium">{errors.fullName.message}</p>
+            )}
           </motion.div>
 
-          {/* Phone Field */}
-          <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="phone" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              ফোন নাম্বার <span className="text-red-500">*</span>
+          {/* Phone Number */}
+          <motion.div variants={fadeUp} className="space-y-2">
+            <label htmlFor="phone" className="type-meta block text-ink-strong font-medium">
+              মোবাইল নাম্বার <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                <Phone className="h-5 w-5" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-ink-muted">
+                <Phone className="h-4 w-4" />
               </div>
               <input
                 id="phone"
@@ -256,187 +321,118 @@ export function AppointmentForm() {
                 placeholder="01XXXXXXXXX"
                 {...register("phone")}
                 className={cn(
-                  "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                  errors.phone ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong placeholder:text-ink-muted transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                  errors.phone && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
                 )}
               />
-              {formValues.phone && !errors.phone && (
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center text-emerald-500">
-                  <CheckCircle2 className="h-5 w-5" />
-                </div>
-              )}
             </div>
-            <AnimatePresence>
-              {errors.phone && (
-                <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.phone.message}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {errors.phone && (
+              <p className="type-citation text-xs text-rose-500 font-medium">{errors.phone.message}</p>
+            )}
           </motion.div>
+        </div>
 
-          {/* WhatsApp Field */}
-          <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="whatsapp" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              হোয়াটসঅ্যাপ নাম্বার <span className="text-slate-400 font-normal text-sm">(ঐচ্ছিক)</span>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {/* Preferred Date */}
+          <motion.div variants={fadeUp} className="space-y-2">
+            <label htmlFor="date" className="type-meta block text-ink-strong font-medium">
+              পছন্দের তারিখ <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-                <MessageCircle className="h-5 w-5" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-ink-muted">
+                <CalendarDays className="h-4 w-4" />
               </div>
               <input
-                id="whatsapp"
-                type="tel"
-                placeholder="01XXXXXXXXX"
-                {...register("whatsapp")}
+                id="date"
+                type="date"
+                min={new Date().toISOString().split("T")[0]}
+                {...register("date")}
                 className={cn(
-                  "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                  errors.whatsapp ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                  errors.date && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
                 )}
               />
             </div>
-            <AnimatePresence>
-              {errors.whatsapp && (
-                <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.whatsapp.message}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {errors.date && (
+              <p className="type-citation text-xs text-rose-500 font-medium">{errors.date.message}</p>
+            )}
           </motion.div>
-          
-          {/* Time Field */}
-          <motion.div variants={fadeUp} className="space-y-3 relative group">
-            <label htmlFor="time" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-              সম্ভাব্য সময় <span className="text-red-500">*</span>
+
+          {/* Preferred Time Slot */}
+          <motion.div variants={fadeUp} className="space-y-2">
+            <label htmlFor="time" className="type-meta block text-ink-strong font-medium">
+              পছন্দের সময় <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-ink-muted">
+                <Clock className="h-4 w-4" />
+              </div>
               <select
                 id="time"
                 {...register("time")}
                 className={cn(
-                  "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 px-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 appearance-none",
-                  errors.time ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                  "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                  errors.time && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
                 )}
               >
-                <option value="">নির্বাচন করুন</option>
-                <option value="Morning">সকাল (১০টা - দুপুর ১টা)</option>
-                <option value="Afternoon">বিকাল (৩টা - সন্ধ্যা ৬টা)</option>
-                <option value="Evening">সন্ধ্যা (৭টা - রাত ১০টা)</option>
+                <option value="">সময় নির্বাচন করুন</option>
+                <option value="10:00 AM - 12:00 PM">সকাল ১০:০০ - দুপুর ১২:০০</option>
+                <option value="03:00 PM - 05:00 PM">বিকাল ৩:০০ - বিকাল ৫:০০</option>
+                <option value="06:00 PM - 08:00 PM">সন্ধ্যা ৬:০০ - রাত ৮:০০</option>
               </select>
-              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                <Clock className="w-4 h-4" />
-              </div>
             </div>
-            <AnimatePresence>
-              {errors.time && (
-                <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                  <AlertCircle className="w-4 h-4" /> {errors.time.message}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {errors.time && (
+              <p className="type-citation text-xs text-rose-500 font-medium">{errors.time.message}</p>
+            )}
           </motion.div>
-          
         </div>
 
-        {/* Date Field */}
-        <motion.div variants={fadeUp} className="space-y-3 relative group">
-          <label htmlFor="date" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-            সম্ভাব্য তারিখ <span className="text-red-500">*</span>
+        {/* Problem Description */}
+        <motion.div variants={fadeUp} className="space-y-2">
+          <label htmlFor="problem" className="type-meta block text-ink-strong font-medium">
+            সমস্যার সংক্ষিপ্ত বিবরণ <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-              <CalendarDays className="h-5 w-5" />
-            </div>
-            <input
-              id="date"
-              type="date"
-              {...register("date")}
-              className={cn(
-                "flex h-14 w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2",
-                errors.date ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
-              )}
-            />
-          </div>
-          <AnimatePresence>
-            {errors.date && (
-              <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                <AlertCircle className="w-4 h-4" /> {errors.date.message}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Problem Field */}
-        <motion.div variants={fadeUp} className="space-y-3 relative group">
-          <label htmlFor="problem" className="text-[15px] font-bold text-light-heading dark:text-slate-200 ml-1">
-            সমস্যার বিবরণ <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <div className="absolute top-4 left-0 pl-4 flex items-start pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
-              <AlignLeft className="h-5 w-5" />
+            <div className="pointer-events-none absolute top-4 left-0 flex items-start pl-4 text-ink-muted">
+              <AlignLeft className="h-4 w-4" />
             </div>
             <textarea
               id="problem"
-              rows={5}
-              placeholder="আপনার সমস্যার বিস্তারিত লিখুন..."
+              rows={4}
+              placeholder="আপনার শারীরিক ও আত্মিক সমস্যা বিস্তারিত লিখুন..."
               {...register("problem")}
               className={cn(
-                "flex w-full rounded-2xl border bg-white/50 dark:bg-[#020817]/50 pl-11 pr-4 py-4 text-[15px] font-medium shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 resize-none",
-                errors.problem ? "border-red-400 focus-visible:ring-red-400/20 bg-red-50/50 dark:bg-red-950/20" : "border-light-border dark:border-slate-800 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
+                "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong placeholder:text-ink-muted transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                errors.problem && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
               )}
             />
           </div>
-          <AnimatePresence>
-            {errors.problem && (
-              <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-sm text-red-500 font-medium flex items-center gap-1.5 ml-1">
-                <AlertCircle className="w-4 h-4" /> {errors.problem.message}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Error Alert */}
-        <AnimatePresence>
-          {submitError && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-start gap-3"
-            >
-              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-red-700 dark:text-red-400 font-bold mb-1">দুঃখিত, সমস্যা হয়েছে</h4>
-                <p className="text-sm text-red-600 dark:text-red-300">{submitError}</p>
-              </div>
-            </motion.div>
+          {errors.problem && (
+            <p className="type-citation text-xs text-rose-500 font-medium">{errors.problem.message}</p>
           )}
-        </AnimatePresence>
+        </motion.div>
 
         {/* Submit Button */}
         <motion.div variants={fadeUp} className="pt-4">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn-premium group relative flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-8 text-lg font-bold text-white hover:from-emerald-700 hover:to-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70 overflow-hidden"
+            className="group relative flex w-full items-center justify-center gap-3 rounded-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 dark:from-emerald-600 dark:to-emerald-500 py-4 text-base font-bold text-white shadow-xl shadow-emerald-900/30 transition-all hover:scale-[1.01] hover:shadow-2xl active:scale-[0.99] disabled:opacity-50"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="h-6 w-6 animate-spin" />
-                <span>প্রসেস হচ্ছে...</span>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>প্রসেসিং হচ্ছে...</span>
               </>
             ) : (
               <>
-                <span>অ্যাপয়েন্টমেন্ট নিশ্চিত করুন</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ShieldCheck className="h-5 w-5" />
+                <span>অ্যাপয়েন্টমেন্ট বুকিং সম্পন্ন করুন</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </>
             )}
-            
-            {/* Shimmer effect on button */}
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-shimmer" />
           </button>
         </motion.div>
-        
       </motion.form>
     </div>
   );

@@ -1,451 +1,370 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView, useSpring, useTransform, Variants } from "framer-motion";
 import Link from "next/link";
-import { 
-  Heart, 
-  ShieldCheck, 
-  BookOpen, 
-  Lock, 
-  CheckCircle2, 
-  Users, 
-  Star, 
-  Activity,
-  ArrowRight,
+import {
+  BookOpen,
+  ShieldCheck,
+  Lock,
+  Heart,
+  CheckCircle2,
+  Users,
   HelpCircle,
-  Shield
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/motion/reveal";
 
-// --- Custom Animated Counter ---
-function AnimatedCounter({ value, duration = 2, suffix = "" }: { value: number, duration?: number, suffix?: string }) {
-  const ref = React.useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-  
-  const springValue = useSpring(0, {
-    bounce: 0,
-    duration: duration * 1000,
-  });
-
-  React.useEffect(() => {
-    if (isInView) {
-      springValue.set(value);
-    }
-  }, [isInView, springValue, value]);
-
-  const displayValue = useTransform(springValue, (current) => 
-    Math.round(current).toLocaleString("bn-BD") + suffix
-  );
-
-  return <motion.span ref={ref}>{displayValue}</motion.span>;
-}
-
-// --- Animation Variants ---
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 }
-  }
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
-// --- Content Data ---
 const coreValues = [
   {
     icon: BookOpen,
     title: "শতভাগ সুন্নাহ সম্মত",
-    description: "আমাদের প্রতিটি পদক্ষেপ ও চিকিৎসা পদ্ধতি সম্পূর্ণ কুরআন ও সহিহ সুন্নাহ ভিত্তিক।"
+    description:
+      "আমাদের প্রতিটি পদক্ষেপ ও চিকিৎসা পদ্ধতি সম্পূর্ণ কুরআন ও সহিহ সুন্নাহ ভিত্তিক।",
   },
   {
     icon: ShieldCheck,
     title: "শিরক ও বিদআত মুক্ত",
-    description: "আমরা যেকোনো প্রকার কুসংস্কার, শিরক এবং বিদআত থেকে আমাদের চিকিৎসাকে মুক্ত রাখি।"
+    description:
+      "আমরা যেকোনো প্রকার কুসংস্কার, শিরক এবং বিদআত থেকে আমাদের চিকিৎসাকে মুক্ত রাখি।",
   },
   {
     icon: Lock,
     title: "সম্পূর্ণ গোপনীয়তা",
-    description: "রোগীর ব্যক্তিগত তথ্য এবং চিকিৎসার সকল বিষয় আমরা শতভাগ গোপন রাখি।"
+    description:
+      "রোগীর ব্যক্তিগত তথ্য এবং চিকিৎসার সকল বিষয় আমরা শতভাগ গোপন রাখি।",
   },
   {
     icon: Heart,
     title: "সহানুভূতিশীল আচরণ",
-    description: "একজন মুসলিম ভাই বা বোন হিসেবে আমরা অত্যন্ত আন্তরিকতার সাথে রোগীদের সেবা প্রদান করি।"
-  }
+    description:
+      "একজন মুসলিম ভাই বা বোন হিসেবে আমরা অত্যন্ত আন্তরিকতার সাথে রোগীদের সেবা প্রদান করি।",
+  },
 ];
 
 const timelineSteps = [
   {
     title: "সমস্যা নির্ণয় ও পরামর্শ",
-    description: "প্রাথমিকভাবে রোগীর শারীরিক ও মানসিক অবস্থা পর্যবেক্ষণ করে সমস্যার মূল কারণ (জাদু, বদনজর বা জিন) নির্ণয় করা হয় এবং প্রয়োজনীয় পরামর্শ দেওয়া হয়।"
+    description:
+      "প্রাথমিকভাবে রোগীর শারীরিক ও মানসিক অবস্থা পর্যবেক্ষণ করে সমস্যার মূল কারণ (জাদু, বদনজর বা জিন) নির্ণয় করা হয় এবং প্রয়োজনীয় পরামর্শ দেওয়া হয়।",
   },
   {
     title: "সুন্নাহ সম্মত রুকইয়াহ সেশন",
-    description: "সমস্যা অনুযায়ী অভিজ্ঞ রাকি দ্বারা কুরআন তিলাওয়াত ও মাসনুন দোয়ার মাধ্যমে রুকইয়াহ সেশন পরিচালনা করা হয়।"
+    description:
+      "সমস্যা অনুযায়ী অভিজ্ঞ রাকি দ্বারা কুরআন তিলাওয়াত ও মাসনুন দোয়ার মাধ্যমে রুকইয়াহ সেশন পরিচালনা করা হয়।",
   },
   {
     title: "সেলফ-রুকইয়াহ ও আমল প্রদান",
-    description: "সেশনের পর রোগীকে বাড়িতে নিজে নিজে করার জন্য সুনির্দিষ্ট আমল ও সেলফ-রুকইয়াহ এর রুটিন দেওয়া হয়।"
+    description:
+      "সেশনের পর রোগীকে বাড়িতে নিজে নিজে করার জন্য সুনির্দিষ্ট আমল ও সেলফ-রুকইয়াহ এর রুটিন দেওয়া হয়।",
   },
   {
     title: "ফলো-আপ ও গাইডেন্স",
-    description: "চিকিৎসা পরবর্তী সময়ে রোগীর উন্নতি পর্যবেক্ষণ করা হয় এবং সম্পূর্ণ সুস্থতা পর্যন্ত প্রয়োজনীয় গাইডেন্স দেওয়া হয়।"
-  }
+    description:
+      "চিকিৎসা পরবর্তী সময়ে রোগীর উন্নতি পর্যবেক্ষণ করা হয় এবং সম্পূর্ণ সুস্থতা পর্যন্ত প্রয়োজনীয় গাইডেন্স দেওয়া হয়।",
+  },
 ];
 
 const faqs = [
   {
     q: "আপনাদের চিকিৎসা কি সম্পূর্ণ ইসলামি শরিয়ত সম্মত?",
-    a: "হ্যাঁ, আলহামদুলিল্লাহ। আমাদের চিকিৎসা পদ্ধতি সম্পূর্ণ কুরআন এবং সহিহ হাদিস ভিত্তিক। আমরা তাবিজ, কুফরি কালাম বা যেকোনো ধরনের শিরক ও বিদআত থেকে সম্পূর্ণ মুক্ত।"
+    a: "হ্যাঁ, আলহামদুলিল্লাহ। আমাদের চিকিৎসা পদ্ধতি সম্পূর্ণ কুরআন এবং সহিহ হাদিস ভিত্তিক। আমরা তাবিজ, কুফরি কালাম বা যেকোনো ধরনের শিরক ও বিদআত থেকে সম্পূর্ণ মুক্ত।",
   },
   {
     q: "অনলাইনে চিকিৎসা নেওয়া কি সম্ভব?",
-    a: "হ্যাঁ, দেশের যেকোনো প্রান্ত বা প্রবাস থেকে আমাদের অভিজ্ঞ রাকিদের মাধ্যমে অনলাইনে রুকইয়াহ সেশন ও কাউন্সেলিং নেওয়া সম্ভব।"
+    a: "হ্যাঁ, দেশের যেকোনো প্রান্ত বা প্রবাস থেকে আমাদের অভিজ্ঞ রাকিদের মাধ্যমে অনলাইনে রুকইয়াহ সেশন ও কাউন্সেলিং নেওয়া সম্ভব।",
   },
   {
     q: "রুকইয়াহ সেশনের আগে কী প্রস্তুতি নিতে হয়?",
-    a: "রোগীকে অবশ্যই পবিত্র অবস্থায় (ওজু সহকারে) থাকতে হবে এবং পাঁচ ওয়াক্ত নামাজের পাবন্দি করার মানসিকতা থাকতে হবে।"
-  }
+    a: "রোগীকে অবশ্যই পবিত্র অবস্থায় (ওজু সহকারে) থাকতে হবে এবং পাঁচ ওয়াক্ত নামাজের পাবন্দি করার মানসিকতা থাকতে হবে।",
+  },
 ];
 
 const commitments = [
   "রোগীর ব্যক্তিগত তথ্যের সর্বোচ্চ গোপনীয়তা রক্ষা করা",
   "শুধুমাত্র কোরআন ও সুন্নাহ ভিত্তিক পদ্ধতি ব্যবহার করা",
   "সকল প্রকার শিরক, বিদআত ও কুসংস্কার বর্জন করা",
-  "রোগীর সাথে মানবিক, সহানুভূতিশীল ও সম্মানজনক আচরণ করা"
+  "রোগীর সাথে মানবিক, সহানুভূতিশীল ও সম্মানজনক আচরণ করা",
 ];
 
-export function AboutClient() {
+export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-light-bg-main dark:bg-[#020817] flex flex-col font-sans relative">
-      
-      {/* Global Page Pattern Overlay */}
-      <div 
-        className="fixed inset-0 z-[5] opacity-[0.02] dark:opacity-[0.03] dark:invert pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M30 0L60 30L30 60L0 30z'/%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M0 0h60v60H0z' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E")`
-        }}
-      />
-      
-      {/* 1. Hero & Our Story Section */}
-      <section className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32">
-        {/* Soft Background Gradients */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-
-        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6 md:mb-8">
-              আমাদের <span className="text-emerald-600 dark:text-emerald-400">গল্প</span>
+    <main className="flex-grow">
+      {/* 1. Hero / Our Story */}
+      <section className="section-band bg-surface-base">
+        <div className="shell">
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">আমাদের গল্প</p>
+            <h1 className="type-display mt-4 text-ink-strong">
+              শিফা আল কুরআন
             </h1>
-            <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-8 md:mb-10" />
-            
-            <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
-              শিফা আল কুরআন কোনো সাধারণ চিকিৎসা কেন্দ্র নয়। বর্তমান সমাজে জাদুটোনা, বদনজর এবং জিন ঘটিত সমস্যার কারণে অনেকেই দিশেহারা। সঠিক চিকিৎসার অভাবে অনেকে শিরক ও বিদআতে লিপ্ত হচ্ছেন। আমাদের পথচলা শুরু হয় মানুষকে এই অন্ধকার পথ থেকে ফিরিয়ে এনে <strong>সম্পূর্ণ কুরআন ও সুন্নাহর আলোকে</strong> একটি নির্ভরযোগ্য, নিরাপদ এবং বিশুদ্ধ চিকিৎসা ব্যবস্থা উপহার দেওয়ার লক্ষ্যে।
+            <p className="type-body-lg mt-6 text-ink-body">
+              কোনো সাধারণ চিকিৎসা কেন্দ্র নয়। বর্তমান সমাজে জাদুটোনা, বদনজর
+              এবং জিন ঘটিত সমস্যার কারণে অনেকেই দিশেহারা। সঠিক চিকিৎসার অভাবে
+              অনেকে শিরক ও বিদআতে লিপ্ত হচ্ছেন। আমাদের পথচলা শুরু হয়
+              মানুষকে এই অন্ধকার পথ থেকে ফিরিয়ে এনে সম্পূর্ণ কুরআন ও সুন্নাহর
+              আলোকে একটি নির্ভরযোগ্য, নিরাপদ এবং বিশুদ্ধ চিকিৎসা ব্যবস্থা
+              উপহার দেওয়ার লক্ষ্যে।
             </p>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
 
       {/* 2. Mission & Vision */}
-      <section className="py-16 md:py-24 bg-light-bg-alt1 dark:bg-[#020817] relative border-t border-light-border/40 dark:border-slate-800/50 overflow-hidden">
-        {/* Immersive Decor for Mission/Vision */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
-        
-        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-6 md:gap-10">
-            {/* Mission Card */}
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="glass-card p-8 md:p-12 rounded-[40px] relative group overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
-              
-              <div className="icon-container-premium h-16 w-16 md:h-20 md:w-20 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
-                <Activity className="h-8 w-8 md:h-10 md:w-10" strokeWidth={1.5} />
+      <section className="section-band border-y border-hairline bg-surface-sunken">
+        <div className="shell">
+          <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
+            <Reveal>
+              <div className="card flex flex-col">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+                  <BookOpen className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+                </span>
+                <h2 className="type-subtitle mt-5 text-ink-strong">
+                  আমাদের লক্ষ্য
+                </h2>
+                <p className="type-body mt-2 text-ink-body">
+                  মানুষকে শিরক, বিদআত এবং কুসংস্কারমুক্ত সঠিক সুন্নাহ ভিত্তিক
+                  রুকইয়াহ চিকিৎসা প্রদান করা। আমরা চাই প্রতিটি মুসলিম পরিবার
+                  যেন কুরআন ও সুন্নাহর আলোকে নিজেদের আত্মিক ও শারীরিক সুস্থতা
+                  নিশ্চিত করতে পারে।
+                </p>
               </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-4 tracking-tight">আমাদের লক্ষ্য (Mission)</h3>
-              <p className="text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed">
-                মানুষকে শিরক, বিদআত এবং কুসংস্কারমুক্ত সঠিক সুন্নাহ ভিত্তিক রুকইয়াহ চিকিৎসা প্রদান করা। আমরা চাই প্রতিটি মুসলিম পরিবার যেন কুরআন ও সুন্নাহর আলোকে নিজেদের আত্মিক ও শারীরিক সুস্থতা নিশ্চিত করতে পারে।
-              </p>
-            </motion.div>
+            </Reveal>
 
-            {/* Vision Card */}
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="glass-card p-8 md:p-12 rounded-[40px] relative group overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 transition-opacity duration-500 group-hover:opacity-100 opacity-50" />
-              
-              <div className="h-16 w-16 md:h-20 md:w-20 rounded-3xl flex items-center justify-center mb-6 md:mb-8 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-800/30 shadow-[0_0_15px_rgba(59,130,246,0.1)] bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
-                <Star className="h-8 w-8 md:h-10 md:w-10" strokeWidth={1.5} />
+            <Reveal>
+              <div className="card flex flex-col">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+                  <ShieldCheck
+                    className="h-6 w-6"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                </span>
+                <h2 className="type-subtitle mt-5 text-ink-strong">
+                  আমাদের উদ্দেশ্য
+                </h2>
+                <p className="type-body mt-2 text-ink-body">
+                  এমন একটি সুস্থ সমাজ গড়ে তোলা যেখানে জাদু, বদনজর বা জিনের
+                  আছর থেকে বাঁচার জন্য মানুষ কোনো ভণ্ড বা জাদুকরের দ্বারস্থ হবে
+                  না, বরং সরাসরি আল্লাহর কালামের ওপর পূর্ণ আস্থা ও বিশ্বাস
+                  স্থাপন করবে।
+                </p>
               </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-slate-100 mb-4 tracking-tight">আমাদের উদ্দেশ্য (Vision)</h3>
-              <p className="text-base md:text-lg text-light-text dark:text-slate-400 leading-relaxed">
-                এমন একটি সুস্থ সমাজ গড়ে তোলা যেখানে জাদু, বদনজর বা জিনের আছর থেকে বাঁচার জন্য মানুষ কোনো ভণ্ড বা জাদুকরের দ্বারস্থ হবে না, বরং সরাসরি আল্লাহর কালামের ওপর পূর্ণ আস্থা ও বিশ্বাস স্থাপন করবে।
-              </p>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* 3. Statistics Bar - Premium Immersive Gradient */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-blue-800">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-        
-        {/* Soft glowing orb */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-400/20 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="container relative mx-auto px-4 sm:px-6 text-center text-white z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex h-20 w-20 md:h-24 md:w-24 bg-white/20 backdrop-blur-xl rounded-[2rem] items-center justify-center mb-6 md:mb-8 shadow-2xl border border-white/30">
-              <Users className="h-10 w-10 md:h-12 md:w-12 text-white" strokeWidth={1.5} />
+      {/* 3. Statistics */}
+      <section className="section-band bg-surface-base">
+        <div className="shell">
+          <Reveal>
+            <div className="flex flex-col items-center text-center">
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+                <Users className="h-7 w-7" strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <h2 className="type-title mt-6 text-ink-strong">
+                আলহামদুলিল্লাহ, ৩০,০০০+ মানুষ
+              </h2>
+              <p className="type-body-lg mt-3 text-ink-body max-w-2xl">
+                গত বছরগুলোতে আমাদের অনলাইন ও অফলাইন সেবা গ্রহণ করেছেন।
+              </p>
             </div>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 tracking-tight drop-shadow-md">
-              আলহামদুলিল্লাহ, <span className="text-amber-300"><AnimatedCounter value={30000} suffix="+" /></span> মানুষ
-            </h2>
-            <p className="text-lg md:text-3xl font-medium text-emerald-50 max-w-3xl mx-auto opacity-90 leading-relaxed drop-shadow-sm">
-              বিগত বছরগুলোতে আমাদের অনলাইন ও অফলাইন সেবা গ্রহণ করেছেন।
-            </p>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
 
       {/* 4. Core Values */}
-      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">আমাদের মূলনীতি</h2>
-            <p className="text-light-text dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">যে বিষয়গুলোতে আমরা কখনোই আপস করি না</p>
-          </div>
+      <section className="section-band border-y border-hairline bg-surface-raised">
+        <div className="shell">
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">আমাদের মূলনীতি</p>
+            <h2 className="type-title mt-4 text-ink-strong">
+              যে বিষয়গুলোতে আমরা কখনোই আপস করি না
+            </h2>
+          </Reveal>
 
-          <motion.div 
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
-          >
-            {coreValues.map((val, idx) => (
-              <motion.div 
-                key={idx}
-                variants={fadeUp}
-                className="glass-card p-5 md:p-8 rounded-2xl md:rounded-[32px] text-center group"
-              >
-                <div className="icon-container-premium h-14 w-14 md:h-20 md:w-20 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 group-hover:brightness-110 transition-all duration-500">
-                  <val.icon className="h-6 w-6 md:h-8 md:w-8" strokeWidth={1.5} />
-                </div>
-                <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-2 md:mb-3 tracking-tight">{val.title}</h4>
-                <p className="text-[14px] md:text-[15px] text-light-text dark:text-slate-400 leading-relaxed">{val.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <Reveal>
+            <ul className="mt-11 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4 lg:gap-6">
+              {coreValues.map((value) => (
+                <li key={value.title} className="card flex h-full flex-col">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-soft-ink">
+                    <value.icon
+                      className="h-5 w-5"
+                      strokeWidth={1.75}
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <h3 className="type-heading-sm mt-5 text-ink-strong">
+                    {value.title}
+                  </h3>
+                  <p className="type-body mt-2 text-ink-body">
+                    {value.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
       </section>
 
-      {/* 5. Our Commitment Section */}
-      <section className="py-16 md:py-24 bg-light-bg-alt2 dark:bg-slate-950 border-y border-light-border/50 dark:border-slate-800 relative overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            {/* Visual Side */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="lg:w-5/12 w-full relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-[40px] blur-2xl opacity-20" />
-              <div className="relative bg-white dark:bg-[#020817] p-12 rounded-[40px] border border-light-border dark:border-slate-800 shadow-2xl flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mb-6 text-emerald-600 dark:text-emerald-400">
-                  <Shield className="w-12 h-12" />
-                </div>
-                <h3 className="text-3xl font-extrabold text-light-heading dark:text-white mb-2">বিশ্বস্ততা</h3>
-                <p className="text-light-text dark:text-slate-400 text-lg">আমাদের সবচেয়ে বড় পুঁজি</p>
+      {/* 5. Commitments */}
+      <section className="section-band bg-surface-base">
+        <div className="shell">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-14">
+            <Reveal>
+              <div>
+                <p className="eyebrow">বিশ্বস্ততা</p>
+                <h2 className="type-title mt-4 text-ink-strong">
+                  আমাদের সবচেয়ে বড় পুঁজি
+                </h2>
+                <p className="type-body-lg mt-5 text-ink-body">
+                  রোগীর আস্থা ও গোপনীয়তা আমাদের কাছে সর্বপ্রথম।
+                </p>
               </div>
-            </motion.div>
+            </Reveal>
 
-            {/* Text Side */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="lg:w-7/12 w-full"
-            >
-              <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">
-                আমাদের প্রতিশ্রুতি
-              </motion.h2>
-              
+            <Reveal>
               <div className="space-y-6">
-                {commitments.map((commitment, idx) => (
-                  <motion.div variants={fadeUp} key={idx} className="flex items-start gap-4">
-                    <div className="flex-shrink-0 mt-1 w-8 h-8 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                      <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <p className="text-lg md:text-xl text-light-heading dark:text-slate-300 font-medium">
-                      {commitment}
-                    </p>
-                  </motion.div>
+                {commitments.map((commitment) => (
+                  <div
+                    key={commitment}
+                    className="flex items-start gap-4"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary-soft-ink">
+                      <CheckCircle2
+                        className="h-4 w-4"
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <p className="type-body text-ink-strong">{commitment}</p>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* 6. Treatment Philosophy */}
-      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-light-bg-alt1 dark:bg-slate-900/40 p-10 md:p-20 rounded-[40px] shadow-premium-soft dark:shadow-none border border-light-border/60 dark:border-slate-800 relative"
-          >
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-amber-500 text-white p-4 rounded-full shadow-lg">
-              <ShieldCheck className="h-8 w-8" />
-            </div>
-            <h3 className="text-2xl md:text-4xl font-extrabold text-light-heading dark:text-white mb-6 md:mb-8 mt-4 tracking-tight">আমাদের বিশ্বাস ও চিকিৎসা দর্শন</h3>
-            <p className="text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed italic">
-              &quot;আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা কেবল কুরআন ও সুন্নাহর আলোকে একটি <strong>উসিলা বা মাধ্যম</strong> হিসেবে কাজ করি। 
-              <span className="block mt-6 font-extrabold text-emerald-700 dark:text-emerald-400 text-2xl md:text-4xl not-italic tracking-tight">রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।</span>&quot;
-            </p>
-          </motion.div>
+      <section className="section-band border-y border-hairline bg-surface-sunken">
+        <div className="shell">
+          <Reveal className="max-w-3xl">
+            <figure className="card card-citation flex flex-col">
+              <p className="type-citation text-gold-soft-ink">আমাদের বিশ্বাস</p>
+              <blockquote className="type-body-lg mt-4 text-ink-body">
+                &ldquo;আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা
+                কেবল কুরআন ও সুন্নাহর আলোকে একটি/usিলা বা মাধ্যম হিসেবে কাজ
+                করি। রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।&rdquo;
+              </blockquote>
+              <figcaption className="type-citation mt-4 text-gold-ink">
+                — শিফা আল কুরআনের চিকিৎসা দর্শন
+              </figcaption>
+            </figure>
+          </Reveal>
         </div>
       </section>
 
       {/* 7. Treatment Timeline */}
-      <section className="py-16 md:py-24 bg-light-bg-alt1 dark:bg-[#020817] relative overflow-hidden">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">আমাদের চিকিৎসা পদ্ধতি</h2>
-            <p className="text-light-text dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">ধাপে ধাপে একটি পরিপূর্ণ ও বিশুদ্ধ চিকিৎসা প্রক্রিয়া</p>
-          </div>
+      <section className="section-band bg-surface-base">
+        <div className="shell">
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">চিকিৎসা পদ্ধতি</p>
+            <h2 className="type-title mt-4 text-ink-strong">
+              ধাপে ধাপে একটি পরিপূর্ণ ও বিশুদ্ধ চিকিৎসা প্রক্রিয়া
+            </h2>
+          </Reveal>
 
-          <div className="relative">
-            {/* Vertical Line */}
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-emerald-200/50 dark:bg-emerald-900/50 md:-translate-x-1/2 rounded-full" />
-
-            <div className="space-y-12 md:space-y-16">
+          <Reveal>
+            <ol className="mt-11 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4 lg:gap-6">
               {timelineSteps.map((step, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className={cn(
-                    "relative flex items-center md:justify-between group",
-                    idx % 2 === 0 ? "md:flex-row-reverse" : ""
-                  )}
-                >
-                  {/* Timeline Dot */}
-                  <div className="absolute left-6 md:left-1/2 w-12 h-12 rounded-full bg-emerald-500 border-4 border-white dark:border-[#020817] shadow-xl transform -translate-x-1/2 flex items-center justify-center z-10 group-hover:bg-emerald-400 transition-colors">
-                    <span className="text-white text-sm font-bold">{idx + 1}</span>
+                <li key={idx} className="card flex h-full flex-col">
+                  <div className="flex items-center gap-3">
+                    <span className="font-heading text-[1.5rem] leading-none font-bold text-interactive">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className="h-px flex-1 bg-hairline"
+                      aria-hidden="true"
+                    />
                   </div>
-
-                  {/* Content Card */}
-                  <div className="ml-16 md:ml-0 md:w-[45%] glass-card p-6 md:p-10 rounded-[32px]">
-                    <h4 className="text-xl md:text-2xl font-bold text-emerald-700 dark:text-emerald-400 mb-3 md:mb-4 tracking-tight">{step.title}</h4>
-                    <p className="text-light-text dark:text-slate-300 text-base md:text-lg leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                </motion.div>
+                  <h3 className="type-subtitle mt-4 text-ink-strong">
+                    {step.title}
+                  </h3>
+                  <p className="type-body mt-2 text-ink-body">
+                    {step.description}
+                  </p>
+                </li>
               ))}
-            </div>
-          </div>
+            </ol>
+          </Reveal>
         </div>
       </section>
 
       {/* 8. FAQ Preview */}
-      <section className="py-16 md:py-24 bg-light-bg-main dark:bg-[#020817] relative overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-light-heading dark:text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">সাধারণ জিজ্ঞাসা (FAQ)</h2>
-          </div>
+      <section className="section-band border-y border-hairline bg-surface-raised">
+        <div className="shell">
+          <Reveal className="max-w-3xl">
+            <p className="eyebrow">জিজ্ঞাসা</p>
+            <h2 className="type-title mt-4 text-ink-strong">
+              সাধারন জিজ্ঞাসা
+            </h2>
+          </Reveal>
 
-          <motion.div 
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-4 md:gap-8"
-          >
-            {faqs.map((faq, idx) => (
-              <motion.div 
-                key={idx}
-                variants={fadeUp}
-                className="glass-card p-5 md:p-10 rounded-2xl md:rounded-[32px]"
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400 border border-blue-100/80 dark:border-blue-800/30 shadow-[0_0_15px_rgba(59,130,246,0.1)] bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/40 dark:to-blue-800/10">
-                  <HelpCircle className="h-5 w-5 md:h-6 md:w-6" />
-                </div>
-                <h4 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-200 mb-3 md:mb-4 tracking-tight">{faq.q}</h4>
-                <p className="text-sm md:text-base text-light-text dark:text-slate-400 leading-relaxed">{faq.a}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <Reveal>
+            <div className="mt-11 grid gap-4 lg:mt-14 lg:grid-cols-3 lg:gap-6">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.q}
+                  className="card group border-hairline"
+                >
+                  <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-5 py-4 [&::-webkit-details-marker]:hidden">
+                    <span className="type-heading-sm text-ink-strong">
+                      {faq.q}
+                    </span>
+                    <HelpCircle
+                      className="h-5 w-5 shrink-0 text-ink-muted transition-transform duration-[var(--duration-fast)] ease-[var(--ease-standard)] group-open:rotate-180"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  </summary>
+                  <p className="type-body pb-5 pe-10 text-ink-body">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* 9. Final CTA */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-light-bg-alt2 dark:bg-[#020817]">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-emerald-600 to-blue-700 p-10 md:p-24 text-center shadow-2xl"
-          >
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none" />
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-tight text-center">
+      <section className="section-band bg-surface-base">
+        <div className="shell">
+          <Reveal>
+            <div className="arch-crown mx-auto max-w-3xl rounded-b-lg border border-hairline bg-surface-raised px-5 pt-14 pb-10 text-center sm:px-10 sm:pt-20 sm:pb-12">
+              <h2 className="type-title text-ink-strong">
                 আপনার সুস্থতার যাত্রা আজই শুরু করুন
               </h2>
-              <p className="text-emerald-50 text-base md:text-lg max-w-3xl mx-auto mb-8 md:mb-10 opacity-90 leading-relaxed text-center">
-                সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং পরিবারকে নিরাপদে রাখুন।
+              <div
+                className="ornament-rule mx-auto mt-7 w-24 sm:w-32"
+                aria-hidden="true"
+              />
+              <p className="type-body-lg mx-auto mt-7 max-w-2xl text-ink-body">
+                সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং
+                পরিবারকে নিরাপদে রাখুন।
               </p>
-              
-              <Link 
-                href="/appointment"
-                className="btn-premium inline-flex items-center gap-2 md:gap-3 bg-white text-emerald-700 px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-emerald-50"
-              >
-                অ্যাপয়েন্টমেন্ট নিন
-                <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
-              </Link>
+              <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                <Link href="/appointment" className="btn btn-primary btn-lg">
+                  অ্যাপয়েন্টমেন্ট নিন
+                </Link>
+                <Link href="/contact" className="btn btn-secondary btn-lg">
+                  যোগাযোগ করুন
+                </Link>
+              </div>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
-
-    </div>
+    </main>
   );
 }

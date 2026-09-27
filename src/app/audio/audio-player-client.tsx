@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useAudio } from "@/features/audio/context/AudioContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { 
-  Play, Pause, SkipForward, SkipBack, Volume2, VolumeX,
-  Heart, Search, ListMusic, Home, Clock, Download,
+  Play,
+  Heart, Search, ListMusic, Home, Clock,
   Menu, X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -36,12 +37,8 @@ const audios = [
 const categories = ["সব", "বদনজর", "জাদু ও জিন", "তেলাওয়াত", "অন্যান্য"];
 
 export function AudioPlayerClient() {
-  const [currentTrackIndex, setCurrentTrackIndex] = useState<number | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
-  
+  const { currentTrack, isPlaying, playTrack } = useAudio();
+
   const [activeTab, setActiveTab] = useState<"home" | "search" | "favorites" | "recent">("home");
   const [activeCategory, setActiveCategory] = useState("সব");
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,8 +46,6 @@ export function AudioPlayerClient() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Load saved state
   useEffect(() => {
@@ -73,47 +68,24 @@ export function AudioPlayerClient() {
     localStorage.setItem("ruqyah_recent", JSON.stringify(recent));
   }, [recent]);
 
-  const togglePlay = () => {
-    if (currentTrackIndex === null) {
-      playTrack(0);
-      return;
-    }
-    if (isPlaying) {
-      audioRef.current?.pause();
-    } else {
-      audioRef.current?.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+  const handlePlayTrack = (index: number) => {
+    const target = audios[index];
+    if (!target) return;
 
-  const playTrack = (index: number) => {
-    setCurrentTrackIndex(index);
-    setIsPlaying(true);
-    setProgress(0);
-    
-    // Add to recent
-    const trackId = audios[index].id;
-    setRecent(prev => {
-      const newRecent = [trackId, ...prev.filter(id => id !== trackId)].slice(0, 20);
-      return newRecent;
+    playTrack({
+      id: target.id,
+      title: target.title,
+      url: target.url,
+      category: target.category,
+      description: target.description,
+      duration: target.duration,
+      size: target.size,
     });
 
-    if (audioRef.current) {
-      audioRef.current.src = audios[index].url;
-      audioRef.current.play();
-    }
-  };
-
-  const playNext = () => {
-    if (currentTrackIndex === null) return;
-    const nextIndex = (currentTrackIndex + 1) % audios.length;
-    playTrack(nextIndex);
-  };
-
-  const playPrev = () => {
-    if (currentTrackIndex === null) return;
-    const prevIndex = (currentTrackIndex - 1 + audios.length) % audios.length;
-    playTrack(prevIndex);
+    setRecent(prev => {
+      const newRecent = [target.id, ...prev.filter(id => id !== target.id)].slice(0, 20);
+      return newRecent;
+    });
   };
 
   const toggleFavorite = (id: string, e: React.MouseEvent) => {
@@ -121,41 +93,6 @@ export function AudioPlayerClient() {
     setFavorites(prev => 
       prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
     );
-  };
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      const current = audioRef.current.currentTime;
-      const duration = audioRef.current.duration;
-      if (duration) {
-        setProgress((current / duration) * 100);
-      }
-    }
-  };
-
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    setProgress(value);
-    if (audioRef.current) {
-      audioRef.current.currentTime = (audioRef.current.duration / 100) * value;
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    setVolume(value);
-    setIsMuted(value === 0);
-    if (audioRef.current) {
-      audioRef.current.volume = value;
-    }
-  };
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      const newMutedState = !isMuted;
-      setIsMuted(newMutedState);
-      audioRef.current.volume = newMutedState ? 0 : volume || 1;
-    }
   };
 
   // Filtering Logic
@@ -166,28 +103,15 @@ export function AudioPlayerClient() {
   } else if (activeTab === "favorites") {
     displayTracks = audios.filter(a => favorites.includes(a.id));
   } else if (activeTab === "recent") {
-    // Keep recent order
     displayTracks = recent.map(id => audios.find(a => a.id === id)!).filter(Boolean);
   } else {
-    // Home tab category filtering
     if (activeCategory !== "সব") {
       displayTracks = audios.filter(a => a.category === activeCategory);
     }
   }
 
-  const currentTrack = currentTrackIndex !== null ? audios[currentTrackIndex] : null;
-
   return (
     <div className="flex h-screen bg-[#121212] text-slate-300 font-sans overflow-hidden">
-      
-      {/* Hidden Audio Element */}
-      <audio 
-        ref={audioRef} 
-        onTimeUpdate={handleTimeUpdate} 
-        onEnded={playNext}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-      />
 
       {/* Sidebar - Desktop */}
       <aside className="hidden md:flex flex-col w-64 bg-[#000000] p-6 gap-8 z-20">
@@ -351,16 +275,16 @@ export function AudioPlayerClient() {
                 {/* Tracks */}
                 {displayTracks.map((track, i) => {
                   const originalIndex = audios.findIndex(a => a.id === track.id);
-                  const isThisPlaying = currentTrackIndex === originalIndex;
+                  const isThisPlaying = currentTrack?.id === track.id;
                   const isFav = favorites.includes(track.id);
 
                   return (
                     <div 
                       key={track.id}
-                      onClick={() => playTrack(originalIndex)}
+                      onClick={() => handlePlayTrack(originalIndex)}
                       className={cn(
-                        "grid grid-cols-[40px_1fr_60px_80px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-4 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors group cursor-pointer items-center",
-                        isThisPlaying ? "bg-white/10" : ""
+                        "grid grid-cols-[40px_1fr_60px_80px] md:grid-cols-[48px_1fr_100px_60px_80px] gap-4 px-4 py-3 rounded-xl border border-transparent hover:border-emerald-500/30 hover:bg-white/10 dark:hover:bg-white/5 backdrop-blur-md transition-all duration-300 group cursor-pointer items-center",
+                        isThisPlaying ? "glass-card border-emerald-500/40 bg-emerald-500/10 shadow-lg" : ""
                       )}
                     >
                       {/* Number / Play / Wave */}
@@ -408,81 +332,6 @@ export function AudioPlayerClient() {
           </div>
         </div>
       </main>
-
-      {/* Fixed Bottom Player */}
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-[#181818] border-t border-[#282828] px-4 flex items-center justify-between z-50">
-        
-        {/* Current Track Info */}
-        <div className="flex items-center gap-4 w-[30%] min-w-[120px]">
-          {currentTrack ? (
-            <>
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-emerald-800 to-slate-900 rounded-md flex-shrink-0 flex items-center justify-center shadow-lg">
-                <ListMusic className="w-6 h-6 text-emerald-500" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-sm md:text-[15px] text-white font-medium truncate hover:underline cursor-pointer">{currentTrack.title}</div>
-                <div className="text-xs text-slate-400 truncate">{currentTrack.category}</div>
-              </div>
-              <button onClick={(e) => toggleFavorite(currentTrack.id, e)} className={cn("hidden md:block flex-shrink-0 ml-2", favorites.includes(currentTrack.id) ? "text-emerald-500" : "text-slate-400 hover:text-white")}>
-                <Heart className="w-4 h-4" fill={favorites.includes(currentTrack.id) ? "currentColor" : "none"} />
-              </button>
-            </>
-          ) : (
-            <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">কোনো অডিও সিলেক্ট করা নেই</div>
-          )}
-        </div>
-
-        {/* Player Controls */}
-        <div className="flex flex-col items-center max-w-xl w-full px-4">
-          <div className="flex items-center gap-4 md:gap-6 mb-2">
-            <button onClick={playPrev} className="text-slate-400 hover:text-white transition-colors disabled:opacity-50" disabled={!currentTrack}>
-              <SkipBack className="w-5 h-5 fill-current" />
-            </button>
-            <button 
-              onClick={togglePlay} 
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50"
-              disabled={!currentTrack}
-            >
-              {isPlaying ? <Pause className="w-4 h-4 md:w-5 md:h-5 fill-current" /> : <Play className="w-4 h-4 md:w-5 md:h-5 fill-current ml-1" />}
-            </button>
-            <button onClick={playNext} className="text-slate-400 hover:text-white transition-colors disabled:opacity-50" disabled={!currentTrack}>
-              <SkipForward className="w-5 h-5 fill-current" />
-            </button>
-          </div>
-          
-          <div className="flex items-center w-full gap-2 text-xs text-slate-400 font-medium">
-            <input 
-              type="range" 
-              min="0" max="100" 
-              value={progress}
-              onChange={handleProgressChange}
-              disabled={!currentTrack}
-              className="w-full h-1 bg-slate-600 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full disabled:opacity-50"
-              style={{ backgroundSize: `${progress}% 100%`, backgroundImage: 'linear-gradient(#10b981, #10b981)', backgroundRepeat: 'no-repeat' }}
-            />
-          </div>
-        </div>
-
-        {/* Extra Controls */}
-        <div className="flex items-center justify-end gap-3 w-[30%] min-w-[120px] text-slate-400">
-          {currentTrack && (
-            <a href={currentTrack.url} download target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors hidden md:block">
-              <Download className="w-4 h-4" />
-            </a>
-          )}
-          <button onClick={toggleMute} className="hover:text-white transition-colors hidden md:block">
-            {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </button>
-          <input 
-            type="range" 
-            min="0" max="1" step="0.01"
-            value={isMuted ? 0 : volume}
-            onChange={handleVolumeChange}
-            className="w-20 lg:w-24 h-1 bg-slate-600 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full hidden md:block"
-            style={{ backgroundSize: `${isMuted ? 0 : volume * 100}% 100%`, backgroundImage: 'linear-gradient(#10b981, #10b981)', backgroundRepeat: 'no-repeat' }}
-          />
-        </div>
-      </div>
     </div>
   );
 }

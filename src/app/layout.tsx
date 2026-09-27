@@ -1,12 +1,21 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
-import { Inter, Hind_Siliguri, Noto_Naskh_Arabic } from "next/font/google";
+import {
+  Inter,
+  Hind_Siliguri,
+  Noto_Serif_Bengali,
+  Amiri_Quran,
+  Aref_Ruqaa,
+  Scheherazade_New,
+} from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { FloatingWhatsapp } from "@/components/floating-whatsapp";
+import { AudioProvider } from "@/features/audio/context/AudioContext";
+import { GlobalAudioPlayer } from "@/features/audio/components/global-audio-player";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,10 +28,32 @@ const hindSiliguri = Hind_Siliguri({
   variable: "--font-hind",
 });
 
-const notoArabic = Noto_Naskh_Arabic({
-  weight: ["400", "500", "600", "700"],
+// Bengali display serif. Weights 600/700 only — headings never exceed 700.
+const notoSerifBengali = Noto_Serif_Bengali({
+  weight: ["600", "700"],
+  subsets: ["bengali"],
+  variable: "--font-noto-bengali",
+});
+
+// Quranic naskh font
+const amiriQuran = Amiri_Quran({
+  weight: "400",
   subsets: ["arabic"],
-  variable: "--font-arabic",
+  variable: "--font-amiri",
+});
+
+// Arabic Calligraphy font (Ruqaa script)
+const arefRuqaa = Aref_Ruqaa({
+  weight: ["400", "700"],
+  subsets: ["arabic"],
+  variable: "--font-aref-ruqaa",
+});
+
+// Arabic Calligraphy font (Scheherazade Naskh & Thuluth)
+const scheherazade = Scheherazade_New({
+  weight: ["400", "700"],
+  subsets: ["arabic"],
+  variable: "--font-scheherazade",
 });
 
 export const metadata: Metadata = {
@@ -44,8 +75,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#E2E8F0" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    // Matches --surface-base in each theme: parchment and ink.
+    { media: "(prefers-color-scheme: light)", color: "#faf8f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
   ],
 };
 
@@ -58,7 +90,7 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${inter.variable} ${hindSiliguri.variable} ${notoArabic.variable} scroll-smooth`}
+      className={`${inter.variable} ${hindSiliguri.variable} ${notoSerifBengali.variable} ${amiriQuran.variable} ${arefRuqaa.variable} ${scheherazade.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-background text-foreground font-sans antialiased flex flex-col">
         <script
@@ -83,23 +115,26 @@ export default function RootLayout({
             })
           }}
         />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          {/* Global Islamic geometric pattern background */}
-          <div
-            className="fixed inset-0 z-[-1] opacity-[0.02] dark:opacity-[0.03] dark:invert pointer-events-none"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M30 0L60 30L30 60L0 30z'/%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M0 0h60v60H0z' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E")`
-            }}
-          />
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-          <FloatingWhatsapp />
-        </ThemeProvider>
+        <AudioProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            {/* Global Islamic geometric pattern background */}
+            <div
+              className="fixed inset-0 z-[-1] opacity-[0.02] dark:opacity-[0.03] dark:invert pointer-events-none"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M30 0L60 30L30 60L0 30z'/%3E%3Cpath stroke='%230f172a' stroke-width='1' fill='none' d='M0 0h60v60H0z' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E")`
+              }}
+            />
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+            <FloatingWhatsapp />
+            <GlobalAudioPlayer />
+          </ThemeProvider>
+        </AudioProvider>
         <SpeedInsights />
         <Analytics />
       </body>
