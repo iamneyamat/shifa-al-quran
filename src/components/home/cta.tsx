@@ -17,7 +17,7 @@ export function CTASection() {
             <div className="ornament-rule mx-auto mt-4 sm:mt-7 w-20 sm:w-32" aria-hidden="true" />
 
             <p className="type-body-lg mx-auto mt-4 sm:mt-7 max-w-2xl text-ink-body text-xs sm:text-base">
-              শারীরিক কিংবা মানসিক যেকোনো সমস্যায় কোরআন ও সুন্নাহ ভিত্তিক
+              শারীরিক কিংবা মানসিক যেকোনো সমস্যায় কুরআন ও সুন্নাহ ভিত্তিক
               চিকিৎসার জন্য আমাদের সাথে পরামর্শ করুন। আমরা আপনার গোপনীয়তা রক্ষায়
               প্রতিশ্রুতিবদ্ধ।
             </p>

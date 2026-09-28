@@ -33,7 +33,7 @@ export function FoundationSection() {
     <section className="section-band border-y border-hairline bg-surface-raised">
       <div className="shell">
         <Reveal className="max-w-3xl">
-          <h2 className="type-title text-ink-strong">কোরআন ও সুন্নাহর প্রমাণ</h2>
+          <h2 className="type-title text-ink-strong">কুরআন ও সুন্নাহর প্রমাণ</h2>
           <p className="type-body-lg mt-5 text-ink-body">
             রুকইয়াহ শারইয়াহ কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং
             আল্লাহ এবং তাঁর রাসূল (সা.) থেকে প্রমাণিত।
@@ -49,7 +49,7 @@ export function FoundationSection() {
             className="grid gap-5 lg:grid-cols-2 lg:gap-6"
           >
             <motion.figure variants={itemVariants} className="card card-citation flex flex-col hover:border-gold-ornament/40 transition-colors">
-              <p className="type-citation text-amber-900 dark:text-gold-soft-ink font-semibold">কোরআন</p>
+              <p className="type-citation text-amber-900 dark:text-gold-soft-ink font-semibold">কুরআন</p>
               <p
                 dir="rtl"
                 lang="ar"
@@ -59,7 +59,7 @@ export function FoundationSection() {
               </p>
               <hr className="divider mt-5" />
               <blockquote className="type-body-lg mt-5 text-ink-body">
-                অর্থ: &ldquo;বলুন, এটি (কোরআন) মুমিনদের জন্য হেদায়েত ও
+                অর্থ: &ldquo;বলুন, এটি (কুরআন) মুমিনদের জন্য হেদায়েত ও
                 আরোগ্য।&rdquo;
               </blockquote>
               <figcaption className="type-citation mt-4 text-amber-900 dark:text-gold-ink font-semibold">

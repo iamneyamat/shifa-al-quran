@@ -2,32 +2,8 @@ import fs from "fs";
 import path from "path";
 import { AssessmentReportData } from "../types/report";
 
-// Bengali number helper
-export function toBnNumber(num: number | string): string {
-  const bnDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
-  return String(num).replace(/[0-9]/g, (d) => bnDigits[Number(d)] ?? d);
-}
-
-export function formatBengaliDate(date: Date = new Date()): string {
-  const months = [
-    "জানুয়ারি",
-    "ফেব্রুয়ারি",
-    "মার্চ",
-    "এপ্রিল",
-    "মে",
-    "জুন",
-    "জুলাই",
-    "আগস্ট",
-    "সেপ্টেম্বর",
-    "অক্টোবর",
-    "নভেম্বর",
-    "ডিসেম্বর",
-  ];
-  const day = toBnNumber(date.getDate());
-  const month = months[date.getMonth()];
-  const year = toBnNumber(date.getFullYear());
-  return `${day} ${month}, ${year}`;
-}
+import { toBnNumber, formatBengaliDate } from "../utils/formatters";
+export { toBnNumber, formatBengaliDate };
 
 // Read and cache base64 assets
 let cachedFontHindRegular: string | null = null;
@@ -414,7 +390,7 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
       <div class="report-card" style="margin-bottom: 16px;">
         <h3 style="font-size: 10pt; font-weight: 700; color: #0f172a; margin: 0 0 8px 0; display: flex; align-items: center; gap: 6px;">
           <span style="width: 6px; height: 6px; border-radius: 9999px; background: #047857;"></span>
-          যাচাইকৃত প্রশ্নাবলী ও ব্যবহারকারীর উত্তর:
+          যাচাইকৃত প্রশ্নাবলি ও ব্যবহারকারীর উত্তর:
         </h3>
 
         <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -530,7 +506,7 @@ export function renderRecommendedActions(data: AssessmentReportData): string {
           <div style="background: #ffffff; padding: 10px 12px; border-radius: 6px; border: 1px solid #d1fae5;">
             <div style="font-size: 9pt; font-weight: 700; color: #065f46;">সন্ধ্যার আমল (মাগরিব পর)</div>
             <div style="font-size: 8pt; color: #475569; margin-top: 3px; line-height: 1.45;">
-              সন্ধ্যার হেফাজতের দোআসমূহ এবং প্রয়োজনবোধে রুকইয়ার গোসল সম্পন্ন।
+              সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়াহর গোসল সম্পন্ন।
             </div>
           </div>
 

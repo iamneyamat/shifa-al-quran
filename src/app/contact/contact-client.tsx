@@ -99,7 +99,7 @@ export function ContactClient() {
               
               <div className="flex items-center gap-3 mb-6 sm:mb-8 pb-4 sm:pb-8 border-b border-light-border dark:border-slate-800/50">
                 <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 shrink-0" />
-                <h3 className="text-lg sm:text-xl font-bold text-red-500">জরুরী প্রয়োজনে</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-red-500">জরুরি প্রয়োজনে</h3>
                 <span className="text-light-text dark:text-slate-400 text-xs sm:text-sm ml-auto">২৪/৭ খোলা</span>
               </div>
 

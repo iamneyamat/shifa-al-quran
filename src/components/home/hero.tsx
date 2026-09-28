@@ -213,7 +213,7 @@ export function Hero() {
                     সেলফ রুকইয়াহ ডায়াগনোসিস
                   </h3>
                   <p className="text-xs sm:text-base text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
-                    যাদু, জিন, বদনজর নাকি ওয়াসওয়াসা? আপনার শারীরিক ও মানসিক সমস্যার প্রকৃত কারণ জানতে নিজে নিজেই পূর্ণাঙ্গ টেস্ট করুন।
+                    জাদু, জিন, বদনজর নাকি ওয়াসওয়াসা? আপনার শারীরিক ও মানসিক সমস্যার প্রকৃত কারণ জানতে নিজে নিজেই পূর্ণাঙ্গ টেস্ট করুন।
                   </p>
                 </div>
               </div>
@@ -237,27 +237,70 @@ export function Hero() {
 
         {/* Floating Liquid Glass Contact & Info Strip */}
         <div className="mt-6 sm:mt-8 lg:mt-12">
-          <div className="glass-panel rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/40 dark:border-white/10 shadow-xl backdrop-blur-2xl">
+          <div className="glass-panel rounded-2xl p-3 sm:p-5 lg:p-8 border border-white/40 dark:border-white/10 shadow-xl backdrop-blur-2xl">
             <motion.dl 
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={containerVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-6 lg:gap-x-0 lg:divide-x lg:divide-hairline"
+              className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 sm:gap-4 lg:gap-x-0 lg:divide-x lg:divide-hairline"
             >
-              {infoData.map((info) => (
-                <motion.div key={info.title} variants={itemVariants} className="group p-2 sm:p-0 lg:px-6 lg:first:pl-0 lg:last:pr-0">
-                  <dt className="type-meta flex items-center gap-2 text-ink-muted">
-                    <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg sm:rounded-xl bg-emerald-500/15 text-interactive transition-transform group-hover:scale-110 shadow-sm shrink-0">
-                      <info.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={1.75} aria-hidden="true" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-medium">{info.title}</span>
-                  </dt>
-                  <dd className="type-heading-sm mt-1 sm:mt-2 text-ink-strong group-hover:text-interactive transition-colors text-xs sm:text-base font-semibold">
-                    {info.details}
-                  </dd>
-                </motion.div>
-              ))}
+              {infoData.map((info, idx) => {
+                const isLast = idx === infoData.length - 1;
+                const isExternal = info.href.startsWith("http") || info.href.startsWith("tel:");
+                const LinkComponent = isExternal ? "a" : Link;
+                const linkProps = isExternal
+                  ? {
+                      href: info.href,
+                      ...(info.href.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {}),
+                    }
+                  : { href: info.href };
+
+                return (
+                  <motion.div
+                    key={info.title}
+                    variants={itemVariants}
+                    className={`group ${
+                      isLast ? "col-span-2 lg:col-span-1" : "col-span-1"
+                    } p-3 sm:p-3.5 lg:p-0 lg:px-6 lg:first:pl-0 lg:last:pr-0 rounded-xl bg-white/50 dark:bg-white/[0.04] lg:bg-transparent lg:dark:bg-transparent border border-white/60 dark:border-white/5 lg:border-0 transition-all duration-200 hover:bg-white/70 dark:hover:bg-white/[0.07]`}
+                  >
+                    <LinkComponent
+                      {...linkProps}
+                      className={`flex flex-col justify-center h-full min-h-[66px] sm:min-h-[76px] lg:min-h-0 ${
+                        isLast
+                          ? "items-center text-center lg:items-start lg:text-left"
+                          : "items-start text-left"
+                      }`}
+                    >
+                      <dt
+                        className={`flex items-center gap-2 text-slate-600 dark:text-zinc-400 ${
+                          isLast ? "justify-center lg:justify-start w-full" : "justify-start w-full"
+                        }`}
+                      >
+                        <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 transition-transform group-hover:scale-110 shadow-sm shrink-0">
+                          <info.icon
+                            className="h-3.5 w-3.5 sm:h-4 sm:w-4"
+                            strokeWidth={1.75}
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <span className="text-xs sm:text-sm font-medium leading-tight whitespace-normal text-slate-600 dark:text-zinc-400">
+                          {info.title}
+                        </span>
+                      </dt>
+                      <dd
+                        className={`mt-1 sm:mt-1.5 text-slate-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors text-[13px] sm:text-base font-semibold leading-snug break-words ${
+                          isLast ? "text-center lg:text-left w-full" : "text-left w-full"
+                        }`}
+                      >
+                        {info.details}
+                      </dd>
+                    </LinkComponent>
+                  </motion.div>
+                );
+              })}
             </motion.dl>
           </div>
         </div>

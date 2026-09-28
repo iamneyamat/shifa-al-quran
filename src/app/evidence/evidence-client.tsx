@@ -30,7 +30,7 @@ export function EvidenceClient() {
             <BookOpen className="h-10 w-10" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6">
-            কোরআন ও সুন্নাহর <span className="text-emerald-600 dark:text-emerald-400">প্রমাণ</span>
+            কুরআন ও সুন্নাহর <span className="text-emerald-600 dark:text-emerald-400">প্রমাণ</span>
           </h1>
           <p className="text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed font-medium">
             রুকইয়াহ শারইয়াহ কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং আল্লাহ এবং তাঁর রাসূল (সা.) থেকে প্রমাণিত।
@@ -48,7 +48,7 @@ export function EvidenceClient() {
           >
             <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mb-8 flex items-center gap-4">
               <span className="flex-shrink-0 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 h-12 w-12 rounded-full flex items-center justify-center text-xl shadow-sm">১</span>
-              পবিত্র কোরআন থেকে প্রমাণ
+              পবিত্র কুরআন থেকে প্রমাণ
             </h2>
             
             <div className="space-y-6">
@@ -57,7 +57,7 @@ export function EvidenceClient() {
                   وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ
                 </p>
                 <p className="text-light-text dark:text-slate-300 font-medium text-lg mb-2">
-                  অর্থ: &quot;আমি কোরআনে এমন বিষয় নাযিল করি যা মুমিনদের জন্য আরোগ্য ও রহমত।&quot;
+                  অর্থ: &quot;আমি কুরআনে এমন বিষয় নাযিল করি যা মুমিনদের জন্য আরোগ্য ও রহমত।&quot;
                 </p>
                 <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400">— (সূরা বনী ইসরাঈল: ৮২)</p>
               </div>
@@ -67,7 +67,7 @@ export function EvidenceClient() {
                   قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ
                 </p>
                 <p className="text-light-text dark:text-slate-300 font-medium text-lg mb-2">
-                  অর্থ: &quot;বলুন, এটি (কোরআন) মুমিনদের জন্য হেদায়েত ও আরোগ্য।&quot;
+                  অর্থ: &quot;বলুন, এটি (কুরআন) মুমিনদের জন্য হেদায়েত ও আরোগ্য।&quot;
                 </p>
                 <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400">— (সূরা হা-মীম সিজদাহ: ৪৪)</p>
               </div>

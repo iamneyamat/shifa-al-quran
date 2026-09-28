@@ -30,7 +30,7 @@ export function TermsClient() {
             <FileText className="h-10 w-10" />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-light-heading dark:text-white tracking-tight mb-6">
-            <span className="text-emerald-600 dark:text-emerald-400">শর্তাবলী</span>
+            <span className="text-emerald-600 dark:text-emerald-400">শর্তাবলি</span>
           </h1>
         </motion.div>
 
@@ -42,15 +42,15 @@ export function TermsClient() {
         >
           <div className="prose prose-lg md:prose-xl dark:prose-invert prose-emerald max-w-none prose-headings:font-bold prose-li:text-light-text dark:prose-li:text-slate-300">
             <p className="text-xl md:text-2xl text-light-text dark:text-slate-300 leading-relaxed font-medium mb-10 italic border-l-4 border-emerald-500 pl-6">
-              শিফা আল কুরআন - এর ওয়েবসাইট এবং সেবা ব্যবহারের আগে অনুগ্রহ করে নিচের শর্তাবলী পড়ে নিন।
+              শিফা আল কুরআন - এর ওয়েবসাইট এবং সেবা ব্যবহারের আগে অনুগ্রহ করে নিচের শর্তাবলি পড়ে নিন।
             </p>
             
             <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mt-10 mb-6 flex items-center gap-3">
               <span className="w-2 h-6 rounded-full bg-emerald-500 block" />
-              সাধারণ শর্তাবলী
+              সাধারণ শর্তাবলি
             </h2>
             <ul className="space-y-3 marker:text-emerald-500">
-              <li>আমরা শুধুমাত্র কোরআন ও সুন্নাহ ভিত্তিক শরীয়াহ সম্মত রুকইয়াহ করে থাকি।</li>
+              <li>আমরা শুধুমাত্র কুরআন ও সুন্নাহ ভিত্তিক শরীয়াহ সম্মত রুকইয়াহ করে থাকি।</li>
               <li>চিকিৎসার ফলাফল সম্পূর্ণ আল্লাহর ওপর নির্ভরশীল। আমরা কোনো গ্যারান্টি প্রদান করি না।</li>
               <li>রোগীকে অবশ্যই ইসলামী শরীয়তের বিধান (নামাজ, পর্দা ইত্যাদি) মেনে চলতে হবে।</li>
               <li>মহিলা রোগীদের রুকইয়াহ করার সময় অবশ্যই মাহরাম সাথে থাকতে হবে।</li>
