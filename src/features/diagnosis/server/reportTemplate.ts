@@ -217,6 +217,228 @@ export function renderReportStyles(): string {
       font-size: 12.5pt;
       color: #064e3b;
     }
+
+    /* ==========================================================================
+       SYSTEMATIC PDF VERTICAL CENTERING & TYPOGRAPHY SYSTEM
+       Compensates for Bengali / Arabic font ascent-descent metric imbalance
+       ========================================================================== */
+    .pdf-pill-header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecfdf5;
+      border: 1.5px solid #a7f3d0;
+      color: #065f46;
+      font-size: 8.5pt;
+      font-weight: 700;
+      height: 25px;
+      padding: 0 13px;
+      border-radius: 9999px;
+      line-height: 1;
+      box-sizing: border-box;
+      vertical-align: middle;
+    }
+    .pdf-pill-header > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-0.75px);
+    }
+
+    .pdf-pill-priority {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      height: 24px;
+      border-radius: 9999px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      line-height: 1;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+    }
+    .pdf-pill-priority > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-0.75px);
+    }
+
+    .pdf-tag-auto {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7.5pt;
+      color: #047857;
+      font-weight: 600;
+      background: #ecfdf5;
+      height: 20px;
+      padding: 0 8px;
+      border-radius: 4px;
+      border: 1px solid #a7f3d0;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+    .pdf-tag-auto > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-0.5px);
+    }
+
+    .pdf-badge-category {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8pt;
+      font-weight: 700;
+      height: 22px;
+      padding: 0 10px;
+      border-radius: 9999px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+    .pdf-badge-category > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-0.75px);
+    }
+
+    .pdf-badge-answer {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      padding: 0 10px;
+      border-radius: 9999px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+    .pdf-badge-answer > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-0.75px);
+    }
+
+    .pdf-circle-question {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      flex-shrink: 0;
+      color: #ffffff;
+      font-size: 8pt;
+      font-weight: 700;
+      box-sizing: border-box;
+    }
+    .pdf-circle-question > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-1.2px);
+    }
+
+    .pdf-circle-step {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 9999px;
+      background: #047857;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 10pt;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid #d1fae5;
+      line-height: 1;
+      box-sizing: border-box;
+      margin-top: 1px;
+    }
+    .pdf-circle-step > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-1.2px);
+    }
+
+    .pdf-badge-arabic {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Amiri', serif;
+      font-size: 8.5pt;
+      font-weight: 700;
+      height: 22px;
+      padding: 0 10px;
+      border-radius: 9999px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      line-height: 1;
+      box-sizing: border-box;
+      direction: rtl;
+    }
+    .pdf-badge-arabic > span {
+      display: block;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .pdf-audio-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+      font-size: 7.5pt;
+      font-weight: 600;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+    .pdf-audio-pill > span {
+      display: inline-block;
+      line-height: 1;
+      transform: translateY(-0.5px);
+    }
+
+    .pdf-seal {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 9999px;
+      border: 2px dashed #047857;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #047857;
+      font-size: 7pt;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.15;
+      padding: 0;
+      background: #f0fdf4;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+    .pdf-seal > span {
+      display: block;
+      line-height: 1.15;
+      transform: translateY(-0.75px);
+    }
   `;
 }
 
@@ -226,13 +448,13 @@ export function renderRunningHeader(data: AssessmentReportData, pageTitle: strin
     <div class="running-header">
       <div style="display: flex; align-items: center; gap: 8px;">
         ${logo ? `<img src="data:image/png;base64,${logo}" alt="Logo" style="width: 22px; height: 22px; object-fit: contain;" />` : ""}
-        <div>
-          <span style="font-weight: 700; font-size: 9.5pt; color: #022c22;">শিফা আল কুরআন</span>
-          <span style="color: #cbd5e1; margin: 0 6px;">|</span>
-          <span style="font-size: 8.5pt; color: #047857; font-weight: 600;">${pageTitle}</span>
+        <div style="display: flex; align-items: center;">
+          <span style="font-weight: 700; font-size: 9.5pt; color: #022c22; line-height: 1;">শিফা আল কুরআন</span>
+          <span style="color: #cbd5e1; margin: 0 6px; line-height: 1;">|</span>
+          <span style="font-size: 8.5pt; color: #047857; font-weight: 600; line-height: 1;">${pageTitle}</span>
         </div>
       </div>
-      <div style="font-size: 8pt; color: #64748b; font-family: monospace; font-weight: 600;">
+      <div style="font-size: 8pt; color: #64748b; font-family: monospace; font-weight: 600; line-height: 1;">
         DOC ID: #${data.reportId || "SAQ-GEN"}
       </div>
     </div>
@@ -309,10 +531,10 @@ export function renderReportCover(data: AssessmentReportData): string {
           </div>
 
           <div style="text-align: right;">
-            <div style="display: inline-block; background: #ecfdf5; border: 1.5px solid #a7f3d0; color: #065f46; font-size: 9pt; font-weight: 700; padding: 3px 12px; border-radius: 9999px;">
-              অফিসিয়াল অ্যাসেসমেন্ট রিপোর্ট
+            <div class="pdf-pill-header">
+              <span>অফিসিয়াল অ্যাসেসমেন্ট রিপোর্ট</span>
             </div>
-            <div style="font-size: 8pt; color: #64748b; font-family: monospace; font-weight: 600; margin-top: 4px;">
+            <div style="font-size: 8pt; color: #64748b; font-family: monospace; font-weight: 600; margin-top: 4px; line-height: 1;">
               REF: #${reportId}
             </div>
           </div>
@@ -337,9 +559,9 @@ export function renderReportCover(data: AssessmentReportData): string {
           </div>
           <div>
             <div style="font-size: 7.5pt; font-weight: 700; color: #64748b; text-transform: uppercase;">ভেরিফিকেশন স্ট্যাটাস</div>
-            <div style="font-size: 9pt; font-weight: 700; color: #0f172a; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
-              <span style="display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: #10b981;"></span>
-              যাচাইকৃত (Verified)
+            <div style="font-size: 9pt; font-weight: 700; color: #0f172a; margin-top: 2px; display: flex; align-items: center; gap: 5px; line-height: 1.2;">
+              <span style="display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background: #10b981; flex-shrink: 0;"></span>
+              <span>যাচাইকৃত (Verified)</span>
             </div>
           </div>
         </div>
@@ -376,8 +598,8 @@ export function renderReportCover(data: AssessmentReportData): string {
               ${levelTitle}
             </h2>
 
-            <div style="display: inline-block; padding: 3px 12px; border-radius: 9999px; background: ${themeColor.bg}; color: ${themeColor.text}; border: 1px solid ${themeColor.border}; font-size: 9pt; font-weight: 700; margin-bottom: 8px;">
-              অগ্রাধিকার: ${percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়াহ প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}
+            <div class="pdf-pill-priority" style="background: ${themeColor.bg}; color: ${themeColor.text}; border: 1px solid ${themeColor.border};">
+              <span>অগ্রাধিকার: ${percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়াহ প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}</span>
             </div>
 
             <!-- 3-Segment Severity Spectrum Meter -->
@@ -438,8 +660,8 @@ export function renderReportCover(data: AssessmentReportData): string {
               <span style="width: 6px; height: 6px; border-radius: 9999px; background: #047857;"></span>
               <span style="font-size: 9pt; font-weight: 700; color: #0f172a;">মূল্যায়ন পদ্ধতি ও প্রতিবেদন নির্দেশিকা</span>
             </div>
-            <span style="font-size: 7.5pt; color: #047857; font-weight: 600; background: #ecfdf5; padding: 2px 8px; border-radius: 4px; border: 1px solid #a7f3d0;">
-              স্বয়ংক্রিয় সিস্টেম জেনারেটেড
+            <span class="pdf-tag-auto">
+              <span>স্বয়ংক্রিয় সিস্টেম জেনারেটেড</span>
             </span>
           </div>
           <p style="font-size: 8.5pt; color: #475569; line-height: 1.5; margin: 0;">
@@ -481,8 +703,8 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
             <div style="font-size: 10pt; font-weight: 700; color: #0f172a;">
               ${category.title || "রুকইয়াহ মূল্যায়ন"}${category.subtitle ? ` (${category.subtitle})` : ""}
             </div>
-            <span style="font-size: 8pt; font-weight: 700; padding: 2px 8px; border-radius: 9999px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">
-              ${category.badge || "যাচাইকৃত"}
+            <span class="pdf-badge-category">
+              <span>${category.badge || "যাচাইকৃত"}</span>
             </span>
           </div>
           <p style="font-size: 8.5pt; color: #475569; margin: 0; line-height: 1.45;">
@@ -511,15 +733,15 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
               return `
                 <div class="report-card" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 10px; background: ${cardBg}; border: 1px solid ${cardBorder}; border-radius: 6px; font-size: 8.5pt;">
                   <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-                    <span style="width: 22px; height: 22px; min-width: 22px; border-radius: 9999px; background: ${isAffirmative ? "#e11d48" : isSometimes ? "#d97706" : "#64748b"}; color: #ffffff; font-size: 8pt; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; line-height: 1; flex-shrink: 0;">
-                      ${toBnNumber(idx + 1)}
+                    <span class="pdf-circle-question" style="background: ${isAffirmative ? "#e11d48" : isSometimes ? "#d97706" : "#64748b"};">
+                      <span>${toBnNumber(idx + 1)}</span>
                     </span>
                     <span style="color: #1e293b; line-height: 1.4; font-weight: 500;">
                       ${item?.question?.text || (typeof item?.question === "string" ? item.question : "")}
                     </span>
                   </div>
-                  <span style="padding: 2px 8px; border-radius: 9999px; font-size: 7.5pt; font-weight: 700; flex-shrink: 0; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder};">
-                    ${item?.answerLabel || "উত্তর দেওয়া হয়েছে"}
+                  <span class="pdf-badge-answer" style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder};">
+                    <span>${item?.answerLabel || "উত্তর দেওয়া হয়েছে"}</span>
                   </span>
                 </div>
               `;
@@ -577,8 +799,8 @@ export function renderRecommendedActions(data: AssessmentReportData): string {
         <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
           ${steps.map((step, idx) => `
             <div class="report-card" style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);">
-              <div style="width: 28px; height: 28px; min-width: 28px; border-radius: 9999px; background: #047857; color: #ffffff; font-weight: 700; font-size: 10pt; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid #d1fae5; line-height: 1;">
-                ${toBnNumber(idx < 9 ? `0${idx + 1}` : idx + 1)}
+              <div class="pdf-circle-step">
+                <span>${toBnNumber(idx < 9 ? `0${idx + 1}` : idx + 1)}</span>
               </div>
               <div style="flex: 1;">
                 <div style="font-size: 8.5pt; font-weight: 700; color: #b45309; margin-bottom: 2px;">
@@ -687,8 +909,8 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
                   <span style="font-size: 9.5pt; font-weight: 700; color: #0f172a;">${item?.surahName || ""}</span>
                   ${item?.reference ? `<span style="font-size: 7.5pt; color: #64748b; margin-left: 6px;">(${item.reference})</span>` : ""}
                 </div>
-                <span style="font-size: 7.5pt; font-weight: 700; padding: 2px 8px; border-radius: 9999px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">
-                  ${item?.arabicName || ""}
+                <span class="pdf-badge-arabic">
+                  <span>${item?.arabicName || ""}</span>
                 </span>
               </div>
 
@@ -716,8 +938,9 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 5px;">
               ${audioLinks.map((a) => `
-                <span style="padding: 2px 8px; border-radius: 4px; background: #ffffff; border: 1px solid #6ee7b7; color: #065f46; font-size: 7.5pt; font-weight: 600;">
-                  🎧 ${a?.title || ""}
+                <span class="pdf-audio-pill">
+                  <span>🎧</span>
+                  <span>${a?.title || ""}</span>
                 </span>
               `).join("")}
             </div>
@@ -727,8 +950,8 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
         <!-- Official Verification Seal & Sign-off Card -->
         <div class="report-card" style="padding: 9px 14px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
           <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 40px; height: 40px; border-radius: 9999px; border: 2px dashed #047857; display: flex; align-items: center; justify-content: center; color: #047857; font-size: 7pt; font-weight: 700; text-align: center; line-height: 1.15; padding: 2px; background: #f0fdf4;">
-              SAQ<br />VERIFIED
+            <div class="pdf-seal">
+              <span>SAQ<br />VERIFIED</span>
             </div>
             <div>
               <div style="font-size: 9pt; font-weight: 700; color: #022c22;">
