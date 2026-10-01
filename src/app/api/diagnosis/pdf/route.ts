@@ -121,9 +121,21 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("category") || searchParams.get("categoryId") || "waswas";
+    const format = searchParams.get("format");
 
     reportData = buildReportData(categoryId, {});
     filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
+
+    if (format === "html") {
+      const html = renderFullReportHtml(reportData);
+      return new NextResponse(html, {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store, max-age=0",
+        },
+      });
+    }
 
     const pdfBuffer = await generateAssessmentPdf(reportData);
 

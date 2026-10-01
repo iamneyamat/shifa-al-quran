@@ -41,7 +41,6 @@ async function getBrowser(): Promise<Browser> {
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-gpu",
-            "--font-render-hinting=none",
           ],
         });
         return cachedBrowser;
@@ -94,13 +93,13 @@ export async function generateAssessmentPdf(data: AssessmentReportData): Promise
     await page.setViewportSize({ width: 794, height: 1123 });
 
     // Set HTML content and wait for network/fonts to settle
-    await page.setContent(html, { waitUntil: "load", timeout: 15000 });
+    await page.setContent(html, { waitUntil: "networkidle", timeout: 15000 });
 
     // Ensure all web fonts are loaded
     await page.evaluate(() => document.fonts.ready).catch(() => {});
 
-    // Short layout settling buffer
-    await page.waitForTimeout(50);
+    // Layout settling buffer
+    await page.waitForTimeout(100);
 
     const pdfBuffer = await page.pdf({
       format: "A4",
