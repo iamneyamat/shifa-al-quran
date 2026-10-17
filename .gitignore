@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+.node-preload.js
 
 # debug
 npm-debug.log*
