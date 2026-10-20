@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { diagnosisCategories } from "@/features/diagnosis/data/diagnosisData";
+
+export const dynamic = 'force-dynamic';
 import { calculateDiagnosisResult } from "@/features/diagnosis/utils/diagnosisEngine";
 import { AssessmentReportData, EvaluatedQuestion } from "@/features/diagnosis/types/report";
 import { getQuranicVersesForPrescription } from "@/features/diagnosis/server/quranicData";

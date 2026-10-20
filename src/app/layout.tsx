@@ -1,6 +1,7 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import {
   Inter,
   Hind_Siliguri,
@@ -26,6 +27,12 @@ const hindSiliguri = Hind_Siliguri({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["bengali", "latin"],
   variable: "--font-hind",
+});
+
+const headlineBangla = localFont({
+  src: "../fonts/headline-bangla.otf",
+  variable: "--font-headline-bangla",
+  display: "swap",
 });
 
 // Bengali display serif. Weights 600/700 only — headings never exceed 700.
@@ -90,7 +97,7 @@ export default function RootLayout({
     <html
       lang="bn"
       suppressHydrationWarning
-      className={`${inter.variable} ${hindSiliguri.variable} ${notoSerifBengali.variable} ${amiriQuran.variable} ${arefRuqaa.variable} ${scheherazade.variable} scroll-smooth`}
+      className={`${inter.variable} ${hindSiliguri.variable} ${headlineBangla.variable} ${notoSerifBengali.variable} ${amiriQuran.variable} ${arefRuqaa.variable} ${scheherazade.variable} scroll-smooth`}
     >
       <body className="min-h-screen bg-background text-foreground font-sans antialiased flex flex-col">
         <script

@@ -26,7 +26,7 @@ export function Footer() {
       {/* Top ornamental border separator */}
       <div className="ornament-rule w-full" aria-hidden="true" />
 
-      <div className="shell pt-8 sm:pt-14 lg:pt-20 pb-8 sm:pb-12">
+      <div className="shell px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 lg:pt-16 pb-6 sm:pb-8">
         {/* Dedicated Mobile Footer Layout (< sm) */}
         <div className="sm:hidden space-y-7">
           {/* 1. Mobile Brand / Logo section */}
@@ -306,16 +306,16 @@ export function Footer() {
             <span>কুরআন ও সুন্নাহ ভিত্তিক চিকিৎসা</span>
           </div>
         </div>
-      </div>
 
-      {/* 6. Oversized Bengali Typography Watermark (Decorative Brand Signature) */}
-      <div 
-        className="relative w-full overflow-hidden pointer-events-none select-none flex justify-center -mt-2 sm:-mt-4"
-        aria-hidden="true"
-      >
-        <span className="font-sans font-bold whitespace-nowrap text-[clamp(2.75rem,13.5vw,11.5rem)] leading-none translate-y-[26%] sm:translate-y-[30%] bg-gradient-to-b from-emerald-950/15 via-emerald-800/10 to-transparent dark:from-emerald-300/18 dark:via-emerald-400/10 dark:to-transparent bg-clip-text text-transparent select-none block transition-colors duration-300">
-          শিফা আল কুরআন
-        </span>
+        {/* 6. Refined Bengali Typography Watermark (Contained within layout bounds) */}
+        <div 
+          className="relative w-full pointer-events-none select-none flex justify-center items-center pt-6 sm:pt-10 pb-3"
+          aria-hidden="true"
+        >
+          <span className="font-headline font-bold whitespace-nowrap text-[clamp(2.1rem,7.5vw,5.5rem)] leading-snug tracking-tight bg-gradient-to-b from-emerald-950/45 via-emerald-800/35 to-emerald-900/20 dark:from-emerald-300/45 dark:via-emerald-400/35 dark:to-emerald-500/20 bg-clip-text text-transparent select-none block text-center transition-colors duration-300">
+            শিফা আল কুরআন
+          </span>
+        </div>
       </div>
     </footer>
   );

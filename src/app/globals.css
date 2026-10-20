@@ -20,6 +20,8 @@
   --font-sans: var(--font-hind), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   /* Bengali display serif. Weights 600/700 only — see typography rules. */
   --font-heading: var(--font-noto-bengali), var(--font-hind), ui-serif, Georgia, serif;
+  /* Bengali display headline font */
+  --font-headline: var(--font-headline-bangla), var(--font-hind), sans-serif;
   /* Quranic Calligraphy & Naskh. */
   --font-arabic: var(--font-scheherazade), var(--font-aref-ruqaa), var(--font-amiri), "Amiri Quran", serif;
 

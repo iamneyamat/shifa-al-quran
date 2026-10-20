@@ -1,4 +1,4 @@
-import { chromium, Browser } from "playwright-core";
+import type { Browser } from "playwright-core";
 import fs from "fs";
 import { AssessmentReportData } from "../types/report";
 import { renderFullReportHtml } from "./reportTemplate";
@@ -28,6 +28,8 @@ async function getBrowser(): Promise<Browser> {
   if (cachedBrowser && cachedBrowser.isConnected()) {
     return cachedBrowser;
   }
+
+  const { chromium } = await import("playwright-core");
 
   // 1. Direct executable detection (fastest, skips registry scanning)
   for (const p of CANDIDATE_PATHS) {
