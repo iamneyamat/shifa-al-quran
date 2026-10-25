@@ -150,121 +150,33 @@ export function DiagnosisResultView() {
           window.URL.revokeObjectURL(url);
         }, 30000);
       } else {
-        // Client-side fallback: Convert self-contained report HTML into PDF and download directly
+        // Print fallback (2026-10-26): the server has no Chromium on
+        // Vercel, so a direct PDF binary is unavailable. The old
+        // html2canvas screenshot path distorted Bengali text (text
+        // falling below its background box, overlays, missing SVG QR),
+        // so it is removed. Instead, open the exact report HTML in a
+        // new tab and let the browser's own print engine make the PDF
+        // (Save as PDF) — that engine renders the v2 layout exactly,
+        // with selectable text and a working PNG QR.
         const data = await response.json();
         if (!data.html) {
           throw new Error("Report HTML not returned from server");
         }
 
-        const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-          import("html2canvas"),
-          import("jspdf"),
-        ]);
-
-        const iframe = document.createElement("iframe");
-        iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
-        iframe.style.position = "fixed";
-        iframe.style.left = "-9999px";
-        iframe.style.top = "0";
-        iframe.style.width = "794px";
-        iframe.style.height = "1123px";
-        iframe.style.border = "none";
-        iframe.style.opacity = "0";
-        iframe.style.pointerEvents = "none";
-        iframe.style.zIndex = "-9999";
-        document.body.appendChild(iframe);
-
-        try {
-          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-          if (!iframeDoc) {
-            throw new Error("Could not access iframe document");
-          }
-
-          iframeDoc.open();
-          iframeDoc.write(data.html);
-          iframeDoc.close();
-
-          // Wait for embedded fonts (Hind Siliguri, Amiri) and images to finish loading
-          if (iframeDoc.fonts && iframeDoc.fonts.ready) {
-            await iframeDoc.fonts.ready;
-          }
-          await new Promise((resolve) => setTimeout(resolve, 300));
-
-          // Inject styling to ensure exact A4 dimensions and margins in screen capture
-          const styleEl = iframeDoc.createElement("style");
-          styleEl.textContent = `
-            html, body {
-              margin: 0 !important;
-              padding: 0 !important;
-              background: #ffffff !important;
-              width: 794px !important;
-            }
-            .report-section {
-              width: 794px !important;
-              min-height: 1123px !important;
-              padding: 14mm 15mm 16mm 15mm !important;
-              box-sizing: border-box !important;
-              background: #ffffff !important;
-              display: flex !important;
-              flex-direction: column !important;
-              position: relative !important;
-              overflow: hidden !important;
-            }
-            .running-footer {
-              margin-top: auto !important;
-            }
-          `;
-          iframeDoc.head.appendChild(styleEl);
-
-          const sections = iframeDoc.querySelectorAll<HTMLElement>(".report-section");
-          const pdf = new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: "a4",
-            compress: true,
-          });
-
-          const downloadFilename =
-            data.filename ||
-            `Shifa-Al-Quran-Diagnosis-Report-${category.id.toUpperCase()}.pdf`;
-
-          if (sections.length > 0) {
-            for (let i = 0; i < sections.length; i++) {
-              const section = sections[i];
-              if (i > 0) {
-                pdf.addPage("a4", "portrait");
-              }
-
-              const canvas = await html2canvas(section, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: "#ffffff",
-                windowWidth: 794,
-              });
-
-              const imgData = canvas.toDataURL("image/jpeg", 0.95);
-              pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
-            }
-          } else {
-            const canvas = await html2canvas(iframeDoc.body, {
-              scale: 2,
-              useCORS: true,
-              logging: false,
-              backgroundColor: "#ffffff",
-              windowWidth: 794,
-            });
-            const imgData = canvas.toDataURL("image/jpeg", 0.95);
-            pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
-          }
-
-          // Directly save the PDF file (automatic download, no print dialog!)
-          pdf.save(downloadFilename);
-        } finally {
-          if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
-          }
+        const printWindow = window.open("", "_blank");
+        if (!printWindow) {
+          throw new Error("Popup blocked — please allow popups for this site and try again.");
         }
+        printWindow.document.open();
+        printWindow.document.write(data.html);
+        printWindow.document.close();
+        if (printWindow.document.fonts && printWindow.document.fonts.ready) {
+          await printWindow.document.fonts.ready.catch(() => {});
+        }
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        printWindow.focus();
+        printWindow.print();
+        alert("প্রিন্ট উইন্ডো খুলেছে। সেখান থেকে 'Save as PDF' বেছে নিলেই হুবহু নতুন ডিজাইনের PDF পাবেন।");
       }
     } catch (error) {
       console.error("Diagnosis PDF generation failed:", error);
