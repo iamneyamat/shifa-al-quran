@@ -125,6 +125,10 @@ export function DiagnosisResultView() {
         body: JSON.stringify({
           categoryId: category.id,
           answers: answersToSend,
+          // The PDF must show the exact reference/date the result page
+          // already shows the user — never a fresh server-side pair.
+          reportId: reportId || undefined,
+          reportDate: reportDate || undefined,
         }),
       });
 
