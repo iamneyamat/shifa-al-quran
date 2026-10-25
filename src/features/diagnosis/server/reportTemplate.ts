@@ -15,7 +15,16 @@ let cachedAssets: {
   amiriArabic: string;
   amiriLatin: string;
   logo: string;
+  qrSvg: string;
 } | null = null;
+
+// Ayah-end ornament (U+06DD, ۝) renders as a large circle that can overlap
+// the neighbouring Arabic words in Amiri / Noto Naskh at PDF sizes. Replace
+// it with a plain dot separator only — the ayah words themselves are
+// untouched, and no new religious text is introduced.
+export function formatArabicText(text: string | undefined | null): string {
+  return (text || "").replace(/۝/g, " • ");
+}
 
 function getAssetBase64(relativeFilePath: string): string {
   try {
@@ -41,6 +50,7 @@ function getFontsAndLogo() {
       amiriArabic: getAssetBase64("public/fonts/Amiri-400-arabic.woff2"),
       amiriLatin: getAssetBase64("public/fonts/Amiri-400-latin.woff2"),
       logo: getAssetBase64("public/logo.png"),
+      qrSvg: getAssetBase64("public/app-qr.svg"),
     };
   }
   return cachedAssets;
@@ -155,19 +165,17 @@ export function renderReportStyles(): string {
       line-height: 1.5;
     }
 
-    /* Exactly 1 printable A4 page per section */
+    /* v2: one section per printed page, but height follows content.
+       Never force a fixed height and never hide overflow — both clipped
+       real content (audio pills, verse cards) and left blank half-pages. */
     .report-section {
       width: 100%;
-      height: 271mm;
-      max-height: 271mm;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       page-break-after: always;
       break-after: page;
       position: relative;
-      overflow: hidden;
       background: #ffffff;
     }
 
@@ -202,7 +210,7 @@ export function renderReportStyles(): string {
       align-items: center;
       justify-content: space-between;
       padding-top: 8px;
-      margin-top: auto;
+      margin-top: 12px;
       border-top: 1px solid #e2e8f0;
       font-size: 8pt;
       color: #64748b;
@@ -213,9 +221,33 @@ export function renderReportStyles(): string {
       font-family: 'Amiri', serif;
       direction: rtl;
       text-align: right;
-      line-height: 1.8;
-      font-size: 12.5pt;
+      line-height: 2.0;
+      font-size: 12pt;
       color: #064e3b;
+    }
+
+    /* v2 section heading: light emerald tint + green side bar (print-safe) */
+    .v2-h2 {
+      font-size: 12.5pt;
+      font-weight: 700;
+      color: #022c22;
+      margin: 8px 0 4px 0;
+      background: #f0fdf4;
+      border-right: 4px solid #047857;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .v2-h2 .no { color: #047857; }
+
+    /* v2 pills/badges: padding-based, never a fixed height + translateY
+       (that combination clipped Bengali descenders in screenshots). */
+    .v2-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      line-height: 1.4;
     }
 
     /* ==========================================================================
@@ -996,14 +1028,290 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
 }
 
 // ---------------------------------------------------------------------------
+// v2 REPORT (approved 2026-10-26): 3 printed pages, tinted headings,
+// coloured step cards, no fixed-height sections, no clipped pills,
+// no "Verified / certified" claims, all prescribed surahs shown.
+// Page 1: result + steps + routine + conditions + app box.
+// Page 2: only the symptoms the user actually reported + Shar'i principles.
+// Page 3: full-text surahs + abbreviated-surah checklist + disclaimer.
+// The older 4-page functions above are kept for reference only and are
+// no longer used by renderFullReportHtml.
+// ---------------------------------------------------------------------------
+function renderAppBox(): string {
+  const { qrSvg } = getFontsAndLogo();
+  const qrImg = qrSvg
+    ? `<img src="data:image/svg+xml;base64,${qrSvg}" alt="Shifa Al Quran app QR code" style="width: 64px; height: 64px; min-width: 64px; background: #ffffff; padding: 3px; border-radius: 6px; border: 1px solid #e2e8f0;" />`
+    : "";
+  return `
+    <div style="display: flex; gap: 12px; align-items: center; background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 10px; padding: 8px 12px; margin-top: 10px;">
+      ${qrImg}
+      <div>
+        <div style="font-size: 11pt; font-weight: 700; color: #022c22;">শিফা আল কুরআন অ্যাপ — আমল হাতের মুঠোয়</div>
+        <div style="font-size: 9pt; color: #475569; margin: 2px 0; line-height: 1.45;">
+          দৈনিক আমল, রুকইয়া নির্দেশিকা, অডিও শোনা, তাসবিহ ও অ্যাপয়েন্টমেন্ট — সব এক অ্যাপে, ফ্রি। ক্যামেরা দিয়ে QR স্ক্যান করুন।
+        </div>
+        <div style="font-family: monospace; font-size: 7pt; color: #64748b; word-break: break-all;">
+          play.google.com/store/apps/details?id=com.iamneyamat.shifaalquranapp
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+export function renderV2Page1(data: AssessmentReportData): string {
+  const { logo } = getFontsAndLogo();
+  const category = data.category || { title: "রুকইয়া মূল্যায়ন", questions: [] };
+  const result = data.result || {
+    totalScore: 0,
+    maxScore: 20,
+    percentage: 0,
+    level: "low",
+    levelTitle: "স্বাভাবিক স্তর",
+    prescription: { summary: "", steps: [], recommendedSurahs: [] },
+  };
+  const reportId = data.reportId || "SAQ-GEN";
+  const reportDate = data.reportDate || formatBengaliDate();
+  const totalScore = result.totalScore ?? 0;
+  const maxScore = result.maxScore ?? 20;
+  const percentage = result.percentage ?? 0;
+  const level = result.level || "low";
+  const levelTitle = result.levelTitle || "স্বাভাবিক স্তর";
+  const prescription = result.prescription || { summary: "", steps: [], recommendedSurahs: [] };
+  const steps = prescription.steps || [];
+  const isHigh = level === "high";
+  const isMedium = level === "medium";
+  const themeColor = isHigh
+    ? { primary: "#dc2626", bg: "#fef2f2", border: "#fecaca", text: "#991b1b" }
+    : isMedium
+    ? { primary: "#d97706", bg: "#fffbeb", border: "#fde68a", text: "#92400e" }
+    : { primary: "#047857", bg: "#ecfdf5", border: "#a7f3d0", text: "#065f46" };
+  const radius = 52;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+  const stepBgs = ["#f0fdf4", "#fffbeb", "#eff6ff"];
+  const priorityText =
+    percentage >= 65
+      ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য"
+      : percentage >= 30
+      ? "নিয়মিত সুন্নাহ রুকইয়া প্রয়োজনীয়"
+      : "সাধারণ মাসনুন আমল যথেষ্ট";
+
+  return `
+    <div class="report-section">
+      <div class="report-content">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 2px solid #047857;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            ${logo ? `<img src="data:image/png;base64,${logo}" alt="Logo" style="width: 48px; height: 48px; object-fit: contain; border-radius: 8px; border: 1.5px solid #d1fae5; padding: 2px;" />` : ""}
+            <div>
+              <h1 style="font-size: 18pt; font-weight: 700; color: #022c22; margin: 0; line-height: 1.15;">শিফা আল কুরআন</h1>
+              <div style="font-size: 9pt; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px;">Islamic Ruqyah Shar'iah Center</div>
+              <div style="font-size: 8pt; color: #64748b; margin-top: 2px;">কুরআন ও সুন্নাহ ভিত্তিক আত্মিক ও মানসিক রোগমুক্তি সেবা</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="v2-pill" style="background: #ecfdf5; border: 1.5px solid #a7f3d0; color: #065f46;">সেলফ অ্যাসেসমেন্ট রিপোর্ট</span>
+            <div style="font-size: 8pt; color: #64748b; font-family: monospace; font-weight: 600; margin-top: 4px; word-break: break-all;">REF: #${reportId}</div>
+          </div>
+        </div>
+        <div style="height: 2px; background: linear-gradient(90deg, #d4af37, #fef08a, #d4af37); width: 100%; margin-top: 2px; margin-bottom: 12px;"></div>
+
+        <div class="report-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 12px; margin-bottom: 10px; font-size: 8.5pt; color: #475569;">
+          <strong style="color: #0f172a;">তারিখ:</strong> ${reportDate} &nbsp;•&nbsp; <strong style="color: #0f172a;">ক্যাটাগরি:</strong> <span style="color: #047857; font-weight: 700;">${category.title}</span> &nbsp;•&nbsp; <strong style="color: #0f172a;">ধরন:</strong> সেলফ অ্যাসেসমেন্ট
+        </div>
+
+        <div class="report-card" style="display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px;">
+          <div style="text-align: center; flex-shrink: 0;">
+            <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+              <svg width="100" height="100" viewBox="0 0 124 124" style="transform: rotate(-90deg);">
+                <circle cx="62" cy="62" r="${radius}" fill="none" stroke="#f1f5f9" stroke-width="9" />
+                <circle cx="62" cy="62" r="${radius}" fill="none" stroke="${themeColor.primary}" stroke-width="9" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" stroke-linecap="round" />
+              </svg>
+              <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <span style="font-size: 22pt; font-weight: 700; color: #0f172a; line-height: 1; font-family: monospace;">${percentage}%</span>
+                <span style="font-size: 8pt; font-weight: 700; color: #64748b; margin-top: 3px;">স্কোর: ${toBnNumber(totalScore)} / ${toBnNumber(maxScore)}</span>
+              </div>
+            </div>
+            <div style="font-size: 8pt; font-weight: 700; color: #047857; margin-top: 3px;">সামগ্রিক প্রভাব সূচক</div>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 8pt; font-weight: 700; color: #64748b;">নির্ণীত ফলাফল ও ঝুঁকির স্তর</div>
+            <h2 style="font-size: 14.5pt; font-weight: 700; color: #0f172a; margin: 2px 0 6px 0; line-height: 1.25;">${levelTitle}</h2>
+            <span class="v2-pill" style="background: ${themeColor.bg}; color: ${themeColor.text}; border: 1px solid ${themeColor.border};">অগ্রাধিকার: ${priorityText}</span>
+            <div style="margin-top: 8px;">
+              <div style="display: flex; justify-content: space-between; font-size: 7.5pt; color: #64748b; margin-bottom: 3px; font-weight: 600;">
+                <span>স্বাভাবিক (০-৩০%)</span><span>মাঝারি (৩১-৬৫%)</span><span>উচ্চ ঝুঁকি (৬৬-১০০%)</span>
+              </div>
+              <div style="display: flex; height: 6px; border-radius: 9999px; overflow: hidden; gap: 2px; background: #f1f5f9;">
+                <div style="flex: 30; background: #10b981; opacity: ${percentage <= 30 ? 1 : 0.25};"></div>
+                <div style="flex: 35; background: #f59e0b; opacity: ${percentage > 30 && percentage <= 65 ? 1 : 0.25};"></div>
+                <div style="flex: 35; background: #ef4444; opacity: ${percentage > 65 ? 1 : 0.25};"></div>
+              </div>
+            </div>
+            <p style="font-size: 8.5pt; color: #334155; line-height: 1.5; margin: 8px 0 0 0;">${prescription.summary}</p>
+            <p style="font-size: 8pt; color: #64748b; margin: 4px 0 0 0;">এটি কোনো চিকিৎসা নির্ণয় নয়, একটি সেলফ অ্যাসেসমেন্ট।</p>
+          </div>
+        </div>
+
+        <h2 class="v2-h2"><span class="no">১.</span> আজ থেকে যা করবেন — ${toBnNumber(steps.length)}টি ধাপ</h2>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+          ${steps.map((step, idx) => `
+            <div class="report-card" style="display: flex; align-items: flex-start; gap: 10px; padding: 7px 12px; background: ${stepBgs[idx % stepBgs.length]}; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <span style="width: 26px; height: 26px; min-width: 26px; border-radius: 9999px; background: #047857; color: #ffffff; font-weight: 700; font-size: 10pt; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">${toBnNumber(idx + 1)}</span>
+              <div style="flex: 1;">
+                <div style="font-size: 8pt; font-weight: 700; color: #b45309;">করণীয় আমল ধাপ ${toBnNumber(idx + 1)}</div>
+                <div style="font-size: 8.5pt; font-weight: 500; color: #1e293b; line-height: 1.45;">${step}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+
+        <h2 class="v2-h2"><span class="no">২.</span> দৈনিক রুটিন — কখন কী করবেন</h2>
+        <div class="report-card" style="padding: 8px 10px; background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 8px; margin-bottom: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 6px; border: 1px solid #d1fae5;">
+              <div style="font-size: 8.5pt; font-weight: 700; color: #065f46;">সকালের আমল (ফজর পর)</div>
+              <div style="font-size: 8pt; color: #475569; margin-top: 3px; line-height: 1.45;">সকালের মাসনুন জিকির, ৩ কুল পড়ে বুকে ফুঁ ও রুকইয়ার পানি পান।</div>
+            </div>
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 6px; border: 1px solid #d1fae5;">
+              <div style="font-size: 8.5pt; font-weight: 700; color: #065f46;">সন্ধ্যার আমল (মাগরিব পর)</div>
+              <div style="font-size: 8pt; color: #475569; margin-top: 3px; line-height: 1.45;">সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়ার গোসল সম্পন্ন।</div>
+            </div>
+            <div style="background: #ffffff; padding: 8px 10px; border-radius: 6px; border: 1px solid #d1fae5;">
+              <div style="font-size: 8.5pt; font-weight: 700; color: #065f46;">শয়নের আমল (রাতের পূর্বে)</div>
+              <div style="font-size: 8pt; color: #475569; margin-top: 3px; line-height: 1.45;">ওজু অবস্থায় ঘুমানো, আয়াতুল কুরসি ও বাকারার শেষ দুই আয়াত তিলাওয়াত।</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="v2-h2"><span class="no">৩.</span> আমল কবুলের ৪টি শর্ত</h2>
+        <ul style="margin: 2px 0 0 0; padding-right: 16px; font-size: 8.5pt; color: #334155; line-height: 1.5;">
+          <li><strong>ইখলাস ও দৃঢ় একিন:</strong> আরোগ্য একমাত্র আল্লাহর হাতে — এই বিশ্বাস রেখে নিয়মিত আমল চালিয়ে যাওয়া।</li>
+          <li><strong>ধারাবাহিকতা বজায় রাখা:</strong> চিকিৎসাক্রমের মেয়াদ অনুযায়ী প্রতিদিন নিরবচ্ছিন্ন আমল সম্পন্ন করা।</li>
+          <li><strong>গুনাহ ও অপসংস্কৃতি বর্জন:</strong> ঘরে গান-বাজনা, প্রাণীর ছবি এবং যাবতীয় অনৈসলামিক কার্যকলাপ বন্ধ রাখা।</li>
+          <li><strong>হালাল রুজি ও পবিত্রতা:</strong> সর্বদা হালাল আহার গ্রহণ করা এবং যথাসম্ভব ওজু ও পবিত্র অবস্থায় থাকা।</li>
+        </ul>
+
+        ${renderAppBox()}
+      </div>
+      ${renderRunningFooter(data, 1, 3)}
+    </div>
+  `;
+}
+
+export function renderV2Page2(data: AssessmentReportData): string {
+  const evaluatedQuestions = data.evaluatedQuestions || [];
+  const yesItems = evaluatedQuestions.filter((q) => q?.answerWeight === 2);
+  const sometimesItems = evaluatedQuestions.filter((q) => q?.answerWeight === 1);
+  const noItems = evaluatedQuestions.filter((q) => q?.answerWeight === 0);
+  const qText = (item: { question?: { text?: string } | string }) => {
+    const q = item?.question;
+    return typeof q === "string" ? q : q?.text || "";
+  };
+  const renderGroup = (title: string, items: typeof evaluatedQuestions, bg: string, color: string, border: string) => `
+    <h3 style="font-size: 10pt; font-weight: 700; color: #022c22; margin: 10px 0 4px 0;">${title}</h3>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      ${items.map((item) => `
+        <div class="report-card" style="display: flex; align-items: flex-start; gap: 8px; padding: 5px 9px; background: ${bg}; border: 1px solid ${border}; border-radius: 6px; font-size: 8.5pt; line-height: 1.45;">
+          <span style="background: ${color}; color: #ffffff; font-weight: 700; font-size: 7.5pt; padding: 2px 8px; border-radius: 9999px; flex-shrink: 0; line-height: 1.4;">${item?.answerLabel || ""}</span>
+          <span style="color: #1e293b;">${qText(item)}</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  return `
+    <div class="report-section">
+      <div class="report-content">
+        ${renderRunningHeader(data, "আপনি যে লক্ষণগুলো জানিয়েছেন")}
+        <h2 class="v2-h2"><span class="no">৪.</span> আপনি যে লক্ষণগুলো জানিয়েছেন</h2>
+        <p style="font-size: 9pt; color: #475569; margin: 0 0 6px 0;">পুরো প্রশ্নগুলো না ছাপিয়ে শুধু যে লক্ষণগুলো আপনি জানিয়েছেন, সেগুলো নিচে দেওয়া হলো।</p>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+          <span class="v2-pill" style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;">হ্যাঁ — ${toBnNumber(yesItems.length)}টি</span>
+          <span class="v2-pill" style="background: #fffbeb; border: 1px solid #fde68a; color: #92400e;">মাঝে মাঝে — ${toBnNumber(sometimesItems.length)}টি</span>
+          <span class="v2-pill" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569;">না — ${toBnNumber(noItems.length)}টি</span>
+        </div>
+        ${yesItems.length > 0 ? renderGroup("হ্যাঁ বলেছেন", yesItems, "#fff1f2", "#e11d48", "#fecdd3") : ""}
+        ${sometimesItems.length > 0 ? renderGroup("মাঝে মাঝে বলেছেন", sometimesItems, "#fffbeb", "#d97706", "#fef3c7") : ""}
+        ${noItems.length > 0 ? `<p style="font-size: 8.5pt; color: #64748b; margin: 8px 0 0 0; line-height: 1.5;">‘না’ বলেছেন: ${noItems.map((item) => qText(item)).join(" • ")}</p>` : ""}
+        <div class="report-card" style="padding: 10px 14px; background: #fcfbf9; border: 1px solid #e4ded3; border-radius: 8px; margin-top: 12px;">
+          <div style="font-size: 9pt; font-weight: 700; color: #022c22; margin-bottom: 4px;">শরঈ দৃষ্টিকোণ ও সুন্নাহসম্মত আরোগ্যের মূলনীতি</div>
+          <ul style="margin: 0; padding-left: 16px; font-size: 8.5pt; color: #334155; line-height: 1.5;">
+            <li><strong>আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়া কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।</li>
+            <li><strong>শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়া সম্পূর্ণ স্বচ্ছ।</li>
+            <li><strong>আত্মিক পরিচ্ছন্নতা:</strong> পাঁচ ওয়াক্ত সালাত, হালাল উপার্জন ও নিয়মিত জিকির সুস্থতার ভিত্তি স্থাপন করে।</li>
+          </ul>
+        </div>
+      </div>
+      ${renderRunningFooter(data, 2, 3)}
+    </div>
+  `;
+}
+
+export function renderV2Page3(data: AssessmentReportData): string {
+  const quranicVerses = data.quranicVerses || [];
+  const audioLinks = data.result?.prescription?.audioLinks || [];
+  const isAbbreviated = (item: { arabicText?: string; translationBn?: string }) =>
+    (item?.arabicText || "").includes("...") || (item?.translationBn || "").includes("...");
+
+  return `
+    <div class="report-section">
+      <div class="report-content">
+        ${renderRunningHeader(data, "প্রস্তাবিত কুরআন তিলাওয়াত ও রুকইয়া আমল")}
+        <h2 class="v2-h2"><span class="no">৫.</span> প্রস্তাবিত তিলাওয়াত</h2>
+        <p style="font-size: 9pt; color: #475569; margin: 0 0 8px 0;">নিচে পূর্ণ পাঠ আছে এমন সূরাগুলোর পূর্ণ পাঠ দেওয়া হলো। সংক্ষিপ্ত পাঠের সূরাগুলো চেকলিস্টে আছে — সেগুলোর পূর্ণ পাঠ কুরআন থেকে পড়ুন।</p>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+          ${quranicVerses.map((item) => {
+            if (isAbbreviated(item)) {
+              return `
+                <div class="report-card" style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                  <div style="font-size: 9.5pt; font-weight: 700; color: #0f172a;">${item?.surahName || ""}${item?.reference ? ` <span style="font-size: 7.5pt; color: #64748b; font-weight: 400;">(${item.reference})</span>` : ""}</div>
+                  <div style="font-size: 8.5pt; color: #b45309; font-weight: 600; margin-top: 2px;">আমল নির্দেশ: ${item?.instruction || ""}</div>
+                  <div style="font-size: 8pt; color: #64748b; margin-top: 2px;">পূর্ণ পাঠ কুরআন থেকে পড়ুন — সংক্ষিপ্ত বা কাটা-ছেঁড়া আরবি পাঠ এখানে ছাপা হয়নি।</div>
+                </div>
+              `;
+            }
+            return `
+              <div class="report-card" style="padding: 10px 14px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px;">
+                  <div><span style="font-size: 9.5pt; font-weight: 700; color: #0f172a;">${item?.surahName || ""}</span>${item?.reference ? `<span style="font-size: 7.5pt; color: #64748b; margin-left: 6px;">(${item.reference})</span>` : ""}</div>
+                  <span class="v2-pill" style="font-family: 'Amiri', serif; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;">${item?.arabicName || ""}</span>
+                </div>
+                <div dir="rtl" class="arabic-text" style="background: #fbfdfc; padding: 6px 10px; border-radius: 6px; border: 1px solid #ecfdf5; margin-bottom: 4px;">${formatArabicText(item?.arabicText)}</div>
+                <div style="font-size: 8.5pt; color: #475569; margin-bottom: 3px; line-height: 1.45;"><strong style="color: #0f172a;">অর্থ:</strong> ${item?.translationBn || ""}</div>
+                <div style="font-size: 8pt; color: #b45309; font-weight: 600;">আমল নির্দেশ: ${item?.instruction || ""}</div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+        ${audioLinks.length > 0 ? `
+          <div class="report-card" style="padding: 8px 12px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; margin-bottom: 10px;">
+            <div style="font-size: 8.5pt; font-weight: 700; color: #065f46; margin-bottom: 3px;">প্রস্তাবিত রুকইয়া অডিও (মনোযোগ সহকারে শুনুন):</div>
+            <div style="font-size: 8.5pt; color: #065f46; line-height: 1.5;">${audioLinks.map((a) => `🎧 ${a?.title || ""}`).join(" • ")}</div>
+          </div>
+        ` : ""}
+        <div class="report-card" style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 8pt; color: #64748b; line-height: 1.45; margin-bottom: 10px;">
+          <strong style="color: #0f172a;">জরুরি শরঈ ও চিকিৎসা সতর্কতা:</strong> এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় সেলফ অ্যাসেসমেন্ট রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়া শারইয়া হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
+        </div>
+        <div class="report-card" style="padding: 9px 14px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 8.5pt;">
+          <div><div style="font-weight: 700; color: #022c22;">শিফা আল কুরআন সেন্টার</div><div style="font-size: 7.5pt; color: #64748b;">ওয়েবসাইট: https://saq.pro.bd</div></div>
+          <div style="text-align: center;"><div style="font-weight: 700; color: #b45309;">হটলাইন সাপোর্ট</div><div style="font-size: 8.5pt; font-family: monospace;">09639-000999</div></div>
+          <div style="text-align: right;"><div style="font-weight: 700; color: #047857;">হোয়াটসঅ্যাপ কনসাল্টেশন</div><div style="font-size: 8.5pt; font-family: monospace;">+880 1353-301772</div></div>
+        </div>
+      </div>
+      ${renderRunningFooter(data, 3, 3)}
+    </div>
+  `;
+}
+
+// ---------------------------------------------------------------------------
 // MASTER COMPILER
 // ---------------------------------------------------------------------------
 export function renderFullReportHtml(data: AssessmentReportData): string {
   const styles = renderReportStyles();
-  const page1 = renderReportCover(data);
-  const page2 = renderAssessmentOverview(data);
-  const page3 = renderRecommendedActions(data);
-  const page4 = renderQuranicPrescriptions(data);
+  // v2 layout (approved 2026-10-26). Legacy 4-page functions above are unused.
+  const page1 = renderV2Page1(data);
+  const page2 = renderV2Page2(data);
+  const page3 = renderV2Page3(data);
 
   return `
     <!DOCTYPE html>
@@ -1020,7 +1328,6 @@ export function renderFullReportHtml(data: AssessmentReportData): string {
         ${page1}
         ${page2}
         ${page3}
-        ${page4}
       </body>
     </html>
   `;

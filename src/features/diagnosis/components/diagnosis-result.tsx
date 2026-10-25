@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   Calendar,
@@ -763,7 +764,7 @@ export function DiagnosisResultView() {
                   {/* Arabic Quranic Script */}
                   <div className="p-4 sm:p-5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/30 my-3.5">
                     <p className="font-arabic text-right text-xl sm:text-2xl text-emerald-950 dark:text-emerald-300 leading-loose select-text" dir="rtl" lang="ar">
-                      {item.arabicText}
+                      {(item.arabicText || "").replace(/۝/g, " • ")}
                     </p>
                   </div>
 
@@ -877,6 +878,29 @@ export function DiagnosisResultView() {
             <div>
               <strong className="text-slate-900 dark:text-zinc-100 font-bold">জরুরি শরঈ ও চিকিৎসা সতর্কতা: </strong>
               এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়া মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়া শারইয়া হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
+            </div>
+          </div>
+
+          {/* Shifa Al Quran App — same app box as the v2 PDF report */}
+          <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/30 flex flex-col sm:flex-row items-center gap-4 shadow-sm">
+            <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-sm shrink-0">
+              <Image src="/app-qr.svg" alt="Shifa Al Quran অ্যাপের QR কোড" width={96} height={96} className="w-24 h-24 block" unoptimized />
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <div className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-zinc-100">
+                শিফা আল কুরআন অ্যাপ — আমল হাতের মুঠোয়
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed mt-1">
+                দৈনিক আমল, রুকইয়া নির্দেশিকা, অডিও শোনা, তাসবিহ ও অ্যাপয়েন্টমেন্ট — সব এক অ্যাপে, ফ্রি। ক্যামেরা দিয়ে QR স্ক্যান করুন, অথবা নিচের লিঙ্কে যান।
+              </p>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.iamneyamat.shifaalquranapp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-3 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm transition-all min-h-[44px]"
+              >
+                Google Play থেকে অ্যাপ ডাউনলোড করুন
+              </a>
             </div>
           </div>
 
