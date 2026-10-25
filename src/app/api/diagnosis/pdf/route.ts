@@ -25,9 +25,24 @@ function isRateLimited(req: NextRequest): boolean {
   return hits.length > RATE_MAX;
 }
 
+const REPORT_ID_PATTERN = /^SAQ-[A-Z0-9-]{1,60}$/;
+const BENGALI_MONTHS =
+  "জানুয়ারি|ফেব্রুয়ারি|মার্চ|এপ্রিল|মে|জুন|জুলাই|আগস্ট|সেপ্টেম্বর|অক্টোবর|নভেম্বর|ডিসেম্বর";
+const REPORT_DATE_PATTERN = new RegExp(
+  `^[০-৯]{1,2} (${BENGALI_MONTHS}), [০-৯]{4}$`
+);
+
+// The result page already shows a reportId/reportDate to the user. The
+// PDF must carry those exact values, not a fresh server-side pair, or
+// the same report shows two different references/dates (the server runs
+// in UTC, the user is in Dhaka). Client values are used only when they
+// match the strict patterns above; anything else falls back to a fresh
+// server-generated pair (now Dhaka-anchored via formatBengaliDate).
 function validatedReportData(
   rawCategoryId: string | null | undefined,
-  userAnswers: unknown
+  userAnswers: unknown,
+  clientReportId?: unknown,
+  clientReportDate?: unknown
 ): AssessmentReportData {
   const normId = (rawCategoryId || "").toLowerCase().trim();
   const category = diagnosisCategories.find(
@@ -74,12 +89,25 @@ function validatedReportData(
     result.prescription.recommendedSurahs || []
   );
 
-  // Unique per request, generated in the handler (never in render output).
-  const reportId = `SAQ-${category.id.toUpperCase()}-${Date.now().toString(36).toUpperCase()}-${Math.random()
-    .toString(36)
-    .slice(2, 8)
-    .toUpperCase()}`;
-  const reportDate = formatBengaliDate(new Date());
+  // Prefer the result page's exact values; otherwise generate a fresh
+  // pair in the handler (never in render output).
+  const safeClientId =
+    typeof clientReportId === "string" &&
+    REPORT_ID_PATTERN.test(clientReportId.trim()) &&
+    clientReportId.trim().toUpperCase().startsWith(`SAQ-${category.id.toUpperCase()}-`)
+      ? clientReportId.trim()
+      : null;
+  const safeClientDate =
+    typeof clientReportDate === "string" && REPORT_DATE_PATTERN.test(clientReportDate.trim())
+      ? clientReportDate.trim()
+      : null;
+  const reportId =
+    safeClientId ??
+    `SAQ-${category.id.toUpperCase()}-${Date.now().toString(36).toUpperCase()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)
+      .toUpperCase()}`;
+  const reportDate = safeClientDate ?? formatBengaliDate(new Date());
 
   return {
     category,
@@ -123,7 +151,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const categoryId = body.categoryId || body.category;
     const answers = body.answers ?? body.userAnswers;
-    reportData = validatedReportData(categoryId, answers);
+    reportData = validatedReportData(categoryId, answers, body.reportId, body.reportDate);
     filename = `Shifa-Al-Quran-Assessment-Report-${reportData.category.id.toUpperCase()}.pdf`;
 
     const pdfBuffer = await generateAssessmentPdf(reportData);
