@@ -85,7 +85,7 @@ export function Navbar() {
               শিফা আল কুরআন
             </span>
             <span className="type-citation text-[9px] text-amber-800 dark:text-gold-ink hidden sm:block -mt-1 font-semibold truncate">
-              রুকইয়াহ শারইয়াহ সেন্টার
+              রুকইয়া শারইয়া সেন্টার
             </span>
           </div>
         </Link>

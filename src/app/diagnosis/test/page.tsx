@@ -3,9 +3,10 @@ import { Metadata } from "next";
 import { DiagnosisQuiz } from "@/features/diagnosis/components/diagnosis-quiz";
 
 export const metadata: Metadata = {
-  title: "সেলফ রুকইয়াহ টেস্ট | শাফা আল কুরআন",
+  title: "সেলফ রুকইয়া টেস্ট",
   description:
-    "আপনার আত্মিক ও শারীরিক লক্ষণসমূহ যাচাই করে রুকইয়াহ প্রেসক্রিপশন ও গাইডলাইন লাভ করুন।",
+    "আপনার আত্মিক ও শারীরিক লক্ষণসমূহ যাচাই করে রুকইয়া প্রেসক্রিপশন ও গাইডলাইন লাভ করুন।",
+  robots: { index: false, follow: false },
 };
 
 export default function DiagnosisTestPage() {

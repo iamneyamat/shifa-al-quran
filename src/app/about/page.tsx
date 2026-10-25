@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AboutPageClient from "./about-client";
 
 export const metadata: Metadata = {
-  title: "আমাদের সম্পর্কে | Shifa Al Quran",
+  title: "আমাদের সম্পর্কে",
   description: "শিফা আল কুরআন সম্পর্কে বিস্তারিত জানুন। আমাদের লক্ষ্য, উদ্দেশ্য এবং সুন্নাহ ভিত্তিক চিকিৎসা পদ্ধতি সম্পর্কে জানুন।",
 };
 

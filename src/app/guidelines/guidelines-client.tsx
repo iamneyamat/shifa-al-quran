@@ -30,8 +30,8 @@ export function GuidelinesClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] translate-y-1/3 translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[min(500px,120vw)] h-[500px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[min(600px,120vw)] h-[600px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] translate-y-1/3 translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-24 sm:pb-16 md:pt-32 md:pb-24 max-w-6xl">
         <motion.div 
@@ -47,7 +47,7 @@ export function GuidelinesClient() {
             রোগীদের প্রতি <span className="text-emerald-600 dark:text-emerald-400">নির্দেশনা</span>
           </h1>
           <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
-            রুকইয়াহ চিকিৎসার পূর্বে ও পরে রোগীদের পালনীয় নিয়মাবলি। এই নিয়মগুলো সঠিকভাবে পালন করলে ইনশাআল্লাহ দ্রুত সুস্থতা লাভ করা সম্ভব।
+            রুকইয়া চিকিৎসার পূর্বে ও পরে রোগীদের পালনীয় নিয়মাবলি। এই নিয়মগুলো সঠিকভাবে পালন করলে ইনশাআল্লাহ দ্রুত সুস্থতা লাভ করা সম্ভব।
           </p>
         </motion.div>
 

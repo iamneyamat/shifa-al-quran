@@ -10,18 +10,18 @@ import { cn } from "@/lib/utils";
 const faqs = [
   {
     category: "প্রাথমিক ধারণা",
-    question: "রুকইয়াহ কী?",
-    answer: "রুকইয়াহ হলো কুরআনের আয়াত, আল্লাহর সুন্দর নামসমূহ এবং রাসূল (সা.) থেকে বর্ণিত দোয়াসমূহের মাধ্যমে চিকিৎসা করা। এটি সম্পূর্ণ শরীয়াহ সম্মত এবং নিরাপদ।",
+    question: "রুকইয়া কী?",
+    answer: "রুকইয়া হলো কুরআনের আয়াত, আল্লাহর সুন্দর নামসমূহ এবং রাসূল (সা.) থেকে বর্ণিত দোয়াসমূহের মাধ্যমে চিকিৎসা করা। এটি সম্পূর্ণ শরীয়াহ সম্মত এবং নিরাপদ।",
   },
   {
     category: "প্রস্তুতি ও নিয়মকানুন",
-    question: "রুকইয়াহ করার জন্য কি বিশেষ কোনো প্রস্তুতির প্রয়োজন আছে?",
-    answer: "হ্যাঁ, রুকইয়াহ করার আগে কিছু প্রস্তুতি নেওয়া জরুরি। যেমন- সঠিক নিয়ত করা, হালাল খাবার খাওয়া, পাঁচ ওয়াক্ত নামাজ পড়া এবং গুনাহ থেকে বেঁচে থাকা।",
+    question: "রুকইয়া করার জন্য কি বিশেষ কোনো প্রস্তুতির প্রয়োজন আছে?",
+    answer: "হ্যাঁ, রুকইয়া করার আগে কিছু প্রস্তুতি নেওয়া জরুরি। যেমন- সঠিক নিয়ত করা, হালাল খাবার খাওয়া, পাঁচ ওয়াক্ত নামাজ পড়া এবং গুনাহ থেকে বেঁচে থাকা।",
   },
   {
     category: "চিকিৎসা পদ্ধতি",
     question: "জাদুটোনা বা জ্বিন আছরের চিকিৎসা কতদিন লাগতে পারে?",
-    answer: "এটি সম্পূর্ণ রোগীর সমস্যার ধরন এবং আল্লাহর ইচ্ছার উপর নির্ভর করে। তবে নিয়মিত রুকইয়াহ এবং আমল করলে ইনশাআল্লাহ দ্রুত সুস্থতা লাভ করা সম্ভব।",
+    answer: "এটি সম্পূর্ণ রোগীর সমস্যার ধরন এবং আল্লাহর ইচ্ছার উপর নির্ভর করে। তবে নিয়মিত রুকইয়া এবং আমল করলে ইনশাআল্লাহ দ্রুত সুস্থতা লাভ করা সম্ভব।",
   },
   {
     category: "অন্যান্য",
@@ -30,8 +30,8 @@ const faqs = [
   },
   {
     category: "চিকিৎসা পদ্ধতি",
-    question: "মহিলাদের রুকইয়াহ করার ব্যবস্থা আছে কি?",
-    answer: "হ্যাঁ, মহিলাদের রুকইয়াহ করার সময় অবশ্যই তাদের সাথে একজন মাহরাম (যেমন- স্বামী, বাবা, ভাই বা ছেলে) থাকা বাধ্যতামূলক। পর্দা রক্ষা করে চিকিৎসা দেওয়া হয়।",
+    question: "মহিলাদের রুকইয়া করার ব্যবস্থা আছে কি?",
+    answer: "হ্যাঁ, মহিলাদের রুকইয়া করার সময় অবশ্যই তাদের সাথে একজন মাহরাম (যেমন- স্বামী, বাবা, ভাই বা ছেলে) থাকা বাধ্যতামূলক। পর্দা রক্ষা করে চিকিৎসা দেওয়া হয়।",
   }
 ];
 
@@ -80,8 +80,8 @@ export function FaqClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,120vw)] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-[min(600px,120vw)] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl py-12 sm:py-20 md:py-32">
         
@@ -99,7 +99,7 @@ export function FaqClient() {
             সাধারণ <span className="text-emerald-600 dark:text-emerald-400">জিজ্ঞাসা</span> (FAQ)
           </h1>
           <p className="text-sm sm:text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium mb-6 sm:mb-10">
-            রুকইয়াহ ও আমাদের চিকিৎসা পদ্ধতি সম্পর্কে আপনার মনে থাকা সাধারণ প্রশ্নগুলোর উত্তর এখানে দেওয়া হলো।
+            রুকইয়া ও আমাদের চিকিৎসা পদ্ধতি সম্পর্কে আপনার মনে থাকা সাধারণ প্রশ্নগুলোর উত্তর এখানে দেওয়া হলো।
           </p>
 
           {/* Search Bar */}

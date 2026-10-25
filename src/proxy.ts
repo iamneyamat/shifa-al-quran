@@ -48,9 +48,23 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // The strict admin authorization (checking public.admin_users) 
-  // is performed in server actions/layouts using requireAdmin().
-  
+  // Defence in depth: check the admin role here too, not only in
+  // requireAdmin(). A future admin page that forgets requireAdmin()
+  // must not become an open door. Role failures go back to login
+  // without revealing whether the account exists.
+  const { data: adminUser } = await supabase
+    .from('admin_users')
+    .select('role, is_active')
+    .eq('user_id', user.id)
+    .single()
+
+  if (!adminUser || !adminUser.is_active || adminUser.role !== 'admin') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/admin/login'
+    url.searchParams.set('error', 'unauthorized')
+    return NextResponse.redirect(url)
+  }
+
   return supabaseResponse
 }
 

@@ -13,25 +13,25 @@ import {
 import { cn } from "@/lib/utils";
 
 const audios = [
-  { id: "1", title: "বদনজর (Evil Eye) | বদনজরের রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-EvilEye-ruqyahbd.org.mp3", size: "১০এমবি", duration: "৫৫মিনিট", category: "বদনজর" },
+  { id: "1", title: "বদনজর (Evil Eye) | বদনজরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-EvilEye-ruqyahbd.org.mp3", size: "১০এমবি", duration: "৫৫মিনিট", category: "বদনজর" },
   { id: "2", title: "বদনজর (Eye Hasad)", url: "https://files.ruqyahbd.org/audio/Ruqyah-EyeHasad-ruqyahbd.org.mp3", size: "১৬এমবি", duration: "১ঘণ্টা ৩৪মিনিট", category: "বদনজর" },
-  { id: "3", title: "জাদু ও জিন (Sihr-Mass) | সিহরের রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Mass-ruqyahbd.org.mp3", size: "১৪এমবি", duration: "১ঘন্টা ১৬মিনিট", category: "জাদু ও জিন" },
+  { id: "3", title: "জাদু ও জিন (Sihr-Mass) | সিহরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Mass-ruqyahbd.org.mp3", size: "১৪এমবি", duration: "১ঘন্টা ১৬মিনিট", category: "জাদু ও জিন" },
   { id: "4", title: "কালো জাদু, বান এবং জিন (Sihr-Hibshi)", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Hibshi-ruqyahbd.org.mp3", size: "১৬এমবি", duration: "১ঘন্টা ৩৪মিনিট", category: "জাদু ও জিন" },
   { id: "5", title: "আয়াতুল হারক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Harq-ruqyahbd.org.mp3", description: "আযাব এবং জাহান্নাম সংক্রান্ত আয়াত", size: "১৪এমবি", duration: "৪৬মিনিট", category: "অন্যান্য" },
-  { id: "6", title: "জিনের আছর এর রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Jinn-ruqyahbd.org.mp3", description: "জিন সংক্রান্ত সব সমস্যায় উপকারী আয়াতগুলো", size: "১৯এমবি", duration: "১ঘন্টা ৪৮মিনিট", category: "জাদু ও জিন" },
-  { id: "7", title: "তিনকুল এর রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-3Kul-ruqyahbd.org.mp3", description: "সূরা ইখলাস, ফালাক, নাস এর পুনরাবৃত্তি", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
-  { id: "8", title: "আট সূরার রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-8surah-ruqyahbd.org.mp3", description: "সূরা ইয়াসিন, সফফাত, দুখান, জিন, যিলযাল, ৩কুল", size: "১২এমবি", duration: "৫১ মিনিট", category: "অন্যান্য" },
-  { id: "9", title: "আয়াতুল কুরসির রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-AyatulKursi-ruqyahbd.org.mp3", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
+  { id: "6", title: "জিনের আছর এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Jinn-ruqyahbd.org.mp3", description: "জিন সংক্রান্ত সব সমস্যায় উপকারী আয়াতগুলো", size: "১৯এমবি", duration: "১ঘন্টা ৪৮মিনিট", category: "জাদু ও জিন" },
+  { id: "7", title: "তিনকুল এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-3Kul-ruqyahbd.org.mp3", description: "সূরা ইখলাস, ফালাক, নাস এর পুনরাবৃত্তি", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
+  { id: "8", title: "আট সূরার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-8surah-ruqyahbd.org.mp3", description: "সূরা ইয়াসিন, সফফাত, দুখান, জিন, যিলযাল, ৩কুল", size: "১২এমবি", duration: "৫১ মিনিট", category: "অন্যান্য" },
+  { id: "9", title: "আয়াতুল কুরসির রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-AyatulKursi-ruqyahbd.org.mp3", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
   { id: "10", title: "জাদুকরদের প্রতি অভিশাপ", url: "https://files.ruqyahbd.org/audio/curse-against-magician-ruqyahbd.org.mp3", size: "৪এমবি", duration: "১৩মিনিট", category: "জাদু ও জিন" },
   { id: "11", title: "শাইখ আস-সুদাইস", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sudais-ruqyahbd.org.mp3", size: "৮এমবি", duration: "৪৩ মিনিট", category: "তেলাওয়াত" },
   { id: "12", title: "শাইখ হুজাইফি", url: "https://files.ruqyahbd.org/audio/Ruqyah-Hujaifi-ruqyahbd.org.mp3", size: "৯এমবি", duration: "১ঘন্টা ২০মিনিট", category: "তেলাওয়াত" },
   { id: "13", title: "শাইখ আশ-শুরাইম", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shuraim-ruqyahbd.org.mp3", size: "১৪ এমবি", duration: "৫৮মিনিট", category: "তেলাওয়াত" },
   { id: "14", title: "সা'দ আল-গামিদী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Ghamidi-ruqyahbd.org.mp3", size: "১৩এমবি", duration: "৩২মিনিট", category: "তেলাওয়াত" },
   { id: "15", title: "মিশারী রাশেদ আল-আফাসী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Mishary-ruqyahbd.org.mp3", size: "৯এমবি", duration: "১ঘন্টা ১৪মিনিট", category: "তেলাওয়াত" },
-  { id: "16", title: "সূরা ফাতিহার রুকইয়াহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-SuraFatiha-ruqyahbd.org.mp3", size: "২৯এমবি", duration: "১ঘন্টা", category: "অন্যান্য" },
+  { id: "16", title: "সূরা ফাতিহার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-SuraFatiha-ruqyahbd.org.mp3", size: "২৯এমবি", duration: "১ঘন্টা", category: "অন্যান্য" },
   { id: "17", title: "যিনা ফাহিশা বিষয়ক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Zina-ruqyahbd.org.mp3", size: "১৮এমবি", duration: "১ঘন্টা ৫মিনিট", category: "অন্যান্য" },
   { id: "18", title: "শিফা - সাকিনাহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shifa-Sakina-ruqyahbd.org.mp3", size: "১৪এমবি", duration: "৪৭ মিনিট", category: "অন্যান্য" },
-  { id: "19", title: "রুকইয়াহ খুরুজ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Khuruj-ruqyahbd.org.mp3", size: "১২ এমবি", duration: "৪৫ মিনিট", category: "জাদু ও জিন" }
+  { id: "19", title: "রুকইয়া খুরুজ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Khuruj-ruqyahbd.org.mp3", size: "১২ এমবি", duration: "৪৫ মিনিট", category: "জাদু ও জিন" }
 ];
 
 const categories = ["সব", "বদনজর", "জাদু ও জিন", "তেলাওয়াত", "অন্যান্য"];
@@ -46,27 +46,52 @@ export function AudioPlayerClient() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [storageLoaded, setStorageLoaded] = useState(false);
 
-  // Load saved state
+  // Load saved state, then only save after load.
+  // Previously the save effects ran on mount and overwrote stored values
+  // with [] before the setTimeout load fired. The storageLoaded gate
+  // stops that: saves are skipped until loading has finished.
   useEffect(() => {
     const timer = setTimeout(() => {
-      const savedFavs = localStorage.getItem("ruqyah_favs");
-      const savedRecent = localStorage.getItem("ruqyah_recent");
-      if (savedFavs) setFavorites(JSON.parse(savedFavs));
-      if (savedRecent) setRecent(JSON.parse(savedRecent));
+      try {
+        const savedFavs = localStorage.getItem("ruqyah_favs");
+        if (savedFavs) {
+          const parsed = JSON.parse(savedFavs);
+          if (Array.isArray(parsed)) setFavorites(parsed);
+        }
+      } catch {}
+      try {
+        const savedRecent = localStorage.getItem("ruqyah_recent");
+        if (savedRecent) {
+          const parsed = JSON.parse(savedRecent);
+          if (Array.isArray(parsed)) setRecent(parsed);
+        }
+      } catch {}
+      setStorageLoaded(true);
     }, 0);
     return () => clearTimeout(timer);
   }, []);
 
-  // Save favs
+  // Save favs (only after the stored values have been loaded)
   useEffect(() => {
-    localStorage.setItem("ruqyah_favs", JSON.stringify(favorites));
-  }, [favorites]);
+    if (storageLoaded) localStorage.setItem("ruqyah_favs", JSON.stringify(favorites));
+  }, [favorites, storageLoaded]);
 
-  // Save recent
+  // Save recent (only after the stored values have been loaded)
   useEffect(() => {
-    localStorage.setItem("ruqyah_recent", JSON.stringify(recent));
-  }, [recent]);
+    if (storageLoaded) localStorage.setItem("ruqyah_recent", JSON.stringify(recent));
+  }, [recent, storageLoaded]);
+
+  // Escape closes the mobile menu and returns focus to its toggle.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isMobileMenuOpen]);
 
   const handlePlayTrack = (index: number) => {
     const target = audios[index];
@@ -119,7 +144,7 @@ export function AudioPlayerClient() {
           <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
             <ListMusic className="w-5 h-5 text-black" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight">Audio Library</h1>
+          <p className="text-xl font-bold tracking-tight">অডিও লাইব্রেরি</p>
         </div>
 
         <nav className="flex flex-col gap-4">
@@ -169,9 +194,9 @@ export function AudioPlayerClient() {
             <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
               <ListMusic className="w-3.5 h-3.5 text-black" />
             </div>
-            <h1 className="text-base font-bold">Audio Library</h1>
+            <h1 className="text-base font-bold">রুকইয়া অডিও লাইব্রেরি</h1>
           </div>
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white p-2">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white p-2" aria-label={isMobileMenuOpen ? "মেনু বন্ধ করুন" : "মেনু খুলুন"} aria-expanded={isMobileMenuOpen}>
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </header>
@@ -185,6 +210,7 @@ export function AudioPlayerClient() {
               exit={{ opacity: 0, y: -20 }}
               className="absolute inset-0 bg-[#000000] z-50 pt-20 px-6 flex flex-col gap-6 md:hidden"
             >
+              <button onClick={() => setIsMobileMenuOpen(false)} className="self-end text-white text-sm font-bold border border-white/20 rounded-full px-4 py-2" aria-label="মেনু বন্ধ করুন">বন্ধ করুন ✕</button>
               <button onClick={() => { setActiveTab("home"); setIsMobileMenuOpen(false); }} className="text-2xl font-bold text-white text-left">হোম</button>
               <button onClick={() => { setActiveTab("search"); setIsMobileMenuOpen(false); }} className="text-2xl font-bold text-white text-left">সার্চ করুন</button>
               <button onClick={() => { setActiveTab("favorites"); setIsMobileMenuOpen(false); }} className="text-2xl font-bold text-white text-left">পছন্দের অডিও</button>
@@ -202,7 +228,7 @@ export function AudioPlayerClient() {
           <div className="mb-8">
             {activeTab === "home" && (
               <>
-                <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-4 sm:mb-8 tracking-tight">রুকইয়াহ কালেকশন</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-4 sm:mb-8 tracking-tight">রুকইয়া কালেকশন</h2>
                 {/* Categories */}
                 <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 sm:pb-4 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
                   {categories.map(cat => (

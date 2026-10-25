@@ -19,7 +19,8 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    // Generic message only: never leak whether the email exists or why it failed.
+    return { error: 'ইমেইল বা পাসওয়ার্ড সঠিক নয়।' }
   }
 
   // Auth successful, we redirect to /admin. 

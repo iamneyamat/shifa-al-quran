@@ -30,6 +30,7 @@ export function GlobalAudioPlayer() {
     toggleMute,
     setSleepTimer,
     closePlayer,
+    audioError,
   } = useAudio();
 
   const [showSleepDropdown, setShowSleepDropdown] = useState(false);
@@ -86,7 +87,10 @@ export function GlobalAudioPlayer() {
                   {currentTrack.title}
                 </span>
                 <div className="flex items-center gap-2 text-[11px] sm:text-xs text-slate-600 dark:text-zinc-400">
-                  <span className="truncate">{currentTrack.category || "রুকইয়াহ অডিও"}</span>
+                  {audioError && (
+                    <span role="alert" className="font-bold text-rose-600 dark:text-rose-400">{audioError}</span>
+                  )}
+                  <span className="truncate">{currentTrack.category || "রুকইয়া অডিও"}</span>
                   {sleepTimerRemaining && (
                     <span className="inline-flex items-center gap-1 font-mono font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-500/20 px-1.5 py-0.5 rounded-full text-[9px] sm:text-[10px]">
                       <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> {formatTimerRemaining(sleepTimerRemaining)}
@@ -105,7 +109,7 @@ export function GlobalAudioPlayer() {
                     ? "bg-amber-100 border-amber-300 text-amber-900 dark:bg-amber-500/20 dark:border-amber-500/40 dark:text-amber-300 font-bold"
                     : "bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-300"
                 }`}
-                title="স্লিপ টাইমার"
+                title="স্লিপ টাইমার" aria-label="স্লিপ টাইমার"
               >
                 <Clock className="w-3.5 h-3.5" />
               </button>
@@ -113,7 +117,7 @@ export function GlobalAudioPlayer() {
               <button
                 onClick={closePlayer}
                 className="p-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white"
-                title="বন্ধ করুন"
+                title="বন্ধ করুন" aria-label="প্লেয়ার বন্ধ করুন"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -125,7 +129,7 @@ export function GlobalAudioPlayer() {
             <button
               onClick={togglePlay}
               className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 flex items-center justify-center shadow-lg transition-transform active:scale-95"
-              title={isPlaying ? "বিরতি" : "প্লে করুন"}
+              title={isPlaying ? "বিরতি" : "প্লে করুন"} aria-label={isPlaying ? "বিরতি" : "প্লে করুন"}
             >
               {isPlaying ? <Pause className="w-4 h-4 sm:w-5 sm:h-5 fill-current" /> : <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />}
             </button>
@@ -135,6 +139,7 @@ export function GlobalAudioPlayer() {
               <span className="shrink-0">{formatTime(currentTime)}</span>
               <input
                 type="range"
+                aria-label="অডিও সিক বার"
                 min={0}
                 max={duration || 100}
                 value={currentTime}
@@ -156,7 +161,7 @@ export function GlobalAudioPlayer() {
                     ? "bg-amber-100 border-amber-300 text-amber-900 dark:bg-amber-500/20 dark:border-amber-500/40 dark:text-amber-300 font-bold"
                     : "bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-300 hover:text-emerald-700"
                 }`}
-                title="স্লিপ টাইমার"
+                title="স্লিপ টাইমার" aria-label="স্লিপ টাইমার"
               >
                 <Clock className="w-4 h-4" />
               </button>
@@ -196,7 +201,7 @@ export function GlobalAudioPlayer() {
               <button
                 onClick={toggleMute}
                 className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-300 hover:text-emerald-700 transition-colors"
-                title={isMuted ? "আনমিউট" : "মিউট"}
+                title={isMuted ? "আনমিউট" : "মিউট"} aria-label={isMuted ? "আনমিউট" : "মিউট"}
               >
                 {isMuted || volume === 0 ? (
                   <VolumeX className="w-4 h-4 text-rose-500" />
@@ -209,6 +214,7 @@ export function GlobalAudioPlayer() {
                 <div className="absolute bottom-12 right-0 w-28 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 shadow-xl z-50 flex items-center">
                   <input
                     type="range"
+                    aria-label="ভলিউম"
                     min={0}
                     max={1}
                     step={0.05}
@@ -224,7 +230,7 @@ export function GlobalAudioPlayer() {
             <button
               onClick={closePlayer}
               className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-              title="বন্ধ করুন"
+              title="বন্ধ করুন" aria-label="প্লেয়ার বন্ধ করুন"
             >
               <X className="w-4 h-4" />
             </button>

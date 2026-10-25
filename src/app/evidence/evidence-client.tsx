@@ -17,7 +17,7 @@ export function EvidenceClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,120vw)] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 max-w-4xl">
         <motion.div 
@@ -33,7 +33,7 @@ export function EvidenceClient() {
             কুরআন ও সুন্নাহর <span className="text-emerald-600 dark:text-emerald-400">প্রমাণ</span>
           </h1>
           <p className="text-lg md:text-xl text-light-text dark:text-slate-300 leading-relaxed font-medium">
-            রুকইয়াহ শারইয়াহ কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং আল্লাহ এবং তাঁর রাসূল (সা.) থেকে প্রমাণিত।
+            রুকইয়া শারইয়া কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং আল্লাহ এবং তাঁর রাসূল (সা.) থেকে প্রমাণিত।
           </p>
         </motion.div>
 

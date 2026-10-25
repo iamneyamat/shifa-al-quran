@@ -18,7 +18,7 @@ export function NotFoundClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-1/2 right-1/2 w-[500px] h-[500px] bg-red-400/10 dark:bg-red-900/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 right-1/2 w-[min(500px,120vw)] h-[500px] bg-red-400/10 dark:bg-red-900/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 text-center max-w-2xl py-20">
         <motion.div 

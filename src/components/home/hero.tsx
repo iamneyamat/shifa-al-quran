@@ -89,12 +89,12 @@ export function Hero() {
 
               {/* Display Heading */}
               <h1 className="type-display text-ink-strong tracking-tight leading-[1.2] lg:text-5xl font-extrabold text-2xl sm:text-4xl">
-                কুরআন ও সুন্নাহর আলোয় <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-200">রুকইয়াহ শারইয়াহ</span> চিকিৎসা
+                কুরআন ও সুন্নাহর আলোয় <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-200">রুকইয়া শারইয়া</span> চিকিৎসা
               </h1>
 
               {/* Caring Paragraph */}
               <p className="type-body-lg mt-3 sm:mt-6 text-ink-body leading-relaxed max-w-2xl font-normal text-xs sm:text-base">
-                মানসিক অস্থিরতা, বদনজর, জাদুটোনা কিংবা অজানা শারীরিক কষ্টে আমরা আপনাকে দিচ্ছি সুন্নাহসম্মত রুকইয়াহ ও আন্তরিক পরামর্শ। আল্লাহ তাআলার কালামের বরকতে প্রশান্তি ও সুস্থতার পথে আপনার পাশে আছি।
+                মানসিক অস্থিরতা, বদনজর, জাদুটোনা কিংবা অজানা শারীরিক কষ্টে আমরা আপনাকে দিচ্ছি সুন্নাহসম্মত রুকইয়া ও আন্তরিক পরামর্শ। আল্লাহ তাআলার কালামের বরকতে প্রশান্তি ও সুস্থতার পথে আপনার পাশে আছি।
               </p>
 
               {/* Action Buttons */}
@@ -210,7 +210,7 @@ export function Hero() {
                     <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-600 dark:text-amber-400 shrink-0" /> নতুন ফিচার
                   </div>
                   <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-emerald-950 dark:text-gold-ink tracking-tight">
-                    সেলফ রুকইয়াহ ডায়াগনোসিস
+                    সেলফ রুকইয়া ডায়াগনোসিস
                   </h3>
                   <p className="text-xs sm:text-base text-slate-700 dark:text-zinc-300 leading-relaxed font-normal">
                     জাদু, জিন, বদনজর নাকি ওয়াসওয়াসা? আপনার শারীরিক ও মানসিক সমস্যার প্রকৃত কারণ জানতে নিজে নিজেই পূর্ণাঙ্গ টেস্ট করুন।

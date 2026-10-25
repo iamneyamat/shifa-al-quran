@@ -29,6 +29,7 @@ interface AudioContextType {
   toggleMute: () => void;
   setSleepTimer: (minutes: number | null) => void;
   closePlayer: () => void;
+  audioError: string | null;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -42,6 +43,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isMuted, setIsMuted] = useState(false);
   const [sleepTimerMinutes, setSleepTimerMinutes] = useState<number | null>(null);
   const [sleepTimerRemaining, setSleepTimerRemaining] = useState<number | null>(null);
+  const [audioError, setAudioError] = useState<string | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -63,12 +65,17 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const handleEnded = () => setIsPlaying(false);
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+    const handleError = () => {
+      setIsPlaying(false);
+      setAudioError("অডিও লোড করা যায়নি, আবার চেষ্টা করুন।");
+    };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("durationchange", handleDurationChange);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("play", handlePlay);
     audio.addEventListener("pause", handlePause);
+    audio.addEventListener("error", handleError);
 
     return () => {
       audio.removeEventListener("timeupdate", handleTimeUpdate);
@@ -76,6 +83,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("error", handleError);
       // NOTE: Do not call audio.pause() here. Removing event listeners allows audio to continue playing across soft route navigation.
     };
   }, []);
@@ -117,6 +125,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    setAudioError(null);
     setCurrentTrack(track);
     audioRef.current.src = track.url;
     audioRef.current.play().then(() => {
@@ -124,6 +133,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }).catch((err) => {
       console.error("Audio playback failed:", err);
       setIsPlaying(false);
+      setAudioError("অডিও লোড করা যায়নি, আবার চেষ্টা করুন।");
     });
   };
 
@@ -136,7 +146,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     } else {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
-      }).catch(console.error);
+      }).catch((err) => {
+        console.error("Audio playback failed:", err);
+        setIsPlaying(false);
+        setAudioError("অডিও লোড করা যায়নি, আবার চেষ্টা করুন।");
+      });
     }
   };
 
@@ -204,6 +218,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         toggleMute,
         setSleepTimer,
         closePlayer,
+        audioError,
       }}
     >
       {children}

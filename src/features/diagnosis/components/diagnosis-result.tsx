@@ -35,12 +35,17 @@ export function DiagnosisResultView() {
   const { playTrack, currentTrack, isPlaying } = useAudio();
   const [isDownloadingPdf, setIsDownloadingPdf] = React.useState(false);
   const [userAnswers, setUserAnswers] = React.useState<Record<string, number> | null>(null);
+  const [hasSession, setHasSession] = React.useState<boolean | null>(null);
+  const [reportId, setReportId] = React.useState<string>("");
 
-  const categoryIdParam =
+  const rawCategoryParam =
     searchParams.get("category") ||
     searchParams.get("categoryId") ||
-    searchParams.get("type") ||
-    "general";
+    searchParams.get("type");
+  const categoryIdParam = rawCategoryParam || "general";
+  const isUnknownCategory =
+    rawCategoryParam !== null &&
+    !diagnosisCategories.some((c) => c.id === rawCategoryParam);
 
   const category = useMemo(() => {
     return (
@@ -48,54 +53,41 @@ export function DiagnosisResultView() {
     );
   }, [categoryIdParam]);
 
-  // Sync session storage answers client-side to prevent SSR hydration mismatch
+  // Sync session storage answers client-side to prevent SSR hydration mismatch.
+  // No session = no report: answers are never invented here.
   React.useEffect(() => {
     const stored = sessionStorage.getItem("ruqyah_diagnosis_session");
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        if (parsed.categoryId === category.id && parsed.answers) {
+        if (parsed.categoryId === category.id && parsed.answers && Object.keys(parsed.answers).length > 0) {
           // eslint-disable-next-line react-hooks/set-state-in-effect
           setUserAnswers(parsed.answers);
+          setHasSession(true);
+          setReportId(
+            `SAQ-${category.id.toUpperCase()}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`
+          );
           return;
         }
       } catch (e) {
         console.error("Failed to parse diagnosis session", e);
       }
     }
-    // Default fallback answers if no session stored
-    const defaultAnswers: Record<string, number> = {};
-    if (category.questions) {
-      category.questions.forEach((q, idx) => {
-        defaultAnswers[q.id] = idx % 2 === 0 ? 1 : 2;
-      });
-    }
-    setUserAnswers(defaultAnswers);
+    setUserAnswers(null);
+    setHasSession(false);
   }, [category]);
 
   const resultData = useMemo(() => {
-    const answers = userAnswers ? { ...userAnswers } : {};
-    if (Object.keys(answers).length === 0 && category.questions) {
-      category.questions.forEach((q, idx) => {
-        answers[q.id] = idx % 2 === 0 ? 1 : 2;
-      });
-    }
-    return calculateDiagnosisResult(category, answers);
+    return calculateDiagnosisResult(category, userAnswers ?? {});
   }, [category, userAnswers]);
 
   const { totalScore, maxScore, percentage, level, levelTitle, levelColor, prescription } =
     resultData;
 
-  const reportId = `SAQ-${category.id.toUpperCase()}-8824`;
   const reportDate = useMemo(() => formatBengaliDate(new Date()), []);
 
   const evaluatedQuestions: EvaluatedQuestion[] = useMemo(() => {
     const answers = userAnswers ? { ...userAnswers } : {};
-    if (Object.keys(answers).length === 0 && category.questions) {
-      category.questions.forEach((q, idx) => {
-        answers[q.id] = idx % 2 === 0 ? 1 : 2;
-      });
-    }
     return (category.questions || []).map((q) => {
       const weight = answers[q.id] ?? 0;
       const label = weight === 2 ? "হ্যাঁ" : weight === 1 ? "মাঝে মধ্যে" : "না";
@@ -117,22 +109,14 @@ export function DiagnosisResultView() {
 
   const handleDownloadPdf = async () => {
     if (typeof window === "undefined") return;
+    if (!userAnswers || Object.keys(userAnswers).length === 0) {
+      alert("প্রথমে ডায়াগনোসিস টেস্টটি সম্পন্ন করুন, তারপর রিপোর্ট ডাউনলোড করুন।");
+      return;
+    }
     setIsDownloadingPdf(true);
 
     try {
-      const answersToSend =
-        userAnswers && Object.keys(userAnswers).length > 0
-          ? userAnswers
-          : (() => {
-              try {
-                const stored = sessionStorage.getItem("ruqyah_diagnosis_session");
-                if (stored) {
-                  const parsed = JSON.parse(stored);
-                  if (parsed.answers) return parsed.answers;
-                }
-              } catch {}
-              return {};
-            })();
+      const answersToSend = userAnswers ?? {};
 
       const response = await fetch("/api/diagnosis/pdf", {
         method: "POST",
@@ -177,6 +161,7 @@ export function DiagnosisResultView() {
         ]);
 
         const iframe = document.createElement("iframe");
+        iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
         iframe.style.position = "fixed";
         iframe.style.left = "-9999px";
         iframe.style.top = "0";
@@ -289,7 +274,7 @@ export function DiagnosisResultView() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `আসসালামু আলাইকুম, আমি শাফা আল কুরআন ওয়েবসাইট থেকে ${category.title} রুকইয়াহ ডায়াগনোসিস করেছি।\nফলাফল: ${levelTitle} (স্কোর: ${totalScore}/${maxScore}, ${percentage}%)।\nপরবর্তী নির্দেশিকা ও পরামর্শের জন্য সহায়তা চাই।`
+    `আসসালামু আলাইকুম, আমি শিফা আল কুরআন ওয়েবসাইট থেকে ${category.title} রুকইয়া ডায়াগনোসিস করেছি।\nফলাফল: ${levelTitle} (স্কোর: ${totalScore}/${maxScore}, ${percentage}%)।\nপরবর্তী নির্দেশিকা ও পরামর্শের জন্য সহায়তা চাই।`
   );
 
   const whatsappLink = `https://wa.me/8801353301772?text=${whatsappMessage}`;
@@ -298,11 +283,46 @@ export function DiagnosisResultView() {
     levelTitle
   )}&score=${totalScore}&maxScore=${maxScore}`;
 
+  if (hasSession === null) {
+    return (
+      <div className="min-h-screen pt-32 flex items-center justify-center text-emerald-600">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600" />
+      </div>
+    );
+  }
+
+  if (isUnknownCategory) {
+    return (
+      <div className="min-h-screen pt-32 pb-16 px-4 flex items-center justify-center">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3">এই ডায়াগনোসিস ক্যাটাগরি পাওয়া যায়নি</h1>
+          <p className="text-slate-600 dark:text-zinc-400 mb-6">লিংকটি ভুল হতে পারে। সঠিক ক্যাটাগরি বেছে আবার টেস্ট দিন।</p>
+          <Link href="/diagnosis" className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-bold text-white">ডায়াগনোসিস পোর্টালে যান</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasSession === false) {
+    return (
+      <div className="min-h-screen pt-32 pb-16 px-4 flex items-center justify-center">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-3">কোনো টেস্ট রেকর্ড পাওয়া যায়নি</h1>
+          <p className="text-slate-600 dark:text-zinc-400 mb-6">ফলাফল দেখতে প্রথমে টেস্টটি সম্পন্ন করতে হবে। সরাসরি এই পেজ খুললে কোনো রিপোর্ট তৈরি হয় না।</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href={`/diagnosis/test?category=${category.id}`} className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-bold text-white">টেস্ট দিন</Link>
+            <Link href="/diagnosis" className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 dark:border-white/20 px-5 py-3 text-sm font-bold">সব ক্যাটাগরি দেখুন</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-24 overflow-hidden font-sans print:pt-4 print:pb-4 print:bg-white print:text-black">
       {/* Background Animated Ambient Lights (Screen Only) */}
-      <div className="print:hidden absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
-      <div className="print:hidden absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="print:hidden absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,120vw)] h-[700px] bg-emerald-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
+      <div className="print:hidden absolute bottom-1/4 right-1/4 w-[min(500px,120vw)] h-[500px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Navigation & Utilities Header */}
@@ -334,7 +354,7 @@ export function DiagnosisResultView() {
 
         {/* Printable Official Header (Print Only) */}
         <div className="hidden print:block text-center border-b pb-4 mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">শিফা আল কুরআন — রুকইয়াহ শারইয়াহ সেন্টার</h1>
+          <h1 className="text-2xl font-bold text-gray-900">শিফা আল কুরআন — রুকইয়া শারইয়া সেন্টার</h1>
           <p className="text-xs text-gray-600">ওয়েবসাইট: https://saq.pro.bd | হটলাইন: 09639-000999 | হোয়াটসঅ্যাপ: 01353301772</p>
           <div className="text-xs font-mono text-gray-500 mt-1">ফলাফল তৈরি: {new Date().toLocaleDateString("bn-BD")}</div>
         </div>
@@ -352,7 +372,7 @@ export function DiagnosisResultView() {
           {/* Test Header */}
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/20 text-emerald-900 dark:text-emerald-400 text-xs font-bold mb-3 shadow-sm print:hidden">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> রুকইয়াহ ডায়াগনোসিস পূর্ণাঙ্গ মূল্যায়ন রিপোর্ট
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> রুকইয়া ডায়াগনোসিস পূর্ণাঙ্গ মূল্যায়ন রিপোর্ট
             </span>
             <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-zinc-100 mb-2 print:text-xl print:text-black">
               {category.title}
@@ -457,7 +477,7 @@ export function DiagnosisResultView() {
 
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold bg-slate-100 dark:bg-white/10 border-slate-300 dark:border-white/20 text-slate-800 dark:text-zinc-200">
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  অগ্রাধিকার: {percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়াহ প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}
+                  অগ্রাধিকার: {percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়া প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}
                 </div>
               </div>
 
@@ -612,10 +632,10 @@ export function DiagnosisResultView() {
               </div>
               <ul className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-zinc-300 pl-4 list-disc leading-relaxed">
                 <li>
-                  <strong className="text-slate-900 dark:text-zinc-100">আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়াহ কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।
+                  <strong className="text-slate-900 dark:text-zinc-100">আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়া কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।
                 </li>
                 <li>
-                  <strong className="text-slate-900 dark:text-zinc-100">শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়াহ সম্পূর্ণ স্বচ্ছ।
+                  <strong className="text-slate-900 dark:text-zinc-100">শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়া সম্পূর্ণ স্বচ্ছ।
                 </li>
                 <li>
                   <strong className="text-slate-900 dark:text-zinc-100">আত্মিক পরিচ্ছন্নতা:</strong> পাঁচ ওয়াক্ত সালাত, হালাল উপার্জন ও নিয়মিত জিকির সুস্থতার ভিত্তি স্থাপন করে।
@@ -676,7 +696,7 @@ export function DiagnosisResultView() {
                     সকালের আমল (ফজর পর)
                   </div>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                    সকালের মাসনুন জিকির, ৩ কুল পড়ে বুকে ফুঁ ও রুকইয়াহ পানি পান।
+                    সকালের মাসনুন জিকির, ৩ কুল পড়ে বুকে ফুঁ ও রুকইয়া পানি পান।
                   </p>
                 </div>
 
@@ -686,7 +706,7 @@ export function DiagnosisResultView() {
                     সন্ধ্যার আমল (মাগরিব পর)
                   </div>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                    সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়াহর গোসল সম্পন্ন।
+                    সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়ার গোসল সম্পন্ন।
                   </p>
                 </div>
 
@@ -735,14 +755,14 @@ export function DiagnosisResultView() {
                         </span>
                       )}
                     </div>
-                    <span className="font-arabic text-base sm:text-lg text-emerald-700 dark:text-emerald-400 self-start sm:self-auto" dir="rtl">
+                    <span className="font-arabic text-base sm:text-lg text-emerald-700 dark:text-emerald-400 self-start sm:self-auto" dir="rtl" lang="ar">
                       {item.arabicName}
                     </span>
                   </div>
 
                   {/* Arabic Quranic Script */}
                   <div className="p-4 sm:p-5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/30 my-3.5">
-                    <p className="font-arabic text-right text-xl sm:text-2xl text-emerald-950 dark:text-emerald-300 leading-loose select-text" dir="rtl">
+                    <p className="font-arabic text-right text-xl sm:text-2xl text-emerald-950 dark:text-emerald-300 leading-loose select-text" dir="rtl" lang="ar">
                       {item.arabicText}
                     </p>
                   </div>
@@ -770,12 +790,34 @@ export function DiagnosisResultView() {
               <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/15 border border-emerald-200/80 dark:border-emerald-800/30 print:hidden">
                 <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-zinc-100 mb-3 flex items-center gap-2">
                   <Headphones className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  প্রস্তাবিত রুকইয়াহ অডিও (মনোযোগ সহকারে শুনুন):
+                  প্রস্তাবিত রুকইয়া অডিও (মনোযোগ সহকারে শুনুন):
                 </h4>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {prescription.audioLinks.map((audio, idx) => {
                     const isTrackActive = currentTrack?.title === audio.title && isPlaying;
+                    const isRealTrack = audio.href.includes("http");
+                    // Never play a fallback track under a different title.
+                    // Entries without a real MP3 URL link to the audio library instead.
+                    if (!isRealTrack) {
+                      return (
+                        <Link
+                          key={idx}
+                          href="/audio"
+                          className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-emerald-200/80 dark:border-white/10 hover:border-emerald-500/50 transition-all flex items-center justify-between group shadow-sm text-left w-full cursor-pointer gap-2"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                            <div className="w-8 h-8 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white dark:text-zinc-950 flex items-center justify-center font-bold shadow-sm shrink-0">
+                              <Play className="w-3.5 h-3.5 ml-0.5" />
+                            </div>
+                            <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-zinc-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors truncate">
+                              {audio.title}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 shrink-0">অডিও লাইব্রেরি</span>
+                        </Link>
+                      );
+                    }
                     return (
                       <button
                         key={idx}
@@ -783,9 +825,7 @@ export function DiagnosisResultView() {
                           playTrack({
                             id: `rx_${idx}_${audio.title}`,
                             title: audio.title,
-                            url: audio.href.includes("http")
-                              ? audio.href
-                              : "https://files.ruqyahbd.org/audio/Ruqyah-3Kul-ruqyahbd.org.mp3",
+                            url: audio.href,
                             category: category.title,
                           })
                         }
@@ -818,7 +858,7 @@ export function DiagnosisResultView() {
               </div>
               <div>
                 <div className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-zinc-100">
-                  শিফা আল কুরআন রুকইয়াহ রিসার্চ বোর্ড
+                  শিফা আল কুরআন রুকইয়া রিসার্চ বোর্ড
                 </div>
                 <div className="text-xs text-slate-500 dark:text-zinc-400">
                   কুরআন ও সুন্নাহ ভিত্তিক নির্ভরযোগ্য চিকিৎসা পদ্ধতি
@@ -836,7 +876,7 @@ export function DiagnosisResultView() {
             <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-slate-900 dark:text-zinc-100 font-bold">জরুরি শরঈ ও চিকিৎসা সতর্কতা: </strong>
-              এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়াহ মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়াহ শারইয়াহ হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
+              এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়া মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়া শারইয়া হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
             </div>
           </div>
 
