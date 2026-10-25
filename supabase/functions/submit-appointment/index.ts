@@ -8,6 +8,29 @@ const allowedOrigins = [
   'http://localhost'
 ];
 
+// Best-effort per-IP rate limit (in-memory; Deno isolates may reset it, so this
+// is a spam brake, not a guarantee). Website client only — the mobile app
+// client must never be throttled by a website-only rule.
+const rateLimit = new Map<string, { count: number; resetAt: number }>();
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 5;
+
+function badRequest(corsHeaders: Record<string, string>, message: string, status = 400) {
+  return new Response(JSON.stringify({ error: message }), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+}
+
+// Dhaka date (YYYY-MM-DD). Bangladesh has no DST, so UTC+6 arithmetic is exact.
+function dhakaToday(): string {
+  return new Date(Date.now() + 6 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+const BD_PHONE = /^(?:\+8801|01)[3-9]\d{8}$/;
+const WEBSITE_TIME_SLOTS = [
+  '10:00 AM - 12:00 PM',
+  '03:00 PM - 05:00 PM',
+  '06:00 PM - 08:00 PM',
+];
+
 serve(async (req) => {
   const origin = req.headers.get('origin');
   const corsHeaders = {
@@ -20,21 +43,79 @@ serve(async (req) => {
   }
 
   try {
-    const body = await req.json();
+    // Body size cap: a real appointment payload is well under 16 KB.
+    const rawBody = await req.text();
+    if (rawBody.length > 16 * 1024) {
+      return badRequest(corsHeaders, 'অনুরোধটি অনেক বড়। আবার চেষ্টা করুন।', 413);
+    }
+    let body: Record<string, unknown>;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return badRequest(corsHeaders, 'ভুল ফরম্যাটের অনুরোধ।');
+    }
 
-    const { fullName, phone, whatsapp, date, time, type, problem, client } = body;
+    const { fullName, phone, whatsapp, date, time, type, problem, client } = body as {
+      fullName?: unknown; phone?: unknown; whatsapp?: unknown; date?: unknown;
+      time?: unknown; type?: unknown; problem?: unknown; client?: unknown;
+    };
+    const clientValue = typeof client === 'string' ? client : undefined;
+    const isWebsite = clientValue === 'website';
 
-    if (!fullName || !fullName.trim()) {
-      return new Response(JSON.stringify({ error: 'নাম প্রদান করা হয়নি।' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    // Website-only spam brakes: honeypot + minimum submit time. The app
+    // client does not send these fields, so it is never blocked by them.
+    if (isWebsite) {
+      const honeypot = (body as Record<string, unknown>)._honeypot;
+      if (typeof honeypot === 'string' && honeypot.trim() !== '') {
+        return badRequest(corsHeaders, 'অনুরোধটি গ্রহণ করা যায়নি। আবার চেষ্টা করুন।');
+      }
+      const startedAt = (body as Record<string, unknown>)._startedAt;
+      if (typeof startedAt === 'number' && Date.now() - startedAt < 3000) {
+        return badRequest(corsHeaders, 'অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।');
+      }
+      const forwarded = req.headers.get('x-forwarded-for');
+      const ip = (forwarded ? forwarded.split(',')[0].trim() : '') || req.headers.get('cf-connecting-ip') || 'unknown';
+      const nowMs = Date.now();
+      const entry = rateLimit.get(ip);
+      if (entry && nowMs < entry.resetAt) {
+        if (entry.count >= RATE_MAX) {
+          return badRequest(corsHeaders, 'অনেকবার চেষ্টা করা হয়েছে। এক মিনিট পর আবার চেষ্টা করুন।', 429);
+        }
+        entry.count += 1;
+      } else {
+        rateLimit.set(ip, { count: 1, resetAt: nowMs + RATE_WINDOW_MS });
+      }
     }
-    if (!phone || !phone.trim() || phone.length < 11) {
-      return new Response(JSON.stringify({ error: 'সঠিক মোবাইল নম্বর প্রদান করুন।' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+
+    // Server validation mirrors the website form (previously only presence
+    // + phone length < 11 were checked, so the client rules were bypassable).
+    const name = typeof fullName === 'string' ? fullName.trim() : '';
+    const phoneStr = typeof phone === 'string' ? phone.trim() : '';
+    const whatsappStr = typeof whatsapp === 'string' ? whatsapp.trim() : '';
+    const problemStr = typeof problem === 'string' ? problem.trim() : '';
+    const dateStr = typeof date === 'string' ? date.trim() : '';
+    const timeStr = typeof time === 'string' ? time.trim() : '';
+
+    if (!name || name.length < 2 || name.length > 100) {
+      return badRequest(corsHeaders, 'সঠিক নাম প্রদান করুন।');
     }
-    if (!date || !time) {
-      return new Response(JSON.stringify({ error: 'তারিখ এবং সময় প্রদান করা হয়নি।' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    if (!BD_PHONE.test(phoneStr)) {
+      return badRequest(corsHeaders, 'সঠিক মোবাইল নম্বর প্রদান করুন।');
     }
-    if (!problem || !problem.trim()) {
-      return new Response(JSON.stringify({ error: 'সমস্যা বা কারণ উল্লেখ করা হয়নি।' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    if (whatsappStr && !BD_PHONE.test(whatsappStr)) {
+      return badRequest(corsHeaders, 'সঠিক হোয়াটসঅ্যাপ নম্বর প্রদান করুন।');
+    }
+    if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr) || dateStr < dhakaToday()) {
+      return badRequest(corsHeaders, 'আজ বা পরের কোনো তারিখ নির্বাচন করুন।');
+    }
+    if (!timeStr) {
+      return badRequest(corsHeaders, 'তারিখ এবং সময় প্রদান করা হয়নি।');
+    }
+    if (isWebsite && !WEBSITE_TIME_SLOTS.includes(timeStr)) {
+      return badRequest(corsHeaders, 'সঠিক সময় স্লট নির্বাচন করুন।');
+    }
+    if (!problemStr || problemStr.length < 10 || problemStr.length > 2000) {
+      return badRequest(corsHeaders, 'সমস্যার বিবরণ কমপক্ষে ১০ অক্ষরের হতে হবে।');
     }
 
     const now = new Date();
@@ -42,10 +123,19 @@ serve(async (req) => {
     const mm = String(now.getMonth() + 1).padStart(2, '0');
     const dd = String(now.getDate()).padStart(2, '0');
     
+    // 6-character suffix (was 3 = only 46,656/day, no uniqueness check).
+    // Prefix/format unchanged, so the Sheet column and any reader of
+    // APT-YYMMDD-* IDs keep working; collisions become negligible.
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let suffix = '';
-    for (let i = 0; i < 3; i++) {
-      suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+    try {
+      const bytes = new Uint8Array(6);
+      crypto.getRandomValues(bytes);
+      for (let i = 0; i < bytes.length; i++) suffix += chars.charAt(bytes[i] % chars.length);
+    } catch {
+      for (let i = 0; i < 6; i++) {
+        suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
     }
     const submissionId = `APT-${yy}${mm}${dd}-${suffix}`;
 
@@ -61,10 +151,10 @@ serve(async (req) => {
     const status = 'Pending';
     let source = 'App';
     
-    if (client) {
-      if (client === 'website') {
+    if (clientValue) {
+      if (clientValue === 'website') {
         source = 'Website';
-      } else if (client === 'app') {
+      } else if (clientValue === 'app') {
         source = 'App';
       } else {
         return new Response(JSON.stringify({ error: 'Invalid client identifier.' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -149,20 +239,24 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: 'সার্ভার প্রমাণীকরণ ত্রুটি। কিছুক্ষণ পর আবার চেষ্টা করুন।' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
 
+    // Column order unchanged — the Sheet and the app keep reading the same
+    // columns. Only the write mode changed: RAW stores values exactly as
+    // typed, so a problem starting with =, +, - or @ can no longer run as
+    // a Sheet formula, and phone numbers keep their leading 0.
     const rowData = [
       submissionId,
       submittedAt,
-      fullName.trim(),
-      phone.trim(),
-      whatsapp ? whatsapp.trim() : '',
-      problem.trim(),
-      date,
-      time,
+      name,
+      phoneStr,
+      whatsappStr,
+      problemStr,
+      dateStr,
+      timeStr,
       status,
       source
     ];
 
-    const spreadsheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Appointments:append?valueInputOption=USER_ENTERED`;
+    const spreadsheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Appointments:append?valueInputOption=RAW`;
 
     let response: Response;
     try {

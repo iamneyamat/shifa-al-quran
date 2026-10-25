@@ -15,7 +15,9 @@ export default async function ArticlesPage(props: {
 
   const searchParams = await props.searchParams
 
-  const page = parseInt((searchParams.page as string) || '1')
+  // ?page= ভুল/খালি হলে আগে "Page NaN" দেখাত। NaN বা ১-এর কম হলে ১ ধরা হয়।
+  const parsedPage = parseInt((searchParams.page as string) || '1')
+  const page = Number.isNaN(parsedPage) || parsedPage < 1 ? 1 : parsedPage
   const pageSize = 12
   const from = (page - 1) * pageSize
   const to = from + pageSize - 1

@@ -24,13 +24,39 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Asia/Dhaka-র আজকের তারিখ (YYYY-MM-DD)। UTC দিয়ে হিসাব করলে ঢাকায়
+// ভোর ৬টার আগে গতকালের তারিখ min হিসেবে বসে যেত — সেই ভুল ঠিক করতে
+// Intl দিয়ে ঢাকার টাইমজোনেই তারিখ নেওয়া হচ্ছে।
+function getDhakaToday(): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Dhaka",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
+const bdPhoneRegex = /^(?:\+8801|01)[3-9]\d{8}$/;
+
 const formSchema = z.object({
-  fullName: z.string().min(2, { message: "নাম কমপক্ষে ২ অক্ষরের হতে হবে" }),
-  phone: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/, { message: "সঠিক বাংলাদেশী ফোন নাম্বার দিন" }),
-  whatsapp: z.string().optional(),
-  date: z.string().min(1, { message: "তারিখ নির্বাচন করুন" }),
+  fullName: z.string().min(2, { message: "নাম কমপক্ষে ২ অক্ষরের হতে হবে" }).max(100, { message: "নাম ১০০ অক্ষরের বেশি হতে পারবে না" }),
+  phone: z.string().regex(bdPhoneRegex, { message: "সঠিক বাংলাদেশী ফোন নাম্বার দিন" }),
+  whatsapp: z
+    .string()
+    .optional()
+    .refine((v) => !v || bdPhoneRegex.test(v), {
+      message: "সঠিক বাংলাদেশী হোয়াটসঅ্যাপ নাম্বার দিন",
+    }),
+  date: z
+    .string()
+    .min(1, { message: "তারিখ নির্বাচন করুন" })
+    .refine((v) => v >= getDhakaToday(), {
+      message: "আজ বা পরের কোনো তারিখ বেছে নিন",
+    }),
   time: z.string().min(1, { message: "সময় নির্বাচন করুন" }),
-  problem: z.string().min(10, { message: "সমস্যার বিস্তারিত বিবরণ দিন (কমপক্ষে ১০ অক্ষর)" }),
+  problem: z.string().min(10, { message: "সমস্যার বিস্তারিত বিবরণ দিন (কমপক্ষে ১০ অক্ষর)" }).max(2000, { message: "বিবরণ ২০০০ অক্ষরের বেশি হতে পারবে না" }),
+  // Honeypot: আসল ব্যবহারকারী কখনো এটা ভরবেন না; বট ভরলে সার্ভার বাতিল করবে।
+  _honeypot: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,6 +79,8 @@ export function AppointmentForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [appointmentId, setAppointmentId] = React.useState<string | null>(null);
+  // ফর্ম খোলার সময় — বটের মতো তাৎক্ষণিক সাবমিট ধরতে সার্ভারকে পাঠানো হয়।
+  const formStartedAtRef = React.useRef(Date.now());
   const [submitError, setSubmitError] = React.useState<string | null>(null);
 
   // Auto-synced diagnosis data from search params or session
@@ -131,7 +159,10 @@ export function AppointmentForm() {
         },
         body: JSON.stringify({
           ...data,
-          diagnosisContext: diagnosisContext || undefined,
+          // diagnosisContext আর পাঠানো হচ্ছে না: Edge Function তা নেয় না, Sheet-এ
+          // তার কলাম নেই। ডায়াগনসিসের সারাংশ problem ঘরেই আগে থেকে লেখা থাকে,
+          // তাই তথ্য হারাচ্ছে না — শুধু অপ্রয়োজনীয় ফিল্ড পাঠানো বন্ধ হলো।
+          _startedAt: formStartedAtRef.current,
           type: "General",
           client: "website"
         }),
@@ -148,7 +179,13 @@ export function AppointmentForm() {
         throw new Error(result?.error || "নেটওয়ার্ক ত্রুটি। আবার চেষ্টা করুন।");
       }
 
-      setAppointmentId(result?.appointmentId ?? null);
+      // আইডি ছাড়া 2xx-কে আর সফল ধরা হবে না — আগে "SAQ-PENDING" নামে
+      // ভুয়া রেফারেন্স দেখানো হতো।
+      if (!result?.appointmentId) {
+        throw new Error("সার্ভার থেকে অ্যাপয়েন্টমেন্ট আইডি পাওয়া যায়নি। আবার চেষ্টা করুন।");
+      }
+
+      setAppointmentId(result.appointmentId);
       setIsSuccess(true);
       reset();
     } catch (error: unknown) {
@@ -177,7 +214,7 @@ export function AppointmentForm() {
           আপনার অ্যাপয়েন্টমেন্ট সফলভাবে গৃহীত হয়েছে!
         </h3>
         <p className="type-body-lg mt-4 text-ink-body max-w-lg mx-auto">
-          আপনার রেফারেন্স আইডি: <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{appointmentId || "SAQ-PENDING"}</span>
+          আপনার রেফারেন্স আইডি: <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">{appointmentId}</span>
         </p>
         <p className="type-body mt-2 text-ink-muted max-w-md mx-auto">
           আমাদের প্রতিনিধি দ্রুত আপনার সাথে ফোনে যোগাযোগ করে সময় ও মাধ্যম নিশ্চিত করবেন ইনশাআল্লাহ।
@@ -193,7 +230,7 @@ export function AppointmentForm() {
           
           <a
             href={`https://wa.me/8801353301772?text=${encodeURIComponent(
-              `আসসালামু আলাইকুম, আমি অ্যাপয়েন্টমেন্ট কনফার্মেশন পেয়েছি। আইডি: ${appointmentId || "SAQ"}`
+              `আসসালামু আলাইকুম, আমি অ্যাপয়েন্টমেন্ট কনফার্মেশন পেয়েছি। আইডি: ${appointmentId}`
             )}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -332,6 +369,45 @@ export function AppointmentForm() {
           </motion.div>
         </div>
 
+        {/* WhatsApp Number — আগে এই ঘরটি ফর্মে ছিল না, তাই Sheet-এ
+            সবসময় খালি যেত, যদিও Sheet-এ কলামটি আগে থেকেই আছে।
+            ঘরটি ঐচ্ছিক: না দিলে ফোন নম্বরেই যোগাযোগ করা হবে। */}
+        <motion.div variants={fadeUp} className="space-y-2">
+          <label htmlFor="whatsapp" className="type-meta block text-ink-strong font-medium">
+            হোয়াটসঅ্যাপ নাম্বার <span className="text-ink-muted">(যদি ফোন নম্বর থেকে আলাদা হয়)</span>
+          </label>
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-ink-muted">
+              <MessageCircle className="h-4 w-4" />
+            </div>
+            <input
+              id="whatsapp"
+              type="tel"
+              placeholder="01XXXXXXXXX"
+              {...register("whatsapp")}
+              className={cn(
+                "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong placeholder:text-ink-muted transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",
+                errors.whatsapp && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
+              )}
+            />
+          </div>
+          {errors.whatsapp ? (
+            <p className="type-citation text-xs text-rose-500 font-medium">{errors.whatsapp.message}</p>
+          ) : (
+            <p className="type-citation text-xs text-ink-muted">না দিলে উপরের ফোন নম্বরেই যোগাযোগ করা হবে।</p>
+          )}
+        </motion.div>
+
+        {/* Honeypot — মানুষের চোখে দেখা যায় না, বট ভরলে সার্ভার বাতিল করবে */}
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          {...register("_honeypot")}
+          className="hidden"
+        />
+
         <div className="grid gap-6 sm:grid-cols-2">
           {/* Preferred Date */}
           <motion.div variants={fadeUp} className="space-y-2">
@@ -345,7 +421,7 @@ export function AppointmentForm() {
               <input
                 id="date"
                 type="date"
-                min={new Date().toISOString().split("T")[0]}
+                min={getDhakaToday()}
                 {...register("date")}
                 className={cn(
                   "w-full rounded-xl border border-hairline bg-surface-base/80 py-3.5 pl-11 pr-4 text-sm text-ink-strong transition-all focus:border-interactive focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-interactive/20",

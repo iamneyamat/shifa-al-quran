@@ -66,6 +66,23 @@ export const metadata: Metadata = {
     default: "Shifa Al Quran - Islamic Ruqyah Center",
   },
   description: "Professional Islamic Ruqyah center providing Quranic healing for various physical and spiritual ailments. Learn about Ruqyah, get treatments, and find peace.",
+  // Site-wide keywords: these are the site's own topics/services, not
+  // invented claims. Per-page metadata still overrides where it exists.
+  keywords: [
+    "রুকইয়া",
+    "রুকইয়া শারইয়া",
+    "শিফা আল কুরআন",
+    "কুরআনিক চিকিৎসা",
+    "বদনজর চিকিৎসা",
+    "জাদু চিকিৎসা",
+    "জিনের সমস্যা",
+    "সেলফ রুকইয়া",
+    "ঢাকা রুকইয়া সেন্টার",
+    "Ruqyah",
+    "Ruqyah Shariah",
+    "Islamic healing Bangladesh",
+    "Dhaka Ruqyah center",
+  ],
   metadataBase: new URL("https://saq.pro.bd"),
   openGraph: {
     title: "Shifa Al Quran - Islamic Ruqyah Center",
@@ -128,6 +145,18 @@ export default function RootLayout({
                 "https://www.youtube.com/@ShifaAlQuran786"
               ]
             })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Shifa Al Quran",
+              url: "https://saq.pro.bd",
+              inLanguage: "bn",
+            }),
           }}
         />
         <AudioProvider>

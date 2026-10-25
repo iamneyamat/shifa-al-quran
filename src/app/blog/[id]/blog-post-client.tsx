@@ -3,15 +3,33 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, User, ArrowLeft, Link2, ChevronRight } from "lucide-react";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
+
+function isOptimizableImage(url: string): boolean {
+  try {
+    const host = new URL(url).hostname;
+    return host.endsWith(".supabase.co") || host === "files.ruqyahbd.org" || host === "saq.pro.bd";
+  } catch {
+    return false;
+  }
+}
+
+function formatBnDate(value: string | null | undefined): string {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' });
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { post: any, relatedPosts: any[] }) {
   const [copied, setCopied] = React.useState(false);
 
-  // Format data safely
+  // Format data safely. Date = published_at first, else created_at
+  // (previously the list sorted by published_at but showed created_at).
   const post = {
     id: rawPost.id,
     slug: rawPost.slug,
@@ -19,18 +37,18 @@ export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { po
     excerpt: rawPost.excerpt,
     content: rawPost.content,
     category: rawPost.category?.name || 'Uncategorized',
-    date: new Date(rawPost.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+    date: formatBnDate(rawPost.published_at || rawPost.created_at),
     author: 'শিফা আল কুরআন',
     readTime: '৫ মিনিট',
     cover_image_url: rawPost.cover_image_url
   };
 
-  const relatedPosts = rawRelated.map(rp => ({
+  const relatedPosts = rawRelated.filter(rp => rp.slug).map(rp => ({
     id: rp.id,
     slug: rp.slug,
     title: rp.title,
     category: rp.category?.name || 'Uncategorized',
-    date: new Date(rp.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+    date: formatBnDate(rp.published_at || rp.created_at),
     readTime: '৫ মিনিট',
     cover_image_url: rp.cover_image_url
   }));
@@ -41,6 +59,21 @@ export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { po
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  // Share buttons previously had no onClick at all. These open the
+  // platforms' real share dialogs with this page's URL + title.
+  const handleShare = (platform: "facebook" | "twitter" | "whatsapp") => {
+    if (typeof window === "undefined") return;
+    const url = window.location.href;
+    const text = post.title;
+    const shareUrl =
+      platform === "facebook"
+        ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+        : platform === "twitter"
+          ? `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
+          : `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`;
+    window.open(shareUrl, "_blank", "noopener,noreferrer,width=600,height=540");
   };
 
   return (
@@ -117,7 +150,11 @@ export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { po
           className="w-full h-64 md:h-96 rounded-[32px] md:rounded-[40px] bg-slate-200 dark:bg-slate-800 mb-12 md:mb-16 overflow-hidden relative shadow-xl"
         >
           {post.cover_image_url ? (
-            <img src={post.cover_image_url} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+            isOptimizableImage(post.cover_image_url) ? (
+              <Image src={post.cover_image_url} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 896px" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <img src={post.cover_image_url} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+            )
           ) : (
             <>
               <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
@@ -151,15 +188,15 @@ export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { po
             <div className="sticky top-32 flex lg:flex-col items-center gap-4 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-[32px] border border-light-border dark:border-slate-800 shadow-lg justify-center">
               <div className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 hidden lg:block text-center mt-2">শেয়ার<br/>করুন</div>
               
-              <button className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900/50 dark:hover:text-blue-400 flex items-center justify-center transition-colors">
+              <button onClick={() => handleShare("facebook")} aria-label="ফেসবুকে শেয়ার করুন" className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900/50 dark:hover:text-blue-400 flex items-center justify-center transition-colors">
                 <FaFacebook className="w-5 h-5" />
               </button>
-              
-              <button className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 hover:text-sky-600 dark:hover:bg-sky-900/50 dark:hover:text-sky-400 flex items-center justify-center transition-colors">
+
+              <button onClick={() => handleShare("twitter")} aria-label="X-এ শেয়ার করুন" className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-sky-100 hover:text-sky-600 dark:hover:bg-sky-900/50 dark:hover:text-sky-400 flex items-center justify-center transition-colors">
                 <FaTwitter className="w-5 h-5" />
               </button>
-              
-              <button className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/50 dark:hover:text-green-400 flex items-center justify-center transition-colors">
+
+              <button onClick={() => handleShare("whatsapp")} aria-label="হোয়াটসঅ্যাপে শেয়ার করুন" className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/50 dark:hover:text-green-400 flex items-center justify-center transition-colors">
                 <FaWhatsapp className="w-5 h-5" />
               </button>
               
@@ -188,7 +225,11 @@ export function BlogPostClient({ post: rawPost, relatedPosts: rawRelated }: { po
                   
                   <div className="relative h-48 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                     {relatedPost.cover_image_url ? (
-                      <img src={relatedPost.cover_image_url} alt={relatedPost.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      isOptimizableImage(relatedPost.cover_image_url) ? (
+                        <Image src={relatedPost.cover_image_url} alt={relatedPost.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      ) : (
+                        <img src={relatedPost.cover_image_url} alt={relatedPost.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      )
                     ) : (
                       <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
                         <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>

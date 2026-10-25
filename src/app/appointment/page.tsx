@@ -3,7 +3,7 @@ import { AppointmentForm } from "@/components/appointment-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "অ্যাপয়েন্টমেন্ট | Shifa Al Quran",
+  title: "অ্যাপয়েন্টমেন্ট",
   description: "শিফা আল কুরআন এ রুকইয়াহ শারইয়াহ চিকিৎসারের জন্য অ্যাপয়েন্টমেন্ট বুকিং করুন।",
 };
 
@@ -38,7 +38,7 @@ export default function AppointmentPage() {
                 তথ্য পূরণ করুন
               </h2>
               <p className="type-body mt-2 text-ink-body">
-                আপনার নাম, ফোন নাম্বার এবং সমস্যার বিবরণ দিন।
+                আপনার নাম, ফোন/হোয়াটসঅ্যাপ নাম্বার এবং সমস্যার বিবরণ দিন।
               </p>
             </div>
 
