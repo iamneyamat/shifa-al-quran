@@ -19,15 +19,28 @@ import { Option } from "../types";
 export function DiagnosisQuiz() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const categoryIdParam =
+  const rawCategoryParam =
     searchParams.get("category") ||
     searchParams.get("categoryId") ||
-    searchParams.get("type") ||
-    "general";
+    searchParams.get("type");
+  const categoryIdParam = rawCategoryParam || "general";
+  const isUnknownCategory =
+    rawCategoryParam !== null &&
+    !diagnosisCategories.some(
+      (c) => c.id === rawCategoryParam && c.isInteractiveTest && c.questions && c.questions.length > 0
+    );
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const advanceTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isAdvancing, setIsAdvancing] = useState(false);
+
+  React.useEffect(() => {
+    return () => {
+      if (advanceTimeoutRef.current) clearTimeout(advanceTimeoutRef.current);
+    };
+  }, []);
 
   const category = useMemo(() => {
     const found = diagnosisCategories.find((c) => c.id === categoryIdParam);
@@ -40,7 +53,7 @@ export function DiagnosisQuiz() {
     return fallback || diagnosisCategories[0];
   }, [categoryIdParam]);
 
-  if (!category || !category.questions || category.questions.length === 0) {
+  if (isUnknownCategory || !category || !category.questions || category.questions.length === 0) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
         <div className="p-8 rounded-3xl bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 max-w-md shadow-xl">
@@ -84,6 +97,8 @@ export function DiagnosisQuiz() {
   };
 
   const handleSelectOption = (option: Option) => {
+    if (isAdvancing) return;
+    setIsAdvancing(true);
     setSelectedOptionId(option.id);
     const updatedAnswers = {
       ...answers,
@@ -91,18 +106,20 @@ export function DiagnosisQuiz() {
     };
     setAnswers(updatedAnswers);
 
-    // Auto advance after brief micro-delay for visual feedback
-    setTimeout(() => {
+    // Auto advance after brief micro-delay for visual feedback.
+    // Guarded so rapid clicks cannot queue two advances and skip a question.
+    if (advanceTimeoutRef.current) clearTimeout(advanceTimeoutRef.current);
+    advanceTimeoutRef.current = setTimeout(() => {
+      setIsAdvancing(false);
       if (currentIndex < questions.length - 1) {
-        setCurrentIndex((prev) => prev + 1);
-        const nextQId = questions[currentIndex + 1]?.id;
+        const nextQ = questions[currentIndex + 1];
+        setCurrentIndex(currentIndex + 1);
         setSelectedOptionId(
-          nextQId && updatedAnswers[nextQId] !== undefined
-            ? getOptionIdFromWeight(questions[currentIndex + 1], updatedAnswers[nextQId])
+          nextQ && updatedAnswers[nextQ.id] !== undefined
+            ? getOptionIdFromWeight(nextQ, updatedAnswers[nextQ.id])
             : null
         );
       } else {
-        // Final question answered: save state & navigate to result
         saveAndNavigate(updatedAnswers);
       }
     }, 280);
@@ -131,7 +148,7 @@ export function DiagnosisQuiz() {
   return (
     <div className="relative min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-20 overflow-hidden font-sans">
       {/* Background Animated Glowing Ambient Lights */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,120vw)] h-[600px] bg-emerald-600/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse" />
       <div className="absolute bottom-1/3 right-10 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
@@ -218,6 +235,7 @@ export function DiagnosisQuiz() {
                       whileHover={{ scale: 1.01, y: -1 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => handleSelectOption(option)}
+                      disabled={isAdvancing}
                       className={`w-full text-left p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border transition-all duration-200 flex items-center justify-between gap-3 group shadow-sm ${
                         isSelected
                           ? "bg-emerald-50 dark:bg-gradient-to-r dark:from-emerald-500/20 dark:to-teal-500/10 border-emerald-500 dark:border-emerald-400/60 shadow-md text-emerald-950 dark:text-emerald-100 font-bold"

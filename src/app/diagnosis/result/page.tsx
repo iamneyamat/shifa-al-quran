@@ -3,9 +3,10 @@ import { Metadata } from "next";
 import { DiagnosisResultView } from "@/features/diagnosis/components/diagnosis-result";
 
 export const metadata: Metadata = {
-  title: "ডায়াগনোসিস ফলাফল ও প্রেসক্রিপশন | শাফা আল কুরআন",
+  title: "ডায়াগনোসিস ফলাফল ও প্রেসক্রিপশন",
   description:
-    "আপনার রুকইয়াহ লক্ষণসমূহের সুন্নাহসম্মত ফলাফল এবং বিশেষ আত্মিক চিকিৎসা গাইডলাইন।",
+    "আপনার রুকইয়া লক্ষণসমূহের সুন্নাহসম্মত ফলাফল এবং বিশেষ আত্মিক চিকিৎসা গাইডলাইন।",
+  robots: { index: false, follow: false },
 };
 
 export default function DiagnosisResultPage() {

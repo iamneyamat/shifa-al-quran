@@ -96,7 +96,7 @@ export function ResourcesSection() {
                   ব্লগ ও আর্টিকেল
                 </h3>
                 <p className="type-body mt-3 flex-1 text-ink-body">
-                  রুকইয়াহ শারইয়াহ, সুন্নাহ এবং সুস্থতা নিয়ে আমাদের সর্বশেষ লেখাগুলো
+                  রুকইয়া শারইয়া, সুন্নাহ এবং সুস্থতা নিয়ে আমাদের সর্বশেষ লেখাগুলো
                   পড়ুন।
                 </p>
                 <span className="type-heading-sm mt-6 inline-flex items-center gap-2 text-interactive">

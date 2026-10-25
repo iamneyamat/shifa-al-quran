@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "তাবিজ নষ্টের নিয়ম | শাফা আল কুরআন",
+  title: "তাবিজ নষ্টের নিয়ম",
   description:
     "শিরকী তাবিজ, জাদুর নকশা ও কুফরি জিনিস শরীয়াহসম্মত সুন্নাহ পদ্ধতিতে নষ্ট ও নিষ্ক্রিয়করণের পূর্ণাঙ্গ নির্দেশিকা।",
 };
@@ -49,11 +49,11 @@ export default function DestroyAmuletsPage() {
     {
       stepNum: "03",
       icon: Droplets,
-      title: "রুকইয়াহর পানিতে ডুবিয়ে রাখা",
+      title: "রুকইয়ার পানিতে ডুবিয়ে রাখা",
       color: "text-teal-600 dark:text-teal-400",
       bgColor: "bg-teal-500/10 border-teal-500/20",
       description:
-        "আয়াত পাঠ শেষে তাবিজের টুকরো, জাদুর নকশা ও কাগজের লেখাগুলো ওই রুকইয়াহ করা পানিতে কিছুক্ষণ ডুবিয়ে রাখুন। পানি সব কাগজে ও কালিতে প্রবেশ করলে ইনশাআল্লাহ জাদুর কুফরি প্রভাব বিনষ্ট হয়ে যাবে।",
+        "আয়াত পাঠ শেষে তাবিজের টুকরো, জাদুর নকশা ও কাগজের লেখাগুলো ওই রুকইয়া করা পানিতে কিছুক্ষণ ডুবিয়ে রাখুন। পানি সব কাগজে ও কালিতে প্রবেশ করলে ইনশাআল্লাহ জাদুর কুফরি প্রভাব বিনষ্ট হয়ে যাবে।",
     },
     {
       stepNum: "04",
@@ -131,7 +131,7 @@ export default function DestroyAmuletsPage() {
                     {item.surahs && (
                       <div className="pt-2">
                         <div className="text-xs font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-500" /> পাঠযোগ্য নির্দিষ্ট রুকইয়াহ আয়াতসমূহ:
+                          <Sparkles className="w-3.5 h-3.5 text-amber-500" /> পাঠযোগ্য নির্দিষ্ট রুকইয়া আয়াতসমূহ:
                         </div>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-800 dark:text-zinc-200">
                           {item.surahs.map((surah, idx) => (

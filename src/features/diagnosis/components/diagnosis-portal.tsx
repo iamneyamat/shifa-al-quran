@@ -82,7 +82,7 @@ export function DiagnosisPortal() {
             </div>
 
             <h1 className="type-display text-ink-strong tracking-tight text-2xl sm:text-4xl lg:text-6xl font-extrabold leading-[1.2]">
-              সেলফ রুকইয়াহ <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-200">ডায়াগনোসিস</span> পোর্টাল
+              সেলফ রুকইয়া <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 dark:from-emerald-400 dark:via-emerald-300 dark:to-teal-200">ডায়াগনোসিস</span> পোর্টাল
             </h1>
 
             <p className="type-body-lg mt-4 sm:mt-6 text-ink-body leading-relaxed font-normal text-sm sm:text-base">

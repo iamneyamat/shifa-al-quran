@@ -46,14 +46,14 @@ export function Footer() {
                   শিফা আল কুরআন
                 </span>
                 <span className="type-citation text-[11px] text-gold-ink font-medium">
-                  ইসলামিক রুকইয়াহ সেন্টার
+                  ইসলামিক রুকইয়া সেন্টার
                 </span>
               </div>
             </Link>
 
             <p className="type-body-sm mt-3 text-xs text-ink-body leading-relaxed max-w-xs text-center">
               কুরআনের আয়াতে আছে আরোগ্য ও প্রশান্তি। আমরা সুন্নাহ সম্মত উপায়ে
-              রুকইয়াহ শারইয়াহ এর মাধ্যমে শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান
+              রুকইয়া শারইয়া এর মাধ্যমে শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান
               করে থাকি।
             </p>
 
@@ -148,7 +148,7 @@ export function Footer() {
                 <span className="text-ink-muted flex items-center gap-2">
                   <Mail className="h-3.5 w-3.5 text-interactive" /> ইমেইল
                 </span>
-                <a href="mailto:shifaalquran11@gmail.com" className="text-ink-strong hover:text-interactive truncate max-w-[170px] xs:max-w-[200px]">
+                <a href="mailto:shifaalquran11@gmail.com" className="text-ink-strong hover:text-interactive truncate max-w-[220px] break-all xs:max-w-[200px]">
                   shifaalquran11@gmail.com
                 </a>
               </div>
@@ -179,14 +179,14 @@ export function Footer() {
                   শিফা আল কুরআন
                 </span>
                 <span className="type-citation text-[11px] text-gold-ink font-medium">
-                  ইসলামিক রুকইয়াহ সেন্টার
+                  ইসলামিক রুকইয়া সেন্টার
                 </span>
               </div>
             </Link>
 
             <p className="type-body-sm mt-5 max-w-sm text-ink-body leading-relaxed">
               কুরআনের আয়াতে আছে আরোগ্য ও প্রশান্তি। আমরা সুন্নাহ সম্মত উপায়ে
-              রুকইয়াহ শারইয়াহ এর মাধ্যমে শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান
+              রুকইয়া শারইয়া এর মাধ্যমে শারীরিক ও মানসিক সমস্যার চিকিৎসা প্রদান
               করে থাকি।
             </p>
 

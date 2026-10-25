@@ -17,7 +17,7 @@ export function TermsClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-400/10 dark:bg-blue-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,120vw)] h-[500px] bg-blue-400/10 dark:bg-blue-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 max-w-4xl">
         <motion.div 
@@ -50,10 +50,10 @@ export function TermsClient() {
               সাধারণ শর্তাবলি
             </h2>
             <ul className="space-y-3 marker:text-emerald-500">
-              <li>আমরা শুধুমাত্র কুরআন ও সুন্নাহ ভিত্তিক শরীয়াহ সম্মত রুকইয়াহ করে থাকি।</li>
+              <li>আমরা শুধুমাত্র কুরআন ও সুন্নাহ ভিত্তিক শরীয়াহ সম্মত রুকইয়া করে থাকি।</li>
               <li>চিকিৎসার ফলাফল সম্পূর্ণ আল্লাহর ওপর নির্ভরশীল। আমরা কোনো গ্যারান্টি প্রদান করি না।</li>
               <li>রোগীকে অবশ্যই ইসলামী শরীয়তের বিধান (নামাজ, পর্দা ইত্যাদি) মেনে চলতে হবে।</li>
-              <li>মহিলা রোগীদের রুকইয়াহ করার সময় অবশ্যই মাহরাম সাথে থাকতে হবে।</li>
+              <li>মহিলা রোগীদের রুকইয়া করার সময় অবশ্যই মাহরাম সাথে থাকতে হবে।</li>
             </ul>
 
             <h2 className="text-2xl md:text-3xl font-extrabold text-light-heading dark:text-white mt-12 mb-6 flex items-center gap-3">

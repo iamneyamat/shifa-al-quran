@@ -49,7 +49,7 @@ const services = [
     id: "jadu",
     category: "জাদুটোনা",
     title: "জাদুটোনা (সিহর)",
-    description: "কালো জাদু বা সিহরের কারণে হওয়া শারীরিক ও মানসিক সমস্যার কুরআন সুন্নাহ ভিত্তিক সমাধান। জাদুর প্রভাব নষ্ট করে স্বাভাবিক জীবনে ফিরে আসার জন্য রুকইয়াহ।",
+    description: "কালো জাদু বা সিহরের কারণে হওয়া শারীরিক ও মানসিক সমস্যার কুরআন সুন্নাহ ভিত্তিক সমাধান। জাদুর প্রভাব নষ্ট করে স্বাভাবিক জীবনে ফিরে আসার জন্য রুকইয়া।",
     icon: Ghost,
   },
   {
@@ -63,14 +63,14 @@ const services = [
     id: "jinn",
     category: "জ্বিন",
     title: "জ্বিন আছর",
-    description: "জিনের উপদ্রব, ভয় পাওয়া, বা অস্বাভাবিক আচরণের জন্য বিশেষ রুকইয়াহ। কুরআন তিলাওয়াতের মাধ্যমে রোগীর উপর থেকে জিনের প্রভাব দূর করা।",
+    description: "জিনের উপদ্রব, ভয় পাওয়া, বা অস্বাভাবিক আচরণের জন্য বিশেষ রুকইয়া। কুরআন তিলাওয়াতের মাধ্যমে রোগীর উপর থেকে জিনের প্রভাব দূর করা।",
     icon: Users,
   },
   {
     id: "mental",
     category: "মানসিক সমস্যা",
     title: "মানসিক অস্থিরতা",
-    description: "অতিরিক্ত দুশ্চিন্তা, হতাশা, ডিপ্রেশন এবং মানসিক অবসাদ দূর করতে রুকইয়াহ। আত্মিক শান্তির জন্য কুরআনিক কাউন্সেলিং।",
+    description: "অতিরিক্ত দুশ্চিন্তা, হতাশা, ডিপ্রেশন এবং মানসিক অবসাদ দূর করতে রুকইয়া। আত্মিক শান্তির জন্য কুরআনিক কাউন্সেলিং।",
     icon: Brain,
   },
   {
@@ -84,7 +84,7 @@ const services = [
     id: "family",
     category: "পারিবারিক",
     title: "পারিবারিক কলহ",
-    description: "স্বামী-স্ত্রীর অমিল বা পরিবারে অশান্তি দূর করতে সুন্নাহ সম্মত পরামর্শ ও রুকইয়াহ। বদনজর বা জাদুর কারণে সৃষ্ট পারিবারিক সমস্যার সমাধান।",
+    description: "স্বামী-স্ত্রীর অমিল বা পরিবারে অশান্তি দূর করতে সুন্নাহ সম্মত পরামর্শ ও রুকইয়া। বদনজর বা জাদুর কারণে সৃষ্ট পারিবারিক সমস্যার সমাধান।",
     icon: Frown,
   }
 ];
@@ -110,8 +110,8 @@ export function ServicesClient() {
       {/* 1. Hero Introduction */}
       <section className="relative overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-16 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32 bg-light-bg-alt1 dark:bg-[#020817]">
         {/* Soft Background Gradients */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[min(500px,120vw)] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[min(600px,120vw)] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <motion.div 
@@ -126,7 +126,7 @@ export function ServicesClient() {
             <div className="h-1 sm:h-1.5 w-16 sm:w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-6 sm:mb-8 md:mb-10" />
             
             <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-4xl mx-auto font-medium">
-              আমরা সম্পূর্ণ শরীয়াহ সম্মত উপায়ে জাদুটোনা, বদনজর ও জিন ঘটিত বিভিন্ন আধ্যাত্মিক ও শারীরিক সমস্যার রুকইয়াহ করে থাকি। আপনার সমস্যার ধরন অনুযায়ী সঠিক চিকিৎসা বেছে নিন।
+              আমরা সম্পূর্ণ শরীয়াহ সম্মত উপায়ে জাদুটোনা, বদনজর ও জিন ঘটিত বিভিন্ন আধ্যাত্মিক ও শারীরিক সমস্যার রুকইয়া করে থাকি। আপনার সমস্যার ধরন অনুযায়ী সঠিক চিকিৎসা বেছে নিন।
             </p>
           </motion.div>
         </div>
@@ -151,9 +151,9 @@ export function ServicesClient() {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="text-center p-2"
               >
-                <h4 className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-1 sm:mb-2 text-amber-300 drop-shadow-md">
+                <p className="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-1 sm:mb-2 text-amber-300 drop-shadow-md">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                </h4>
+                </p>
                 <p className="text-xs sm:text-sm md:text-lg font-medium text-emerald-50 opacity-90">{stat.label}</p>
               </motion.div>
             ))}
@@ -206,9 +206,9 @@ export function ServicesClient() {
                   
                   {/* Content */}
                   <div className="relative z-10 flex-grow flex flex-col">
-                    <h3 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                    <h2 className="text-[17px] md:text-xl font-bold text-light-heading dark:text-slate-100 mb-2 md:mb-3 tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {service.title}
-                    </h3>
+                    </h2>
                     <p className="text-[14px] md:text-base text-light-text dark:text-slate-400 leading-relaxed flex-grow">
                       {service.description}
                     </p>
@@ -252,7 +252,7 @@ export function ServicesClient() {
               <ShieldAlert className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
             <div className="text-center md:text-left">
-              <h4 className="text-lg sm:text-xl font-bold text-amber-800 dark:text-amber-500 mb-1.5 sm:mb-2 tracking-tight">গুরুত্বপূর্ণ সতর্কতা</h4>
+              <h2 className="text-lg sm:text-xl font-bold text-amber-800 dark:text-amber-500 mb-1.5 sm:mb-2 tracking-tight">গুরুত্বপূর্ণ সতর্কতা</h2>
               <p className="text-xs sm:text-base text-amber-700/80 dark:text-amber-500/80 leading-relaxed">
                 আমরা কোনো জাদুকর বা অলৌকিক ক্ষমতার অধিকারী নই। আমরা কেবল কুরআন ও সুন্নাহর আলোকে একটি মাধ্যম হিসেবে কাজ করি। রোগমুক্তি কেবল মহান আল্লাহর ইচ্ছাধীন।
               </p>

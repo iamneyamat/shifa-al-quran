@@ -476,7 +476,7 @@ export function renderRunningFooter(data: AssessmentReportData, pageNumber: numb
 // ---------------------------------------------------------------------------
 export function renderReportCover(data: AssessmentReportData): string {
   const { logo } = getFontsAndLogo();
-  const category = data.category || { title: "রুকইয়াহ মূল্যায়ন", questions: [] };
+  const category = data.category || { title: "রুকইয়া মূল্যায়ন", questions: [] };
   const result = data.result || {
     totalScore: 0,
     maxScore: 20,
@@ -599,7 +599,7 @@ export function renderReportCover(data: AssessmentReportData): string {
             </h2>
 
             <div class="pdf-pill-priority" style="background: ${themeColor.bg}; color: ${themeColor.text}; border: 1px solid ${themeColor.border};">
-              <span>অগ্রাধিকার: ${percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়াহ প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}</span>
+              <span>অগ্রাধিকার: ${percentage >= 65 ? "জরুরি প্রত্যক্ষ পর্যবেক্ষণ কাম্য" : percentage >= 30 ? "নিয়মিত সুন্নাহ রুকইয়া প্রয়োজনীয়" : "সাধারণ মাসনুন আমল যথেষ্ট"}</span>
             </div>
 
             <!-- 3-Segment Severity Spectrum Meter -->
@@ -665,7 +665,7 @@ export function renderReportCover(data: AssessmentReportData): string {
             </span>
           </div>
           <p style="font-size: 8.5pt; color: #475569; line-height: 1.5; margin: 0;">
-            এই প্রতিবেদনটি ব্যবহারকারীর প্রদত্ত লক্ষণসমূহের ভিত্তিতে কুরআন ও সুন্নাহসম্মত রুকইয়াহ শারইয়াহর মূলনীতি অনুসারে প্রস্তুত করা হয়েছে। পরবর্তী পৃষ্ঠাগুলোতে প্রতিটি লক্ষণের বিশদ পর্যালোচনা, সুনির্দিষ্ট আমল ও কুরআনিক আয়াতের প্রেসক্রিপশন প্রদান করা হয়েছে।
+            এই প্রতিবেদনটি ব্যবহারকারীর প্রদত্ত লক্ষণসমূহের ভিত্তিতে কুরআন ও সুন্নাহসম্মত রুকইয়া শারইয়ার মূলনীতি অনুসারে প্রস্তুত করা হয়েছে। পরবর্তী পৃষ্ঠাগুলোতে প্রতিটি লক্ষণের বিশদ পর্যালোচনা, সুনির্দিষ্ট আমল ও কুরআনিক আয়াতের প্রেসক্রিপশন প্রদান করা হয়েছে।
           </p>
         </div>
       </div>
@@ -679,7 +679,7 @@ export function renderReportCover(data: AssessmentReportData): string {
 // PAGE 2: ASSESSMENT OVERVIEW & QUESTION-BY-QUESTION ANALYSIS
 // ---------------------------------------------------------------------------
 export function renderAssessmentOverview(data: AssessmentReportData): string {
-  const category = data.category || { title: "রুকইয়াহ মূল্যায়ন", subtitle: "", badge: "যাচাইকৃত", description: "" };
+  const category = data.category || { title: "রুকইয়া মূল্যায়ন", subtitle: "", badge: "যাচাইকৃত", description: "" };
   const evaluatedQuestions = data.evaluatedQuestions || [];
 
   return `
@@ -701,7 +701,7 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
         <div class="report-card" style="padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px;">
             <div style="font-size: 10pt; font-weight: 700; color: #0f172a;">
-              ${category.title || "রুকইয়াহ মূল্যায়ন"}${category.subtitle ? ` (${category.subtitle})` : ""}
+              ${category.title || "রুকইয়া মূল্যায়ন"}${category.subtitle ? ` (${category.subtitle})` : ""}
             </div>
             <span class="pdf-badge-category">
               <span>${category.badge || "যাচাইকৃত"}</span>
@@ -758,8 +758,8 @@ export function renderAssessmentOverview(data: AssessmentReportData): string {
             </span>
           </div>
           <ul style="margin: 0; padding-left: 16px; font-size: 8pt; color: #334155; line-height: 1.5;">
-            <li><strong>আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়াহ কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।</li>
-            <li><strong>শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়াহ সম্পূর্ণ স্বচ্ছ।</li>
+            <li><strong>আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়া কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।</li>
+            <li><strong>শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়া সম্পূর্ণ স্বচ্ছ।</li>
             <li><strong>আত্মিক পরিচ্ছন্নতা:</strong> পাঁচ ওয়াক্ত সালাত, হালাল উপার্জন ও নিয়মিত জিকির সুস্থতার ভিত্তি স্থাপন করে।</li>
           </ul>
         </div>
@@ -827,14 +827,14 @@ export function renderRecommendedActions(data: AssessmentReportData): string {
             <div style="background: #ffffff; padding: 9px 11px; border-radius: 6px; border: 1px solid #d1fae5;">
               <div style="font-size: 8.5pt; font-weight: 700; color: #065f46;">সকালের আমল (ফজর পর)</div>
               <div style="font-size: 7.5pt; color: #475569; margin-top: 3px; line-height: 1.45;">
-                সকালের মাসনুন জিকির, ৩ কুল পড়ে বুকে ফুঁ ও রুকইয়াহর পানি পান।
+                সকালের মাসনুন জিকির, ৩ কুল পড়ে বুকে ফুঁ ও রুকইয়ার পানি পান।
               </div>
             </div>
 
             <div style="background: #ffffff; padding: 9px 11px; border-radius: 6px; border: 1px solid #d1fae5;">
               <div style="font-size: 8.5pt; font-weight: 700; color: #065f46;">সন্ধ্যার আমল (মাগরিব পর)</div>
               <div style="font-size: 7.5pt; color: #475569; margin-top: 3px; line-height: 1.45;">
-                সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়াহর গোসল সম্পন্ন।
+                সন্ধ্যার হেফাজতের দোয়াসমূহ এবং প্রয়োজনবোধে রুকইয়ার গোসল সম্পন্ন।
               </div>
             </div>
 
@@ -885,7 +885,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
   return `
     <div class="report-section">
       <div class="report-content">
-        ${renderRunningHeader(data, "প্রস্তাবিত কুরআন তিলাওয়াত ও রুকইয়াহ আমল")}
+        ${renderRunningHeader(data, "প্রস্তাবিত কুরআন তিলাওয়াত ও রুকইয়া আমল")}
 
         <!-- Section Title Banner -->
         <div style="margin-bottom: 10px;">
@@ -893,7 +893,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
             SECTION 04 — QURANIC PRESCRIPTION & VERIFICATION
           </div>
           <h2 style="font-size: 13.5pt; font-weight: 700; color: #0f172a; margin: 2px 0 0 0;">
-            প্রস্তাবিত সূরা ও আয়াতসমূহ (রুকইয়াহ তিলাওয়াত)
+            প্রস্তাবিত সূরা ও আয়াতসমূহ (রুকইয়া তিলাওয়াত)
           </h2>
           <p style="font-size: 8.5pt; color: #64748b; margin: 2px 0 0 0;">
             রোগমুক্তি ও সুরক্ষার উদ্দেশ্যে বিশেষ গুরুত্বসহকারে নিয়মিত তিলাওয়াত ও শ্রবণ করুন:
@@ -934,7 +934,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
         ${audioLinks && audioLinks.length > 0 ? `
           <div class="report-card" style="padding: 8px 12px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; margin-bottom: 8px;">
             <div style="font-size: 8.5pt; font-weight: 700; color: #065f46; margin-bottom: 3px;">
-              প্রস্তাবিত রুকইয়াহ অডিও (মনোযোগ সহকারে শুনুন):
+              প্রস্তাবিত রুকইয়া অডিও (মনোযোগ সহকারে শুনুন):
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 5px;">
               ${audioLinks.map((a) => `
@@ -955,7 +955,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
             </div>
             <div>
               <div style="font-size: 9pt; font-weight: 700; color: #022c22;">
-                শিফা আল কুরআন রুকইয়াহ রিসার্চ বোর্ড
+                শিফা আল কুরআন রুকইয়া রিসার্চ বোর্ড
               </div>
               <div style="font-size: 7.5pt; color: #64748b;">
                 কুরআন ও সুন্নাহ ভিত্তিক নির্ভরযোগ্য চিকিৎসা পদ্ধতি
@@ -970,7 +970,7 @@ export function renderQuranicPrescriptions(data: AssessmentReportData): string {
 
         <!-- Medical & Shar'iah Disclaimer Box -->
         <div class="report-card" style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 7.5pt; color: #64748b; line-height: 1.4; margin-bottom: 8px;">
-          <strong style="color: #0f172a;">জরুরি শরঈ ও চিকিৎসা সতর্কতা:</strong> এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়াহ মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়াহ শারইয়াহ হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
+          <strong style="color: #0f172a;">জরুরি শরঈ ও চিকিৎসা সতর্কতা:</strong> এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়া মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়া শারইয়া হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
         </div>
 
         <!-- Official Center Contacts Strip -->

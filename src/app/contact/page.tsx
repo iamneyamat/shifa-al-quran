@@ -2,7 +2,7 @@ import { ContactClient } from "./contact-client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "যোগাযোগ | শিফা আল কুরআন",
+  title: "যোগাযোগ",
   description: "শিফা আল কুরআন এর সাথে যোগাযোগ করুন।",
 };
 

@@ -35,16 +35,17 @@ function LoginForm() {
     <>
       {(error || authError) && (
         <div className="mb-6 bg-red-900/50 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg text-sm">
-          {error || (authError === 'unauthorized' ? 'আপনার এই কাজটি করার অনুমতি নেই (Unauthorized)।' : authError)}
+          {error || (authError === 'unauthorized' ? 'আপনার এই কাজটি করার অনুমতি নেই।' : 'লগইন করা যায়নি। আবার চেষ্টা করুন।')}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="admin-email" className="block text-sm font-medium text-gray-300 mb-2">
             Email
           </label>
           <input
+            id="admin-email"
             type="email"
             name="email"
             required
@@ -54,10 +55,11 @@ function LoginForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="admin-password" className="block text-sm font-medium text-gray-300 mb-2">
             Password
           </label>
           <input
+            id="admin-password"
             type="password"
             name="password"
             required

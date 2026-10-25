@@ -44,7 +44,7 @@ export function calculateDiagnosisResult(
 
   if (percentage > 65) {
     level = "high";
-    levelTitle = "উচ্চ ঝুঁকি (গভীর রুকইয়াহ প্রয়োজন)";
+    levelTitle = "উচ্চ ঝুঁকি (গভীর রুকইয়া প্রয়োজন)";
     levelColor = {
       text: "text-rose-600 dark:text-rose-400",
       bg: "bg-rose-100/80 dark:bg-rose-500/10",
@@ -54,7 +54,7 @@ export function calculateDiagnosisResult(
     };
   } else if (percentage > 30) {
     level = "medium";
-    levelTitle = "মাঝারি ঝুঁকি (নিয়মিত রুকইয়াহ প্রয়োজন)";
+    levelTitle = "মাঝারি ঝুঁকি (নিয়মিত রুকইয়া প্রয়োজন)";
     levelColor = {
       text: "text-amber-600 dark:text-amber-400",
       bg: "bg-amber-100/80 dark:bg-amber-500/10",
@@ -76,7 +76,7 @@ export function calculateDiagnosisResult(
       "পাঁচ ওয়াক্ত সালাত সময়মত জামায়াতে আদায় করুন এবং কবিরা গুনাহ থেকে বেঁচে থাকুন।",
     ],
     recommendedSurahs: ["সূরা আল-ফাতিহা", "আয়াতুল কুরসি", "তিন কুল (ইখলাস, ফালাক, নাস)"],
-    audioLinks: [{ title: "রুকইয়াহ অডিও কালেকশন", href: "/audio" }],
+    audioLinks: [{ title: "রুকইয়া অডিও কালেকশন", href: "/audio" }],
   };
 
   const prescription = category.prescriptions?.[level] || defaultPrescription;

@@ -4,23 +4,48 @@ import * as React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, User, ChevronRight, Search, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// next/image শুধু অনুমোদিত হোস্টের ছবিতেই চলে (next.config-এর remotePatterns)।
+// CMS-এর ছবি সাধারণত Supabase-এ থাকে; অন্য হোস্টের ছবি হলে আগের মতো <img>
+// ব্যবহার হবে, যাতে অচেনা URL-এর জন্য পেজ ভাঙে না।
+function isOptimizableImage(url: string): boolean {
+  try {
+    const host = new URL(url).hostname;
+    return host.endsWith(".supabase.co") || host === "files.ruqyahbd.org" || host === "saq.pro.bd";
+  } catch {
+    return false;
+  }
+}
+
+function CoverImage({ src, alt, sizes }: { src: string; alt: string; sizes: string }) {
+  if (isOptimizableImage(src)) {
+    return <Image src={src} alt={alt} fill sizes={sizes} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />;
+  }
+  return <img src={src} alt={alt} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function BlogClient({ initialPosts, initialCategories }: { initialPosts: any[], initialCategories: any[] }) {
+export function BlogClient({ initialPosts, initialCategories, loadError = false }: { initialPosts: any[], initialCategories: any[], loadError?: boolean }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("সব");
 
   const categories = ["সব", ...initialCategories.map(c => c.name)];
 
-  const formattedPosts = initialPosts.map(post => {
+  // খালি slug-এর পোস্ট /blog/ লিংক ভাঙত, তাই তালিকা থেকেই বাদ।
+  // তারিখ: প্রকাশের তারিখ দেখানো হয়, না থাকলে তৈরির তারিখ (আগে সর্ট
+  // published_at দিয়ে হলেও দেখানো হতো created_at)।
+  const formattedPosts = initialPosts.filter(post => post.slug).map(post => {
+    const displayDate = post.published_at || post.created_at;
     return {
       id: post.id,
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
       category: post.category?.name || 'Uncategorized',
-      date: new Date(post.created_at).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }),
+      date: displayDate ? new Date(displayDate).toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
       author: 'শিফা আল কুরআন',
       readTime: '৫ মিনিট', // Calculate if needed based on length
       isFeatured: post.featured,
@@ -118,7 +143,7 @@ export function BlogClient({ initialPosts, initialCategories }: { initialPosts: 
               <div className="bg-white dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl sm:rounded-[40px] border border-light-border dark:border-slate-800 shadow-xl overflow-hidden flex flex-col md:flex-row hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500">
                 <div className="md:w-1/2 relative h-52 sm:h-64 md:h-auto overflow-hidden bg-emerald-900/20">
                   {featuredPost.cover_image_url ? (
-                    <img src={featuredPost.cover_image_url} alt={featuredPost.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <CoverImage src={featuredPost.cover_image_url} alt={featuredPost.title} sizes="(max-width: 768px) 100vw, 50vw" />
                   ) : (
                     <>
                       <div className="absolute inset-0 bg-emerald-900 flex items-center justify-center text-emerald-500">
@@ -177,7 +202,7 @@ export function BlogClient({ initialPosts, initialCategories }: { initialPosts: 
                   {/* Image Section */}
                   <Link href={`/blog/${post.slug}`} className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 block">
                     {post.cover_image_url ? (
-                      <img src={post.cover_image_url} alt={post.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <CoverImage src={post.cover_image_url} alt={post.title} sizes="(max-width: 768px) 100vw, 33vw" />
                     ) : (
                       <div className="absolute inset-0 bg-emerald-900/10 flex items-center justify-center">
                         <span className="text-xl font-bold opacity-20 text-emerald-900 dark:text-emerald-500">শিফা আল কুরআন</span>
@@ -225,7 +250,19 @@ export function BlogClient({ initialPosts, initialCategories }: { initialPosts: 
 
           {displayPosts.length === 0 && (
             <div className="text-center py-20 text-light-text dark:text-slate-400">
-              দুঃখিত, কোনো আর্টিকেল পাওয়া যায়নি।
+              {loadError ? (
+                <>
+                  <p>লেখা আনতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-4 rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-bold text-white"
+                  >
+                    আবার চেষ্টা করুন
+                  </button>
+                </>
+              ) : (
+                "দুঃখিত, কোনো আর্টিকেল পাওয়া যায়নি।"
+              )}
             </div>
           )}
         </div>

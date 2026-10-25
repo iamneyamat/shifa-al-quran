@@ -11,15 +11,25 @@ import {
 export function ContactClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
 
+  // No contact backend exists in this project, so the form hands the
+  // message to the business WhatsApp number (already the site's contact
+  // channel). Nothing is claimed as sent until the user taps Send there.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const text = `আসসালামু আলাইকুম, আমি ${name.trim()} (${phone.trim()})।\n${message.trim()}`;
+    window.open(
+      `https://wa.me/8801353301772?text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
     setIsSubmitting(false);
     setIsSuccess(true);
-    setTimeout(() => setIsSuccess(false), 5000);
+    setTimeout(() => setIsSuccess(false), 8000);
   };
 
   return (
@@ -34,8 +44,8 @@ export function ContactClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[min(500px,120vw)] h-[500px] bg-emerald-400/10 dark:bg-emerald-800/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-[min(600px,120vw)] h-[600px] bg-blue-400/10 dark:bg-blue-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 max-w-7xl">
         
@@ -99,8 +109,8 @@ export function ContactClient() {
               
               <div className="flex items-center gap-3 mb-6 sm:mb-8 pb-4 sm:pb-8 border-b border-light-border dark:border-slate-800/50">
                 <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 shrink-0" />
-                <h3 className="text-lg sm:text-xl font-bold text-red-500">জরুরি প্রয়োজনে</h3>
-                <span className="text-light-text dark:text-slate-400 text-xs sm:text-sm ml-auto">২৪/৭ খোলা</span>
+                <h2 className="text-lg sm:text-xl font-bold text-red-500">জরুরি প্রয়োজনে</h2>
+                <span className="text-light-text dark:text-slate-400 text-xs sm:text-sm ml-auto">অফিস: শনি–বৃহস্পতি</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 relative z-10">
@@ -109,7 +119,7 @@ export function ContactClient() {
                     <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm sm:text-[15px] font-bold text-light-heading dark:text-slate-200 mb-0.5 sm:mb-1">অফিসের ঠিকানা</h4>
+                    <h3 className="text-sm sm:text-[15px] font-bold text-light-heading dark:text-slate-200 mb-0.5 sm:mb-1">অফিসের ঠিকানা</h3>
                     <p className="text-light-text dark:text-slate-400 text-xs sm:text-sm leading-relaxed">#535/C Khilgaon, Dhaka<br/>(বিস্তারিত জানতে কল করুন)</p>
                   </div>
                 </div>
@@ -119,7 +129,7 @@ export function ContactClient() {
                     <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
-                    <h4 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">অফিস সময়সূচী</h4>
+                    <h3 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">অফিস সময়সূচী</h3>
                     <p className="text-light-text dark:text-slate-400 text-sm leading-relaxed">শনি - বৃহস্পতি: সকাল ১০টা - রাত ৮টা<br/><span className="text-red-500 font-medium">শুক্রবার: বন্ধ</span></p>
                   </div>
                 </div>
@@ -129,7 +139,7 @@ export function ContactClient() {
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">ইমেইল</h4>
+                    <h3 className="text-[15px] font-bold text-light-heading dark:text-slate-200 mb-1">ইমেইল</h3>
                     <p className="text-light-text dark:text-slate-400 text-sm leading-relaxed">shifaalquran11@gmail.com</p>
                   </div>
                 </div>
@@ -138,14 +148,15 @@ export function ContactClient() {
 
             {/* Interactive Google Map Container */}
             <div className="rounded-3xl overflow-hidden h-[300px] border border-light-border dark:border-slate-800 shadow-sm relative bg-slate-100 dark:bg-slate-800">
-              {/* Note: This is an iframe pointing to Mirpur 10, Dhaka. You can replace the src with your actual Google Maps embed URL */}
+              {/* Google Maps embed for Khilgaon, Dhaka — matches the office address above. */}
               <iframe 
                 src="https://maps.google.com/maps?q=Khilgaon,%20Dhaka&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
                 allowFullScreen={true} 
-                loading="lazy" 
+                loading="lazy"
+                title="শিফা আল কুরআন অফিসের অবস্থান — খিলগাঁও, ঢাকা"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 w-full h-full grayscale-[20%] contrast-[1.1] dark:invert dark:grayscale-[50%] dark:hue-rotate-180"
               ></iframe>
@@ -164,7 +175,7 @@ export function ContactClient() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-light-heading dark:text-white mb-1.5 sm:mb-2 relative z-10">আমাদের মেসেজ দিন</h2>
-              <p className="text-sm sm:text-base text-light-text dark:text-slate-400 mb-6 sm:mb-8 relative z-10">যেকোনো প্রশ্ন থাকলে সরাসরি এখানে লিখে পাঠাতে পারেন।</p>
+              <p className="text-sm sm:text-base text-light-text dark:text-slate-400 mb-6 sm:mb-8 relative z-10">লিখে পাঠালে মেসেজটি হোয়াটসঅ্যাপে খুলবে — সেখানে Send চাপলেই আমাদের কাছে পৌঁছাবে।</p>
               
               {isSuccess ? (
                 <motion.div 
@@ -175,8 +186,8 @@ export function ContactClient() {
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mb-4 sm:mb-6">
                     <Send className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-light-heading dark:text-white mb-2">মেসেজ পাঠানো হয়েছে!</h3>
-                  <p className="text-sm sm:text-base text-light-text dark:text-slate-400">আমরা শীঘ্রই আপনার সাথে যোগাযোগ করবো ইনশাআল্লাহ।</p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-light-heading dark:text-white mb-2">মেসেজ হোয়াটসঅ্যাপে খোলা হয়েছে!</h3>
+                  <p className="text-sm sm:text-base text-light-text dark:text-slate-400">হোয়াটসঅ্যাপে Send চাপলেই মেসেজটি আমাদের কাছে পৌঁছাবে, এরপর আমরা যোগাযোগ করবো ইনশাআল্লাহ।</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 relative z-10">
@@ -186,7 +197,9 @@ export function ContactClient() {
                       type="text" 
                       id="name" 
                       className="flex h-12 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
-                      placeholder="নাম লিখুন" 
+                      placeholder="নাম লিখুন"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       required 
                     />
                   </div>
@@ -197,7 +210,9 @@ export function ContactClient() {
                       type="tel" 
                       id="phone" 
                       className="flex h-12 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500" 
-                      placeholder="01XXXXXXXXX" 
+                      placeholder="01XXXXXXXXX"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       required 
                     />
                   </div>
@@ -208,7 +223,9 @@ export function ContactClient() {
                       id="message" 
                       rows={4} 
                       className="flex w-full rounded-xl sm:rounded-2xl border border-light-border dark:border-slate-800 bg-slate-50 dark:bg-[#020817]/50 px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-[15px] shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 resize-none" 
-                      placeholder="আপনার জিজ্ঞাসা বা বিস্তারিত লিখুন..." 
+                      placeholder="আপনার জিজ্ঞাসা বা বিস্তারিত লিখুন..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       required
                     />
                   </div>

@@ -9,7 +9,7 @@ export function TestimonialsClient() {
     {
       name: "আব্দুর রহমান",
       location: "ঢাকা",
-      review: "আলহামদুলিল্লাহ, দীর্ঘদিন ধরে শারীরিক ও মানসিক সমস্যায় ভুগছিলাম। শিফা আল কুরআনে রুকইয়াহ করানোর পর আল্লাহর রহমতে এখন সম্পূর্ণ সুস্থ। তাদের সুন্নাহ সম্মত চিকিৎসা পদ্ধতি সত্যিই অসাধারণ।",
+      review: "আলহামদুলিল্লাহ, দীর্ঘদিন ধরে শারীরিক ও মানসিক সমস্যায় ভুগছিলাম। শিফা আল কুরআনে রুকইয়া করানোর পর আল্লাহর রহমতে এখন সম্পূর্ণ সুস্থ। তাদের সুন্নাহ সম্মত চিকিৎসা পদ্ধতি সত্যিই অসাধারণ।",
     },
     {
       name: "নাম প্রকাশে অনিচ্ছুক",
@@ -19,7 +19,7 @@ export function TestimonialsClient() {
     {
       name: "উম্মে ফাতিমা",
       location: "চট্টগ্রাম",
-      review: "জিনের সমস্যার কারণে স্বাভাবিক জীবনযাপন কঠিন হয়ে পড়েছিল। উনাদের কাছে রুকইয়াহ সেশনের পর আল্লাহর রহমতে আমি সম্পূর্ণ সুস্থ। সবচেয়ে ভালো লেগেছে যে উনারা শিরক ও বিদআতমুক্ত চিকিৎসা করেন।",
+      review: "জিনের সমস্যার কারণে স্বাভাবিক জীবনযাপন কঠিন হয়ে পড়েছিল। উনাদের কাছে রুকইয়া সেশনের পর আল্লাহর রহমতে আমি সম্পূর্ণ সুস্থ। সবচেয়ে ভালো লেগেছে যে উনারা শিরক ও বিদআতমুক্ত চিকিৎসা করেন।",
     },
   ];
 
@@ -35,7 +35,7 @@ export function TestimonialsClient() {
       />
       
       {/* Soft Background Gradients */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[min(500px,120vw)] h-[500px] bg-emerald-400/10 dark:bg-emerald-900/20 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 md:pt-32 md:pb-24 max-w-7xl">
         <motion.div 

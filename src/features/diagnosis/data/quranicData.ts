@@ -94,26 +94,39 @@ export const quranicVerseRepository: Record<string, QuranicVerseItem> = {
 export function getQuranicVersesForPrescription(surahs: string[] = []): QuranicVerseItem[] {
   const result: QuranicVerseItem[] = [];
 
+  // Normalise for matching only: strip ayah ranges, "আল-" and spaces.
+  // This lets "সূরা বাকারা" match "সূরা আল-বাকারা" and "সূরা ফাতিহা"
+  // match "সূরা আল-ফাতিহা" without inventing any verse text.
+  const normalise = (s: string) =>
+    s.replace(/\([^)]*\)/g, "").replace(/আল-/g, "").replace(/\s+/g, "").trim();
+
   for (const surah of surahs) {
-    let found = false;
-    for (const [key, item] of Object.entries(quranicVerseRepository)) {
-      if (surah.includes(key) || key.includes(surah)) {
-        result.push(item);
-        found = true;
-        break;
+    // Split compounds such as "সূরা ফালাক ও নাস" so no part is silently dropped.
+    const parts = surah.split(/\s+ও\s+|,\s*/).map((s) => s.trim()).filter(Boolean);
+    for (const part of parts) {
+      let found = false;
+      const normPart = normalise(part);
+      for (const [key, item] of Object.entries(quranicVerseRepository)) {
+        const normKey = normalise(key);
+        if (normPart.includes(normKey) || normKey.includes(normPart)) {
+          result.push(item);
+          found = true;
+          break;
+        }
       }
-    }
-    if (!found) {
-      result.push({
-        surahName: surah,
-        arabicName: "ذِكْرٌ وَدُعَاءٌ مَأْثُورٌ",
-        reference: "সহিহ হাদিসের মাসনুন আমল",
-        arabicText:
-          "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ • حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
-        translationBn:
-          "আমি আল্লাহর পূর্ণাঙ্গ কালিমাসমূহের ওসিলায় তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোনো ইলাহ নেই...",
-        instruction: "সকাল ও সন্ধ্যায় ৩ বার পাঠ করুন ও পানিতে দম করে পান করুন।",
-      });
+      if (!found) {
+        // Honest fallback: never label a generic dua as a named surah.
+        result.push({
+          surahName: "সাধারণ মাসনুন দোয়া",
+          arabicName: "ذِكْرٌ وَدُعَاءٌ مَأْثُورٌ",
+          reference: "সহিহ হাদিসের মাসনুন আমল",
+          arabicText:
+            "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ • حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+          translationBn:
+            "আমি আল্লাহর পূর্ণাঙ্গ কালিমাসমূহের ওসিলায় তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোনো ইলাহ নেই...",
+          instruction: "সকাল ও সন্ধ্যায় ৩ বার পাঠ করুন ও পানিতে দম করে পান করুন।",
+        });
+      }
     }
   }
 

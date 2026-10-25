@@ -110,10 +110,17 @@ export default function ArticleEditor({
       return
     }
 
+    // Extension allowlist (previously any extension from the filename was
+    // kept, e.g. .svg/.html). Client check only — storage policy still
+    // governs server-side; this stops accidental wrong-type uploads here.
+    const ext = (file.name.split('.').pop() || '').toLowerCase()
+    if (!['png', 'jpg', 'jpeg', 'webp'].includes(ext)) {
+      setError('Only PNG, JPG, JPEG or WebP images are allowed.')
+      return
+    }
+
     setUploading(true)
     setError(null)
-
-    const ext = file.name.split('.').pop()
     const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`
 
     const { error: uploadError } = await supabase.storage.from('cms-images').upload(fileName, file)

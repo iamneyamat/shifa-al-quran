@@ -35,7 +35,7 @@ export function FoundationSection() {
         <Reveal className="max-w-3xl">
           <h2 className="type-title text-ink-strong">কুরআন ও সুন্নাহর প্রমাণ</h2>
           <p className="type-body-lg mt-5 text-ink-body">
-            রুকইয়াহ শারইয়াহ কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং
+            রুকইয়া শারইয়া কোনো নতুন বা মনগড়া চিকিৎসা নয়, বরং এটি স্বয়ং
             আল্লাহ এবং তাঁর রাসূল (সা.) থেকে প্রমাণিত।
           </p>
         </Reveal>
