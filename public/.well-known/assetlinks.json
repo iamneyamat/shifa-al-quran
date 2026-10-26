@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.iamneyamat.shifaalquranapp",
+      "sha256_cert_fingerprints": [
+        "1D:A2:EF:11:B2:FE:4E:0F:0D:49:E5:FE:DC:A2:03:91:F1:7A:8C:CC:7D:9A:1E:EF:63:BD:CE:4F:F4:D0:1A:34"
+      ]
+    }
+  }
+]
