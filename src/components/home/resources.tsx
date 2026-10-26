@@ -5,7 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { Headphones, BookOpen, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 
-const audioCategories = ["বদনজর", "জাদু ও জিন", "তেলাওয়াত", "অন্যান্য"];
+const audioCategories = ["বদনজর", "জাদু ও জিন", "তিলাওয়াত", "অন্যান্য"];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },

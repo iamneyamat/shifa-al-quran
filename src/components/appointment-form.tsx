@@ -123,7 +123,7 @@ export function AppointmentForm() {
       setDiagnosisContext(diagData);
 
       // Pre-fill problem field if empty
-      const defaultProblemText = `[সেলফ রুকইয়াহ ডায়াগনোসিস ফলাফল সিঙ্কড]\nপরীক্ষা: ${titleParam}\nঝুঁকির মাত্রা: ${levelParam === 'high' ? 'উচ্চ ঝুঁকি' : levelParam === 'medium' ? 'মাঝারি ঝুঁকি' : 'স্বাভাবিক/মৃদু'}\nস্কোর: ${scoreParam}/${maxScoreParam}\nস্বাস্থ্যগত উপসর্গ ও অতিরিক্ত বিবরণ: `;
+      const defaultProblemText = `[সেলফ রুকইয়া ডায়াগনোসিস ফলাফল সিঙ্কড]\nপরীক্ষা: ${titleParam}\nঝুঁকির মাত্রা: ${levelParam === 'high' ? 'উচ্চ ঝুঁকি' : levelParam === 'medium' ? 'মাঝারি ঝুঁকি' : 'স্বাভাবিক/মৃদু'}\nস্কোর: ${scoreParam}/${maxScoreParam}\nস্বাস্থ্যগত উপসর্গ ও অতিরিক্ত বিবরণ: `;
       
       setValue("problem", defaultProblemText);
     }

@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "তাবিজ নষ্টের নিয়ম",
   description:
-    "শিরকী তাবিজ, জাদুর নকশা ও কুফরি জিনিস শরীয়াহসম্মত সুন্নাহ পদ্ধতিতে নষ্ট ও নিষ্ক্রিয়করণের পূর্ণাঙ্গ নির্দেশিকা।",
+    "শিরকী তাবিজ, জাদুর নকশা ও কুফরি জিনিস শারইয়াসম্মত সুন্নাহ পদ্ধতিতে নষ্ট ও নিষ্ক্রিয়করণের পূর্ণাঙ্গ নির্দেশিকা।",
 };
 
 export default function DestroyAmuletsPage() {
@@ -86,7 +86,7 @@ export default function DestroyAmuletsPage() {
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-gold-ink text-xs font-semibold mb-3 sm:mb-4 shadow-sm backdrop-blur-md">
             <FileX2 className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <span>শরীয়াহসম্মত সুন্নাহ পদ্ধতি</span>
+            <span>শারইয়াসম্মত সুন্নাহ পদ্ধতি</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-zinc-100 tracking-tight leading-tight mb-3 sm:mb-4">

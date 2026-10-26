@@ -156,7 +156,7 @@ export function Hero() {
 
                   <div className="relative z-10">
                     <span className="inline-block rounded-full border border-gold-ornament/40 bg-gold-soft/40 dark:bg-gold-soft/20 px-3 sm:px-4 py-1 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-amber-900 dark:text-gold-ink tracking-wider uppercase mb-3 sm:mb-4 shadow-sm backdrop-blur-md">
-                      ঐশী আরোগ্য ও রহমত
+                      আল্লাহর দেওয়া আরোগ্য ও রহমত
                     </span>
 
                     {/* High-Contrast Crisp Arabic Calligraphy */}

@@ -63,7 +63,7 @@ export function ContactClient() {
             আমাদের সাথে <span className="text-emerald-600 dark:text-emerald-400">যোগাযোগ</span> করুন
           </h1>
           <p className="text-sm sm:text-lg md:text-2xl text-light-text dark:text-slate-300 leading-relaxed max-w-3xl mx-auto font-medium">
-            যেকোনো জিজ্ঞাসা, পরামর্শ অথবা সিরিয়াল বুকিংয়ের জন্য আমাদের সাথে যোগাযোগ করুন। আমরা আপনার সেবায় সদা প্রস্তুত।
+            যেকোনো জিজ্ঞাসা, পরামর্শ অথবা সিরিয়াল বুকিংয়ের জন্য আমাদের সাথে যোগাযোগ করুন। যেকোনো জিজ্ঞাসা থাকলে কল করুন বা মেসেজ দিন।
           </p>
         </motion.div>
 

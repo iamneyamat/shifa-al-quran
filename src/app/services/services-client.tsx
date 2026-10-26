@@ -42,7 +42,7 @@ function AnimatedCounter({ value, duration = 2, suffix = "" }: { value: number, 
 
 
 // --- Services Data ---
-const categories = ["সবগুলো", "জাদুটোনা", "বদনজর", "জ্বিন", "মানসিক সমস্যা", "পারিবারিক"];
+const categories = ["সবগুলো", "জাদুটোনা", "বদনজর", "জিন", "মানসিক সমস্যা", "পারিবারিক"];
 
 const services = [
   {
@@ -56,13 +56,13 @@ const services = [
     id: "nazar",
     category: "বদনজর",
     title: "বদনজর (আইন)",
-    description: "বদনজরের কারণে হওয়া হঠাৎ অসুস্থতা, ব্যবসায় ক্ষতি বা পড়াশোনায় অমনোযোগিতার চিকিৎসা। মানুষের কুনজর থেকে বাঁচতে সুন্নাহ সম্মত আমল।",
+    description: "বদনজরের কারণে হওয়া হঠাৎ অসুস্থতা, ব্যবসায় ক্ষতি বা পড়াশোনায় অমনোযোগিতার চিকিৎসা। মানুষের কুনজর থেকে বাঁচতে সুন্নাহসম্মত আমল।",
     icon: EyeOff,
   },
   {
     id: "jinn",
-    category: "জ্বিন",
-    title: "জ্বিন আছর",
+    category: "জিন",
+    title: "জিন আছর",
     description: "জিনের উপদ্রব, ভয় পাওয়া, বা অস্বাভাবিক আচরণের জন্য বিশেষ রুকইয়া। কুরআন তিলাওয়াতের মাধ্যমে রোগীর উপর থেকে জিনের প্রভাব দূর করা।",
     icon: Users,
   },
@@ -70,7 +70,7 @@ const services = [
     id: "mental",
     category: "মানসিক সমস্যা",
     title: "মানসিক অস্থিরতা",
-    description: "অতিরিক্ত দুশ্চিন্তা, হতাশা, ডিপ্রেশন এবং মানসিক অবসাদ দূর করতে রুকইয়া। আত্মিক শান্তির জন্য কুরআনিক কাউন্সেলিং।",
+    description: "অতিরিক্ত দুশ্চিন্তা, হতাশা, ডিপ্রেশন এবং মানসিক অবসাদ দূর করতে রুকইয়া। আত্মিক শান্তির জন্য কুরআনভিত্তিক পরামর্শ।",
     icon: Brain,
   },
   {
@@ -84,7 +84,7 @@ const services = [
     id: "family",
     category: "পারিবারিক",
     title: "পারিবারিক কলহ",
-    description: "স্বামী-স্ত্রীর অমিল বা পরিবারে অশান্তি দূর করতে সুন্নাহ সম্মত পরামর্শ ও রুকইয়া। বদনজর বা জাদুর কারণে সৃষ্ট পারিবারিক সমস্যার সমাধান।",
+    description: "স্বামী-স্ত্রীর অমিল বা পরিবারে অশান্তি দূর করতে সুন্নাহসম্মত পরামর্শ ও রুকইয়া। বদনজর বা জাদুর কারণে সৃষ্ট পারিবারিক সমস্যার সমাধান।",
     icon: Frown,
   }
 ];
@@ -140,7 +140,7 @@ export function ServicesClient() {
             {[
               { label: "সমাধানকৃত কেস", value: 20000, suffix: "+" },
               { label: "অভিজ্ঞ রাকি", value: 20, suffix: "+" },
-              { label: "পারিবারিক কাউন্সেলিং", value: 5000, suffix: "+" },
+              { label: "পারিবারিক পরামর্শ", value: 5000, suffix: "+" },
               { label: "সন্তুষ্ট রোগী", value: 98, suffix: "%" }
             ].map((stat, idx) => (
               <motion.div 
@@ -275,7 +275,7 @@ export function ServicesClient() {
             
             <div className="relative z-10">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3 sm:mb-6 tracking-tight leading-tight text-center">
-                আপনার সুস্থতার যাত্রা আজই শুরু করুন
+                আজই সেশন বুক করুন
               </h2>
               <p className="text-emerald-50 text-sm sm:text-lg max-w-3xl mx-auto mb-6 sm:mb-10 opacity-90 leading-relaxed text-center">
                 সঠিক সুন্নাহ ভিত্তিক চিকিৎসার মাধ্যমে নিজে সুস্থ থাকুন এবং পরিবারকে নিরাপদে রাখুন।

@@ -464,17 +464,17 @@ export function DiagnosisResultView() {
             </div>
           </div>
 
-          {/* SECTION 02 — OVERVIEW & EVALUATION (from PDF Page 2) */}
+          {/* ২. আপনার লক্ষণ (from PDF Page 2) */}
           <div className="mb-10 sm:mb-12 pt-6 sm:pt-8 border-t border-slate-200/80 dark:border-white/10">
             <div className="mb-6">
               <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest block mb-1">
-                SECTION 02 — OVERVIEW & EVALUATION
+                ২. আপনার লক্ষণ
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-zinc-100">
                 অ্যাসেসমেন্ট বিশ্লেষণ ও প্রশ্নোত্তর পর্যালোচনা
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">
-                আপনার প্রদত্ত উত্তরের ভিত্তিতে লক্ষণের বিশদ মূল্যায়ন ও শরঈ আরোগ্যের মূলনীতি
+                আপনার প্রদত্ত উত্তরের ভিত্তিতে লক্ষণের বিশদ মূল্যায়ন ও শারইয়া আরোগ্যের মূলনীতি
               </p>
             </div>
 
@@ -544,12 +544,12 @@ export function DiagnosisResultView() {
               <div className="flex items-center gap-2 mb-2.5">
                 <span className="w-2 h-2 rounded-full bg-amber-600 dark:bg-amber-400" />
                 <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-zinc-100">
-                  শরঈ দৃষ্টিকোণ ও সুন্নাহসম্মত আরোগ্যের মূলনীতি
+                  শারইয়া দৃষ্টিকোণ ও সুন্নাহসম্মত আরোগ্যের মূলনীতি
                 </h4>
               </div>
               <ul className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-zinc-300 pl-4 list-disc leading-relaxed">
                 <li>
-                  <strong className="text-slate-900 dark:text-zinc-100">আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়া কোনো জাদুকরি চিকিৎসা নয়, বরং আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।
+                  <strong className="text-slate-900 dark:text-zinc-100">আরোগ্য কেবল আল্লাহর হাতে:</strong> রুকইয়া আল্লাহর কালামের মাধ্যমে আরোগ্যের সুন্নাহসম্মত উপায়।
                 </li>
                 <li>
                   <strong className="text-slate-900 dark:text-zinc-100">শিরক ও বিদআতের বর্জন:</strong> তাবিজে কোনো অজ্ঞাত সংখ্যা, প্রতীক বা অস্পষ্ট বাক্য থাকলে তা বর্জনীয়। সুন্নাহসম্মত রুকইয়া সম্পূর্ণ স্বচ্ছ।
@@ -561,11 +561,11 @@ export function DiagnosisResultView() {
             </div>
           </div>
 
-          {/* SECTION 03 — RECOMMENDED ACTIONS & DAILY PROTOCOL (from PDF Page 3) */}
+          {/* ৩. করণীয় আমল & DAILY PROTOCOL (from PDF Page 3) */}
           <div className="mb-10 sm:mb-12 pt-6 sm:pt-8 border-t border-slate-200/80 dark:border-white/10">
             <div className="mb-6">
               <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest block mb-1">
-                SECTION 03 — RECOMMENDED ACTIONS
+                ৩. করণীয় আমল
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-zinc-100">
                 সুন্নাহসম্মত নির্দেশিকা ও চিকিৎসাক্রম
@@ -640,11 +640,11 @@ export function DiagnosisResultView() {
             </div>
           </div>
 
-          {/* SECTION 04 — QURANIC PRESCRIPTION (from PDF Page 4) */}
+          {/* ৪. প্রস্তাবিত তিলাওয়াত (from PDF Page 4) */}
           <div className="mb-10 sm:mb-12 pt-6 sm:pt-8 border-t border-slate-200/80 dark:border-white/10">
             <div className="mb-6">
               <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest block mb-1">
-                SECTION 04 — QURANIC PRESCRIPTION
+                ৪. প্রস্তাবিত তিলাওয়াত
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-zinc-100">
                 নির্ধারিত কুরআনি প্রেসক্রিপশন ও দোয়া
@@ -784,7 +784,7 @@ export function DiagnosisResultView() {
             </div>
             <div className="text-center sm:text-right">
               <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-zinc-100">অনুমোদিত তত্ত্বাবধায়ক</div>
-              <div className="text-xs text-slate-500 dark:text-zinc-400">সার্টিফাইড শরঈ রাকি টিম</div>
+              <div className="text-xs text-slate-500 dark:text-zinc-400">সার্টিফাইড শারইয়া রাকি টিম</div>
             </div>
           </div>
 
@@ -792,7 +792,7 @@ export function DiagnosisResultView() {
           <div className="p-4 sm:p-5 rounded-2xl bg-slate-100/70 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-8 flex items-start gap-3">
             <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <strong className="text-slate-900 dark:text-zinc-100 font-bold">জরুরি শরঈ ও চিকিৎসা সতর্কতা: </strong>
+              <strong className="text-slate-900 dark:text-zinc-100 font-bold">জরুরি শারইয়া ও চিকিৎসা সতর্কতা: </strong>
               এটি শিফা আল কুরআন প্ল্যাটফর্মের স্বয়ংক্রিয় রুকইয়া মূল্যায়ন রিপোর্ট। কুরআন ও সহিহ হাদিসের নির্দেশনার আলোকে প্রস্তুতকৃত। রুকইয়া শারইয়া হলো আত্মিক রোগমুক্তি ও হিফাযতের সুন্নাহসম্মত মাধ্যম। কোনো গুরুতর বা দীর্ঘস্থায়ী শারীরিক ও মানসিক রোগের ক্ষেত্রে রেজিস্টার্ড চিকিৎসকের চিকিৎসা এবং সুন্নাহ আমল উভয়টি একসাথে চালিয়ে যাওয়া ইসলামের বিধান।
             </div>
           </div>
