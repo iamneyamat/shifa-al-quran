@@ -2,7 +2,40 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { MessageSquareQuote, Star, Play, Music } from "lucide-react";
+import { MessageSquareQuote, Star, Play, Music, X, ExternalLink } from "lucide-react";
+
+/** Extract a YouTube video id from watch / youtu.be / shorts / embed / live URLs. */
+function getYouTubeId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("youtu.be")) {
+      const id = parsed.pathname.replace("/", "");
+      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+    }
+    if (parsed.hostname.includes("youtube.com")) {
+      const v = parsed.searchParams.get("v");
+      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+      const match = parsed.pathname.match(/\/(?:shorts|embed|live)\/([A-Za-z0-9_-]{11})/);
+      if (match) return match[1];
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+/** Facebook Reels and fb.watch links cannot be embedded reliably — they open on Facebook instead. */
+function isFacebookEmbeddable(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.includes("facebook.com") && !parsed.hostname.includes("fb.watch")) return false;
+    if (parsed.hostname.includes("fb.watch")) return false;
+    if (/\/reel(s)?\//.test(parsed.pathname)) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export type Testimonial = {
   id: string;
@@ -19,6 +52,26 @@ export type Testimonial = {
 };
 
 export function TestimonialsClient({ testimonials }: { testimonials: Testimonial[] }) {
+  const [activeVideo, setActiveVideo] = React.useState<{ url: string; name: string } | null>(null);
+
+  // Close the popup with Escape, and lock background scroll while it is open.
+  React.useEffect(() => {
+    if (!activeVideo) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveVideo(null);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [activeVideo]);
+
+  const youtubeId = activeVideo ? getYouTubeId(activeVideo.url) : null;
+  const isDirectVideo = activeVideo ? /\.mp4(\?|#|$)/i.test(activeVideo.url) : false;
+
   return (
     <div className="bg-light-bg-main dark:bg-[#020817] min-h-screen relative font-sans overflow-hidden">
       
@@ -89,14 +142,13 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
                 ) : null}
                 {t.media_type === 'video' && t.video_url ? (
                   <div className="relative z-10 mb-6">
-                    <a
-                      href={t.video_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideo({ url: t.video_url as string, name: t.customer_name })}
                       className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
                     >
                       <Play className="w-4 h-4" /> ভিডিও দেখুন
-                    </a>
+                    </button>
                   </div>
                 ) : null}
                 {t.media_type === 'audio' && t.audio_url ? (
@@ -120,6 +172,70 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
           </div>
         )}
       </div>
+
+      {/* Video popup: plays on this page instead of opening a new tab. */}
+      {activeVideo ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setActiveVideo(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeVideo.name} এর ভিডিও`}
+        >
+          <div
+            className="relative w-full max-w-3xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 px-4 py-3">
+              <p className="truncate text-sm font-semibold text-white">{activeVideo.name} এর অভিজ্ঞতা</p>
+              <button
+                type="button"
+                onClick={() => setActiveVideo(null)}
+                aria-label="বন্ধ করুন"
+                className="shrink-0 rounded-full p-1.5 text-white/80 hover:bg-white/10 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            {youtubeId ? (
+              <iframe
+                key={activeVideo.url}
+                src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+                title={`${activeVideo.name} এর ভিডিও`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="aspect-video w-full"
+              />
+            ) : isDirectVideo ? (
+              <video key={activeVideo.url} src={activeVideo.url} controls autoPlay className="aspect-video w-full" />
+            ) : isFacebookEmbeddable(activeVideo.url) ? (
+              <iframe
+                key={activeVideo.url}
+                src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(activeVideo.url)}&show_text=false&width=560`}
+                title={`${activeVideo.name} এর ভিডিও`}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                allowFullScreen
+                scrolling="no"
+                className="aspect-video w-full border-0"
+              />
+            ) : (
+              <div className="flex flex-col items-center gap-4 px-6 py-12 text-center">
+                <p className="text-base text-white/90">
+                  এই ফেসবুক ভিডিওটি এই পেজের ভেতরে চালানো যাচ্ছে না, ফেসবুকের নিয়মে এটি ফেসবুকেই খুলতে হবে।
+                </p>
+                <a
+                  href={activeVideo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+                >
+                  <ExternalLink className="h-4 w-4" /> ফেসবুকে দেখুন
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
