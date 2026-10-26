@@ -2,27 +2,23 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { MessageSquareQuote, Star } from "lucide-react";
+import { MessageSquareQuote, Star, Play, Music } from "lucide-react";
 
-export function TestimonialsClient() {
-  const testimonials = [
-    {
-      name: "আব্দুর রহমান",
-      location: "ঢাকা",
-      review: "আলহামদুলিল্লাহ, দীর্ঘদিন ধরে শারীরিক ও মানসিক সমস্যায় ভুগছিলাম। শিফা আল কুরআনে রুকইয়া করানোর পর আল্লাহর রহমতে এখন সম্পূর্ণ সুস্থ। তাদের সুন্নাহ সম্মত চিকিৎসা পদ্ধতি সত্যিই অসাধারণ।",
-    },
-    {
-      name: "নাম প্রকাশে অনিচ্ছুক",
-      location: "সিলেট",
-      review: "পরিবারে দীর্ঘদিনের অশান্তি ছিল। অনেক জায়গায় গিয়েছি কিন্তু কোনো সমাধান পাইনি। শেষে এখানে আসি এবং উনাদের নির্দেশনা অনুযায়ী আমল করি। এখন আল্লাহ অনেক শান্তিতে রেখেছেন।",
-    },
-    {
-      name: "উম্মে ফাতিমা",
-      location: "চট্টগ্রাম",
-      review: "জিনের সমস্যার কারণে স্বাভাবিক জীবনযাপন কঠিন হয়ে পড়েছিল। উনাদের কাছে রুকইয়া সেশনের পর আল্লাহর রহমতে আমি সম্পূর্ণ সুস্থ। সবচেয়ে ভালো লেগেছে যে উনারা শিরক ও বিদআতমুক্ত চিকিৎসা করেন।",
-    },
-  ];
+export type Testimonial = {
+  id: string;
+  customer_name: string;
+  location?: string | null;
+  content: string;
+  category?: string | null;
+  rating?: number | null;
+  is_featured?: boolean | null;
+  media_type?: string | null;
+  video_url?: string | null;
+  image_url?: string | null;
+  audio_url?: string | null;
+};
 
+export function TestimonialsClient({ testimonials }: { testimonials: Testimonial[] }) {
   return (
     <div className="bg-light-bg-main dark:bg-[#020817] min-h-screen relative font-sans overflow-hidden">
       
@@ -55,33 +51,74 @@ export function TestimonialsClient() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-          {testimonials.map((t, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass-card flex flex-col h-full p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
-              
-              <div className="flex gap-1 mb-6">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <p className="text-light-text dark:text-slate-300 text-base md:text-lg leading-relaxed flex-grow italic mb-8 relative z-10">
-                &quot;{t.review}&quot;
-              </p>
-              <div className="relative z-10 border-t border-light-border dark:border-slate-800/50 pt-6 mt-auto">
-                <p className="font-extrabold text-light-heading dark:text-white text-[17px] md:text-xl">{t.name}</p>
-                <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">{t.location}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {testimonials.length === 0 ? (
+          <p className="text-center text-light-text dark:text-slate-300 text-lg">
+            এখনও কোনো অভিজ্ঞতা প্রকাশ করা হয়নি।
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            {testimonials.map((t, i) => (
+              <motion.div 
+                key={t.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="glass-card flex flex-col h-full p-6 md:p-8 rounded-2xl md:rounded-[32px] relative group overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                
+                {t.rating ? (
+                  <div className="flex gap-1 mb-6">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`w-5 h-5 ${star <= (t.rating as number) ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-slate-600'}`}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+                <p className="text-light-text dark:text-slate-300 text-base md:text-lg leading-relaxed flex-grow italic mb-8 relative z-10">
+                  &quot;{t.content}&quot;
+                </p>
+                {t.media_type === 'image' && t.image_url ? (
+                  <div className="relative z-10 mb-6 overflow-hidden rounded-xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={t.image_url} alt={t.customer_name} className="w-full h-auto object-cover" />
+                  </div>
+                ) : null}
+                {t.media_type === 'video' && t.video_url ? (
+                  <div className="relative z-10 mb-6">
+                    <a
+                      href={t.video_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                    >
+                      <Play className="w-4 h-4" /> ভিডিও দেখুন
+                    </a>
+                  </div>
+                ) : null}
+                {t.media_type === 'audio' && t.audio_url ? (
+                  <div className="relative z-10 mb-6">
+                    <a
+                      href={t.audio_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                    >
+                      <Music className="w-4 h-4" /> অডিও শুনুন
+                    </a>
+                  </div>
+                ) : null}
+                <div className="relative z-10 border-t border-light-border dark:border-slate-800/50 pt-6 mt-auto">
+                  <p className="font-extrabold text-light-heading dark:text-white text-[17px] md:text-xl">{t.customer_name}</p>
+                  <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">{t.location}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FileText, FolderOpen, Globe, Smartphone } from 'lucide-react'
+import { LayoutDashboard, FileText, FolderOpen, MessageSquareQuote, Globe, Smartphone } from 'lucide-react'
 
 export default function AdminNav() {
   const pathname = usePathname()
@@ -25,6 +25,12 @@ export default function AdminNav() {
       href: '/admin/categories',
       icon: FolderOpen,
       active: pathname.startsWith('/admin/categories'),
+    },
+    {
+      name: 'Experiences',
+      href: '/admin/experiences',
+      icon: MessageSquareQuote,
+      active: pathname.startsWith('/admin/experiences'),
     },
   ]
 
