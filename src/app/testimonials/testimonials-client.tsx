@@ -24,6 +24,20 @@ function getYouTubeId(url: string): string | null {
   return null;
 }
 
+/** Extract a Google Drive file id from share / open / preview links. */
+function getDriveFileId(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.includes("drive.google.com")) return null;
+    const match = parsed.pathname.match(/\/file\/d\/([^/]+)/);
+    if (match) return match[1];
+    const id = parsed.searchParams.get("id");
+    return id || null;
+  } catch {
+    return null;
+  }
+}
+
 /** Facebook Reels and fb.watch links cannot be embedded reliably — they open on Facebook instead. */
 function isFacebookEmbeddable(url: string): boolean {
   try {
@@ -70,6 +84,7 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
   }, [activeVideo]);
 
   const youtubeId = activeVideo ? getYouTubeId(activeVideo.url) : null;
+  const driveFileId = activeVideo ? getDriveFileId(activeVideo.url) : null;
   const isDirectVideo = activeVideo ? /\.mp4(\?|#|$)/i.test(activeVideo.url) : false;
 
   return (
@@ -206,6 +221,15 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
                 allowFullScreen
                 className="aspect-video w-full"
               />
+            ) : driveFileId ? (
+              <iframe
+                key={activeVideo.url}
+                src={`https://drive.google.com/file/d/${driveFileId}/preview`}
+                title={`${activeVideo.name} এর ভিডিও`}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="aspect-video w-full border-0"
+              />
             ) : isDirectVideo ? (
               <video key={activeVideo.url} src={activeVideo.url} controls autoPlay className="aspect-video w-full" />
             ) : isFacebookEmbeddable(activeVideo.url) ? (
@@ -221,7 +245,7 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
             ) : (
               <div className="flex flex-col items-center gap-4 px-6 py-12 text-center">
                 <p className="text-base text-white/90">
-                  এই ফেসবুক ভিডিওটি এই পেজের ভেতরে চালানো যাচ্ছে না, ফেসবুকের নিয়মে এটি ফেসবুকেই খুলতে হবে।
+                  এই ভিডিওটি এই পেজের ভেতরে চালানো যাচ্ছে না, এটি সরাসরি খুলে দেখতে হবে।
                 </p>
                 <a
                   href={activeVideo.url}
@@ -229,7 +253,7 @@ export function TestimonialsClient({ testimonials }: { testimonials: Testimonial
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
                 >
-                  <ExternalLink className="h-4 w-4" /> ফেসবুকে দেখুন
+                  <ExternalLink className="h-4 w-4" /> ভিডিওটি খুলুন
                 </a>
               </div>
             )}

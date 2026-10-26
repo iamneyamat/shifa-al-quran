@@ -225,7 +225,7 @@ export default function ExperienceEditor({
 
         {formData.media_type === 'video' && (
           <div>
-            <label className={labelClass}>ভিডিও লিংক (YouTube / Facebook)</label>
+            <label className={labelClass}>ভিডিও লিংক (YouTube / Facebook / Google Drive)</label>
             <input
               value={formData.video_url}
               onChange={(e) => set('video_url', e.target.value)}
