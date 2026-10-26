@@ -13,28 +13,28 @@ import {
 import { cn } from "@/lib/utils";
 
 const audios = [
-  { id: "1", title: "বদনজর (Evil Eye) | বদনজরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-EvilEye-ruqyahbd.org.mp3", size: "১০এমবি", duration: "৫৫মিনিট", category: "বদনজর" },
-  { id: "2", title: "বদনজর (Eye Hasad)", url: "https://files.ruqyahbd.org/audio/Ruqyah-EyeHasad-ruqyahbd.org.mp3", size: "১৬এমবি", duration: "১ঘণ্টা ৩৪মিনিট", category: "বদনজর" },
-  { id: "3", title: "জাদু ও জিন (Sihr-Mass) | সিহরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Mass-ruqyahbd.org.mp3", size: "১৪এমবি", duration: "১ঘন্টা ১৬মিনিট", category: "জাদু ও জিন" },
-  { id: "4", title: "কালো জাদু, বান এবং জিন (Sihr-Hibshi)", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Hibshi-ruqyahbd.org.mp3", size: "১৬এমবি", duration: "১ঘন্টা ৩৪মিনিট", category: "জাদু ও জিন" },
-  { id: "5", title: "আয়াতুল হারক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Harq-ruqyahbd.org.mp3", description: "আযাব এবং জাহান্নাম সংক্রান্ত আয়াত", size: "১৪এমবি", duration: "৪৬মিনিট", category: "অন্যান্য" },
-  { id: "6", title: "জিনের আছর এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Jinn-ruqyahbd.org.mp3", description: "জিন সংক্রান্ত সব সমস্যায় উপকারী আয়াতগুলো", size: "১৯এমবি", duration: "১ঘন্টা ৪৮মিনিট", category: "জাদু ও জিন" },
-  { id: "7", title: "তিনকুল এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-3Kul-ruqyahbd.org.mp3", description: "সূরা ইখলাস, ফালাক, নাস এর পুনরাবৃত্তি", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
-  { id: "8", title: "আট সূরার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-8surah-ruqyahbd.org.mp3", description: "সূরা ইয়াসিন, সফফাত, দুখান, জিন, যিলযাল, ৩কুল", size: "১২এমবি", duration: "৫১ মিনিট", category: "অন্যান্য" },
-  { id: "9", title: "আয়াতুল কুরসির রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-AyatulKursi-ruqyahbd.org.mp3", size: "৭এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
-  { id: "10", title: "জাদুকরদের প্রতি অভিশাপ", url: "https://files.ruqyahbd.org/audio/curse-against-magician-ruqyahbd.org.mp3", size: "৪এমবি", duration: "১৩মিনিট", category: "জাদু ও জিন" },
-  { id: "11", title: "শাইখ আস-সুদাইস", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sudais-ruqyahbd.org.mp3", size: "৮এমবি", duration: "৪৩ মিনিট", category: "তেলাওয়াত" },
-  { id: "12", title: "শাইখ হুজাইফি", url: "https://files.ruqyahbd.org/audio/Ruqyah-Hujaifi-ruqyahbd.org.mp3", size: "৯এমবি", duration: "১ঘন্টা ২০মিনিট", category: "তেলাওয়াত" },
-  { id: "13", title: "শাইখ আশ-শুরাইম", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shuraim-ruqyahbd.org.mp3", size: "১৪ এমবি", duration: "৫৮মিনিট", category: "তেলাওয়াত" },
-  { id: "14", title: "সা'দ আল-গামিদী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Ghamidi-ruqyahbd.org.mp3", size: "১৩এমবি", duration: "৩২মিনিট", category: "তেলাওয়াত" },
-  { id: "15", title: "মিশারী রাশেদ আল-আফাসী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Mishary-ruqyahbd.org.mp3", size: "৯এমবি", duration: "১ঘন্টা ১৪মিনিট", category: "তেলাওয়াত" },
-  { id: "16", title: "সূরা ফাতিহার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-SuraFatiha-ruqyahbd.org.mp3", size: "২৯এমবি", duration: "১ঘন্টা", category: "অন্যান্য" },
-  { id: "17", title: "যিনা ফাহিশা বিষয়ক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Zina-ruqyahbd.org.mp3", size: "১৮এমবি", duration: "১ঘন্টা ৫মিনিট", category: "অন্যান্য" },
-  { id: "18", title: "শিফা - সাকিনাহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shifa-Sakina-ruqyahbd.org.mp3", size: "১৪এমবি", duration: "৪৭ মিনিট", category: "অন্যান্য" },
+  { id: "1", title: "বদনজর (Evil Eye) | বদনজরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-EvilEye-ruqyahbd.org.mp3", size: "১০ এমবি", duration: "৫৫ মিনিট", category: "বদনজর" },
+  { id: "2", title: "বদনজর (Eye Hasad)", url: "https://files.ruqyahbd.org/audio/Ruqyah-EyeHasad-ruqyahbd.org.mp3", size: "১৬ এমবি", duration: "১ ঘণ্টা ৩৪ মিনিট", category: "বদনজর" },
+  { id: "3", title: "জাদু ও জিন (Sihr-Mass) | সিহরের রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Mass-ruqyahbd.org.mp3", size: "১৪ এমবি", duration: "১ ঘণ্টা ১৬ মিনিট", category: "জাদু ও জিন" },
+  { id: "4", title: "কালো জাদু, বান এবং জিন (Sihr-Hibshi)", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sihr-Hibshi-ruqyahbd.org.mp3", size: "১৬ এমবি", duration: "১ ঘণ্টা ৩৪ মিনিট", category: "জাদু ও জিন" },
+  { id: "5", title: "আয়াতুল হারক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Harq-ruqyahbd.org.mp3", description: "আযাব এবং জাহান্নাম সংক্রান্ত আয়াত", size: "১৪ এমবি", duration: "৪৬ মিনিট", category: "অন্যান্য" },
+  { id: "6", title: "জিনের আছর এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-Jinn-ruqyahbd.org.mp3", description: "জিন সংক্রান্ত সব সমস্যায় উপকারী আয়াতগুলো", size: "১৯ এমবি", duration: "১ ঘণ্টা ৪৮ মিনিট", category: "জাদু ও জিন" },
+  { id: "7", title: "তিনকুল এর রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-3Kul-ruqyahbd.org.mp3", description: "সূরা ইখলাস, ফালাক, নাস এর পুনরাবৃত্তি", size: "৭ এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
+  { id: "8", title: "আট সূরার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-8surah-ruqyahbd.org.mp3", description: "সূরা ইয়াসিন, সফফাত, দুখান, জিন, যিলযাল, ৩কুল", size: "১২ এমবি", duration: "৫১ মিনিট", category: "অন্যান্য" },
+  { id: "9", title: "আয়াতুল কুরসির রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-AyatulKursi-ruqyahbd.org.mp3", size: "৭ এমবি", duration: "৩০ মিনিট", category: "অন্যান্য" },
+  { id: "10", title: "জাদুকরদের প্রতি অভিশাপ", url: "https://files.ruqyahbd.org/audio/curse-against-magician-ruqyahbd.org.mp3", size: "৪ এমবি", duration: "১৩ মিনিট", category: "জাদু ও জিন" },
+  { id: "11", title: "শাইখ আস-সুদাইস", url: "https://files.ruqyahbd.org/audio/Ruqyah-Sudais-ruqyahbd.org.mp3", size: "৮ এমবি", duration: "৪৩ মিনিট", category: "তিলাওয়াত" },
+  { id: "12", title: "শাইখ হুজাইফি", url: "https://files.ruqyahbd.org/audio/Ruqyah-Hujaifi-ruqyahbd.org.mp3", size: "৯ এমবি", duration: "১ ঘণ্টা ২০ মিনিট", category: "তিলাওয়াত" },
+  { id: "13", title: "শাইখ আশ-শুরাইম", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shuraim-ruqyahbd.org.mp3", size: "১৪ এমবি", duration: "৫৮ মিনিট", category: "তিলাওয়াত" },
+  { id: "14", title: "সা'দ আল-গামিদী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Ghamidi-ruqyahbd.org.mp3", size: "১৩ এমবি", duration: "৩২ মিনিট", category: "তিলাওয়াত" },
+  { id: "15", title: "মিশারী রাশেদ আল-আফাসী", url: "https://files.ruqyahbd.org/audio/Ruqyah-Mishary-ruqyahbd.org.mp3", size: "৯ এমবি", duration: "১ ঘণ্টা ১৪ মিনিট", category: "তিলাওয়াত" },
+  { id: "16", title: "সূরা ফাতিহার রুকইয়া", url: "https://files.ruqyahbd.org/audio/Ruqyah-SuraFatiha-ruqyahbd.org.mp3", size: "২৯ এমবি", duration: "১ ঘণ্টা", category: "অন্যান্য" },
+  { id: "17", title: "যিনা ফাহিশা বিষয়ক", url: "https://files.ruqyahbd.org/audio/Ruqyah-Zina-ruqyahbd.org.mp3", size: "১৮ এমবি", duration: "১ ঘণ্টা ৫ মিনিট", category: "অন্যান্য" },
+  { id: "18", title: "শিফা - সাকিনাহ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Shifa-Sakina-ruqyahbd.org.mp3", size: "১৪ এমবি", duration: "৪৭ মিনিট", category: "অন্যান্য" },
   { id: "19", title: "রুকইয়া খুরুজ", url: "https://files.ruqyahbd.org/audio/Ruqyah-Khuruj-ruqyahbd.org.mp3", size: "১২ এমবি", duration: "৪৫ মিনিট", category: "জাদু ও জিন" }
 ];
 
-const categories = ["সব", "বদনজর", "জাদু ও জিন", "তেলাওয়াত", "অন্যান্য"];
+const categories = ["সব", "বদনজর", "জাদু ও জিন", "তিলাওয়াত", "অন্যান্য"];
 
 export function AudioPlayerClient() {
   const { currentTrack, isPlaying, playTrack } = useAudio();

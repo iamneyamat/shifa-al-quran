@@ -92,7 +92,7 @@ export function DiagnosisPortal() {
             <div className="mt-6 sm:mt-8 flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-xs text-ink-muted border-t border-hairline/60 pt-4 sm:pt-6">
               <div className="flex items-center gap-2 font-medium">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                <span>শতভাগ শরীয়াহ সম্মত</span>
+                <span>শতভাগ শারইয়াসম্মত</span>
               </div>
               <div className="flex items-center gap-2 font-medium">
                 <Sparkles className="h-4 w-4 text-amber-600 dark:text-amber-400" />

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "অ্যাপয়েন্টমেন্ট",
-  description: "শিফা আল কুরআন এ রুকইয়াহ শারইয়াহ চিকিৎসারের জন্য অ্যাপয়েন্টমেন্ট বুকিং করুন।",
+  description: "শিফা আল কুরআনে রুকইয়া শারইয়া চিকিৎসার জন্য অ্যাপয়েন্টমেন্ট বুকিং করুন।",
 };
 
 export default function AppointmentPage() {
@@ -19,7 +19,7 @@ export default function AppointmentPage() {
             </h1>
             <p className="type-body-lg mt-6 text-ink-body">
               নিচের ফর্মটি পূরণ করুন। আমাদের প্রতিনিধি দ্রুত আপনার সাথে যোগাযোগ করবেন
-              এবং একটি সুস্থতার যাত্রা শুরু করুন।
+              এবং আজই অ্যাপয়েন্টমেন্ট নিন।
             </p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function AppointmentPage() {
                 সময় নিশ্চিত করুন
               </h2>
               <p className="type-body mt-2 text-ink-body">
-                সেশনের তারিখ এবং সময় নিশ্চিত করে আপনার সুস্থতার যাত্রা শুরু করুন।
+                সেশনের তারিখ এবং সময় নিশ্চিত করে সেশন বুক করুন।
               </p>
             </div>
           </div>

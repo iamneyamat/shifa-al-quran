@@ -58,7 +58,7 @@ export function DiagnosisQuiz() {
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
         <div className="p-8 rounded-3xl bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 max-w-md shadow-xl">
           <HelpCircle className="w-12 h-12 text-emerald-600 dark:text-emerald-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-2">পরীক্ষণ পাওয়া যায়নি</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100 mb-2">পরীক্ষা পাওয়া যায়নি</h2>
           <p className="text-slate-600 dark:text-zinc-400 mb-6">
             অনুগ্রহ করে ডায়াগনোসিস পোর্টালে ফিরে গিয়ে একটি পরীক্ষা নির্বাচন করুন।
           </p>
