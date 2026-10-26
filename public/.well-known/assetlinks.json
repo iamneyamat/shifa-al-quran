@@ -1,6 +1,7 @@
 [
   {
     "relation": [
+      "delegate_permission/common.get_login_creds",
       "handle_all_urls"
     ],
     "target": {
